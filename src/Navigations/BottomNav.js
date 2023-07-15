@@ -8,10 +8,13 @@ import {
   FontAwesome,
   FontAwesome5,
   MaterialCommunityIcons,
+  Ionicons,
 } from "@expo/vector-icons";
 import Colors from "../color";
 import ProfileScreen from "../Screens/ProfileScreen";
 import CartScreen from "../Screens/CartScreen";
+import FavoriteScreen from "../Screens/FavoriteScreen";
+import DemoScreen from "../Screens/DemoScreen";
 import StackNav from "./StackNav";
 
 const Tab = createBottomTabNavigator();
@@ -55,6 +58,21 @@ const BottomNav = () => {
           ),
         }}
       />
+      <Tab.Screen
+        name="Favorite"
+        component={FavoriteScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <Center>
+              {focused ? (
+                <AntDesign name="heart" size={24} color={Colors.main} />
+              ) : (
+                <AntDesign name="hearto" size={24} color={Colors.black} />
+              )}
+            </Center>
+          ),
+        }}
+      />
       {/* Cart */}
       <Tab.Screen
         name="Cart"
@@ -81,6 +99,25 @@ const BottomNav = () => {
         }}
       />
       {/* profile */}
+      <Tab.Screen
+        name="Demo"
+        component={DemoScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <Center>
+              {focused ? (
+                <Ionicons name="flower" size={24} color={Colors.main} />
+              ) : (
+                <Ionicons
+                  name="flower-outline"
+                  size={24}
+                  color={Colors.black}
+                />
+              )}
+            </Center>
+          ),
+        }}
+      />
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
