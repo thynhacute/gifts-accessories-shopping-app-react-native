@@ -3,6 +3,7 @@ import React from "react";
 import Colors from "../color";
 import HomeProducts from "../Components/HomeProducts";
 import HomeSearch from "../Components/HomeSearch";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 function HomeScreen() {
   return (
@@ -13,15 +14,19 @@ function HomeScreen() {
         fontWeight={500}
         style={{ textAlign: "center", color: "#CC0066", marginTop: 10 }}
       >
-        Welcome to
+        Welcome to HanaCongChua
       </Text>
-      <Text
-        fontSize={20}
-        fontWeight={500}
-        style={{ textAlign: "center", color: "#CC0066" }}
-      >
-        HanaCongChua
-      </Text>
+      <MaterialCommunityIcons
+        style={{
+          textAlign: "center",
+          color: "#CC0066",
+          marginTop: 10,
+          marginBottom: 10,
+        }}
+        name="flower"
+        size={24}
+        color="black"
+      />
       <HomeProducts />
     </Box>
   );
