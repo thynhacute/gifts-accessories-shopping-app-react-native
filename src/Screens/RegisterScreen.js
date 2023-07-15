@@ -40,7 +40,7 @@ function RegisterScreen({ navigation }) {
               <FontAwesome name="user" size={20} color={Colors.main} />
             }
             variant="underlined"
-            placeholder="John Doe"
+            placeholder="Nha Thy xinh zl"
             w="70%"
             pl={2}
             type="text"
@@ -53,7 +53,7 @@ function RegisterScreen({ navigation }) {
               <MaterialIcons name="email" size={20} color={Colors.main} />
             }
             variant="underlined"
-            placeholder="user@gmail.com"
+            placeholder="meomeomeomeo@gmail.com"
             w="70%"
             pl={2}
             type="text"
