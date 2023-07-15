@@ -8,6 +8,20 @@ function HomeScreen() {
   return (
     <Box flex={1} bg={Colors.subGreen}>
       <HomeSearch />
+      <Text
+        fontSize={20}
+        fontWeight={500}
+        style={{ textAlign: "center", color: "#CC0066", marginTop: 10 }}
+      >
+        Welcome to
+      </Text>
+      <Text
+        fontSize={20}
+        fontWeight={500}
+        style={{ textAlign: "center", color: "#CC0066" }}
+      >
+        HanaCongChua
+      </Text>
       <HomeProducts />
     </Box>
   );
