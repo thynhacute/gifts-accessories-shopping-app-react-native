@@ -4,6 +4,7 @@ import { Pressable } from "react-native";
 import Colors from "../color";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { AntDesign } from "@expo/vector-icons";
 
 function HomeSearch() {
   const navigation = useNavigation();
@@ -30,7 +31,12 @@ function HomeSearch() {
         }}
       />
       <Pressable ml={3} onPress={() => navigation.navigate("Cart")}>
-        <FontAwesome5 name="shopping-basket" size={24} color={Colors.white} />
+        <AntDesign
+          name="shoppingcart"
+          size={24}
+          color={Colors.white}
+          style={{ marginLeft: 10 }}
+        />
         <Box
           px={1}
           rounded="full"
