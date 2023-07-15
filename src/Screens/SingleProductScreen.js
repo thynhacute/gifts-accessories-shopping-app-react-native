@@ -59,11 +59,14 @@ function SingleProductScreen({ route }) {
 
           <Spacer />
           <Heading bold color={Colors.black} fontSize={19}>
-            {product.price} vnd
+            {product.price.toLocaleString()} VND
           </Heading>
         </HStack>
         <Text lineHeight={24} fontSize={12}>
           {product.description}
+        </Text>
+        <Text lineHeight={24} fontSize={14} fontWeight={500}>
+          Inventory: {product.countInStock}
         </Text>
         <Buttone
           onPress={() => navigation.navigate("Cart")}
