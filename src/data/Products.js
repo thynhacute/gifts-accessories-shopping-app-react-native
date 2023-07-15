@@ -109,7 +109,7 @@ const products = [
     image: "https://cf.shopee.vn/file/78345eb09f934156073cec68a79e54cb",
     description:
       "Tai nghe E-Dra - EH412 Pro Pink - Tai nghe 7.1 Led RGB là phiên bản màu hồng của tai nghe E-Dra EH412 Pro Black. Kích thước Micro: Φ4.0*1.5mm. Độ nhạy âm: -48±3db. Hướng bắt âm micro: đa hướng",
-    price: 399,
+    price: 399000,
     countInStock: 10,
     rating: 5,
     numReviews: 9,
