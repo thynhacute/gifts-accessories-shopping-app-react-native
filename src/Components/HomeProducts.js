@@ -42,16 +42,23 @@ function HomeProducts() {
               w="full"
               h={24}
               resizeMode="contain"
+              style={{ marginTop: 10 }}
             />
             <Box px={4} pt={1}>
-              <Heading size="sm" bold>
-                {product.price} vnd
-              </Heading>
-              <Text fontSize={10} mt={1} isTruncated w="full">
+              <Text
+                fontSize={12}
+                mt={1}
+                w="full"
+                h="50"
+                fontWeight={500}
+                style={{ marginTop: 10 }}
+              >
                 {product.name}
               </Text>
+              <Heading size="xxl" color={Colors.blue}>
+                {product.price.toLocaleString()} VND
+              </Heading>
               <Rating value={product.rating} />
-              <Text>Inventory: {product.countInStock}</Text>
             </Box>
           </Pressable>
         ))}
