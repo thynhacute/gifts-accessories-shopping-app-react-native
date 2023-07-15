@@ -38,7 +38,7 @@ const Orders = () => {
                 bg: Colors.main,
               }}
             >
-              $456
+              456 vnd
             </Button>
           </HStack>
         </Pressable>
@@ -72,7 +72,7 @@ const Orders = () => {
                 bg: Colors.red,
               }}
             >
-              $23
+              23 vnd
             </Button>
           </HStack>
         </Pressable>

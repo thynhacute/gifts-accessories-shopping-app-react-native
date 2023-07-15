@@ -66,7 +66,7 @@ const OrderModel = () => {
                     color={i.color === "main" ? Colors.main : Colors.black}
                     bold
                   >
-                    ${i.price}
+                    {i.price} vnd
                   </Text>
                 </HStack>
               ))}

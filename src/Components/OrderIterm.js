@@ -43,7 +43,7 @@ const OrderIterm = () => {
                   {item.name}
                 </Text>
                 <Text color={Colors.lightBlack} mt={2} bold>
-                  ${item.price}
+                  {item.price} vnd
                 </Text>
               </VStack>
               <Center>

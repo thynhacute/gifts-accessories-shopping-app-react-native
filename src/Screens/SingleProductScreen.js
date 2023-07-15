@@ -59,7 +59,7 @@ function SingleProductScreen({ route }) {
 
           <Spacer />
           <Heading bold color={Colors.black} fontSize={19}>
-            ${product.price}
+            {product.price} vnd
           </Heading>
         </HStack>
         <Text lineHeight={24} fontSize={12}>

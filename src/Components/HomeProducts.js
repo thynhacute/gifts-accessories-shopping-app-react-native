@@ -45,12 +45,13 @@ function HomeProducts() {
             />
             <Box px={4} pt={1}>
               <Heading size="sm" bold>
-                ${product.price}
+                {product.price} vnd
               </Heading>
               <Text fontSize={10} mt={1} isTruncated w="full">
                 {product.name}
               </Text>
               <Rating value={product.rating} />
+              <Text>Inventory: {product.countInStock}</Text>
             </Box>
           </Pressable>
         ))}
