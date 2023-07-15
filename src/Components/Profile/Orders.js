@@ -38,7 +38,7 @@ const Orders = () => {
                 bg: Colors.main,
               }}
             >
-              456 vnd
+              456,000 VND
             </Button>
           </HStack>
         </Pressable>
@@ -72,7 +72,7 @@ const Orders = () => {
                 bg: Colors.red,
               }}
             >
-              23 vnd
+              23,000 VND
             </Button>
           </HStack>
         </Pressable>

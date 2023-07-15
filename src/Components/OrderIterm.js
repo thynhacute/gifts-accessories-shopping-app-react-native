@@ -43,7 +43,7 @@ const OrderIterm = () => {
                   {item.name}
                 </Text>
                 <Text color={Colors.lightBlack} mt={2} bold>
-                  {item.price} vnd
+                  {item.price.toLocaleString()} VND
                 </Text>
               </VStack>
               <Center>

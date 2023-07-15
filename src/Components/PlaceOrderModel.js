@@ -57,7 +57,7 @@ const PlaceOrderModel = () => {
                     color={i.color === "main" ? Colors.main : Colors.black}
                     bold
                   >
-                    {i.price} vnd
+                    {i.price.toLocaleString()} VND
                   </Text>
                 </HStack>
               ))}

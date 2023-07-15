@@ -47,7 +47,7 @@ function CartScreen() {
                 bg: Colors.main,
               }}
             >
-              $356
+              356,000 VND
             </Button>
           </HStack>
         </Center>

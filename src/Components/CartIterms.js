@@ -52,7 +52,7 @@ const renderitem = (data) => (
             {data.item.name}
           </Text>
           <Text bold color={Colors.lightBlack}>
-            {data.item.price} vnd
+            {data.item.price.toLocaleString()} VND
           </Text>
         </VStack>
         <Center>
