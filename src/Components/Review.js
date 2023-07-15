@@ -29,20 +29,20 @@ export default function Review() {
         children={"NO REVIEW"}
       /> */}
       {/* REVIEW */}
-      <Box p={3} bg={Colors.deepGray} mt={5} rounded={5}>
+      <Box p={3} bg={Colors.pink} mt={5} rounded={5}>
         <Heading fontSize={15} color={Colors.black}>
-          User Doe
+          Nhã Thy cute vjppro
         </Heading>
         <Rating value={4} />
         <Text my={2} fontSize={11}>
-          Jan 12 2022
+          July 16 2023
         </Text>
         <Message
           color={Colors.black}
           bg={Colors.white}
           size={10}
           children={
-            "NativeBase Icons was designed to make integration of icons in nativebase projects easier."
+            "Tui đã mua ở đây, đồ gất nà xinh, gất cutie ze thuong, bữa mua tặng ngiu khen wa trời hihi"
           }
         />
       </Box>
