@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -8,31 +9,53 @@ import {
   Text,
   VStack,
 } from "native-base";
-import React from "react";
 import Colors from "../color";
 import { MaterialIcons, Ionicons } from "@expo/vector-icons";
+import { accounts, createAccount } from "../data/account";
+import { useNavigation } from "@react-navigation/native";
 
-function LoginScreen({ navigation }) {
+function LoginScreen() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigation = useNavigation();
+
+  const handleLogin = () => {
+    // Kiểm tra thông tin đăng nhập và thực hiện các xử lý kiểm tra khác nếu cần
+    if (email.trim() === "" || password.trim() === "") {
+      // Hiển thị thông báo khi không nhập đủ email và mật khẩu
+      alert("Vui lòng nhập email và mật khẩu");
+      console.log(accounts);
+      return;
+    }
+
+    const foundAccount = accounts.find(
+      (account) => account.gmail === email && account.password === password
+    );
+
+    if (foundAccount) {
+      // Điều hướng đến trang HomeScreen
+      navigation.navigate("Bottom");
+    } else {
+      console.log(accounts);
+      // Xử lý khi đăng nhập không thành công (ví dụ: hiển thị thông báo lỗi)
+      alert("Email, Password does not match, please re-enter");
+    }
+  };
+
   return (
-    <Box flex={1} bg={Colors.black}>
-      <Image
-        flex={1}
-        alt="Logo"
-        resizeMode="cover"
-        size="lg"
-        w="full"
-        source={require("../../assets/cover.png")}
-      />
+    <Box flex={1} bg={Colors.black} alignItems="center" justifyContent="center">
       <Box
-        w="full"
-        h="full"
-        position="absolute"
-        top="0"
-        px="6"
+        w="80%"
+        h="80%"
+        p={6}
         justifyContent="center"
+        bg={Colors.white}
+        borderRadius={10}
       >
-        <Heading>LOGIN</Heading>
-        <VStack space={5} pt="6">
+        <Heading mb={6} textAlign="center">
+          LOGIN
+        </Heading>
+        <VStack space={5}>
           {/* EMAIL */}
           <Input
             InputLeftElement={
@@ -40,11 +63,10 @@ function LoginScreen({ navigation }) {
             }
             variant="underlined"
             placeholder="user@gmail.com"
-            w="70%"
-            pl={2}
-            type="text"
             color={Colors.main}
             borderBottomColor={Colors.underline}
+            value={email}
+            onChangeText={(text) => setEmail(text)}
           />
           {/* PASSWORD */}
           <Input
@@ -53,22 +75,21 @@ function LoginScreen({ navigation }) {
             }
             variant="underlined"
             placeholder="*********"
-            w="70%"
             type="password"
-            pl={2}
             color={Colors.main}
             borderBottomColor={Colors.underline}
+            value={password}
+            onChangeText={(text) => setPassword(text)}
           />
         </VStack>
         <Button
           _pressed={{
             bg: Colors.main,
           }}
-          my={30}
-          w="40%"
+          mt={6}
           rounded={50}
           bg={Colors.main}
-          onPress={() => navigation.navigate("Bottom")}
+          onPress={handleLogin}
         >
           LOGIN
         </Button>
