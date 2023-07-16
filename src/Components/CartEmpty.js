@@ -15,9 +15,9 @@ const CartEmpty = () => {
           CART IS EMPTY
         </Text>
       </Center>
-      <Buttone bg={Colors.black} color={Colors.white}>
+      {/* <Buttone bg={Colors.black} color={Colors.white}>
         START SHOPPING
-      </Buttone>
+      </Buttone> */}
     </Box>
   );
 };
