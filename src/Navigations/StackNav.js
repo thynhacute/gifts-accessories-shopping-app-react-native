@@ -6,6 +6,7 @@ import SingleProductScreen from "../Screens/SingleProductScreen";
 import ShippingScreen from "../Screens/ShippingScreen";
 import PaymentScreen from "../Screens/PaymentScreen";
 import PlaceOrderScreen from "../Screens/PlaceOrderScreen";
+import FavoriteScreen from "../Screens/FavoriteScreen";
 
 const Stack = createNativeStackNavigator();
 const StackNav = () => {
@@ -21,6 +22,8 @@ const StackNav = () => {
       <Stack.Screen name="Shipping" component={ShippingScreen} />
       <Stack.Screen name="Checkout" component={PaymentScreen} />
       <Stack.Screen name="Placeorder" component={PlaceOrderScreen} />
+      <Stack.Screen name="FavoriteScreen" component={FavoriteScreen} />
+      <Stack.Screen name="ProductDetails" component={SingleProductScreen} />
     </Stack.Navigator>
   );
 };
