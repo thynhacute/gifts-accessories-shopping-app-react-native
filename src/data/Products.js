@@ -3,6 +3,8 @@ const products = [
     _id: "1",
     name: "Hộp đựng bút hình thùng rác",
     image: "https://cf.shopee.vn/file/be41fe7f99a4d05af48452fd36da3011",
+    caterogy: "",
+    gender: "",
     description:
       "Kích thước:🌸 15 x 7 x 5cm, Chất liệu: Nhựa cao cấp, Một trong những item không thể không kể đến trong góc học tập, làm việc của các pạn gòi. Thiết kế nhỏ gọn giúp bạn để các vật dụng văn phòng một cách gọn gàng. Được làm bằng chất liệu dày dặn; cứng cáp; bền đẹp cho thời gian sử dụng dài lâu. Giỏ đựng bút kiểu dáng xinh xắn sẽ là một vật trang trí độc đáo trên bàn làm việc của bạn.",
     price: 89000,
