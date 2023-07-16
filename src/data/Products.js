@@ -9,6 +9,8 @@ const products = [
     countInStock: 15,
     rating: 4,
     numReviews: 4,
+    gender: "Nữ",
+    category: "Đồ dùng học tập",
   },
   {
     _id: "2",
@@ -20,6 +22,8 @@ const products = [
     countInStock: 50,
     rating: 4.5,
     numReviews: 2,
+    gender: "Nữ",
+    category: "Đồ trang trí",
   },
   {
     _id: "3",
@@ -32,6 +36,8 @@ const products = [
     countInStock: 10,
     rating: 3.5,
     numReviews: 3,
+    gender: "Nữ",
+    category: "Đồ dùng học tập",
   },
   {
     _id: "4",
@@ -43,6 +49,8 @@ const products = [
     countInStock: 10,
     rating: 5,
     numReviews: 9,
+    gender: "Nữ",
+    category: "Đồ dùng học tập",
   },
   {
     _id: "5",
@@ -54,6 +62,8 @@ const products = [
     countInStock: 7,
     rating: 4.2,
     numReviews: 2,
+    gender: "Nữ",
+    category: "Phụ kiện trang trí",
   },
   {
     _id: "6",
@@ -66,6 +76,8 @@ const products = [
     countInStock: 3,
     rating: 0,
     numReviews: 0,
+    gender: "Nữ",
+    category: "Đồ điện tử",
   },
   {
     _id: "7",
@@ -78,6 +90,8 @@ const products = [
     countInStock: 3,
     rating: 4.5,
     numReviews: 4,
+    gender: "Nữ",
+    category: "Đồ điện tử",
   },
   {
     _id: "8",
@@ -90,6 +104,8 @@ const products = [
     countInStock: 10,
     rating: 4.8,
     numReviews: 2,
+    gender: "Nữ",
+    category: "Phụ kiện khác",
   },
   {
     _id: "9",
@@ -102,6 +118,8 @@ const products = [
     countInStock: 20,
     rating: 4.5,
     numReviews: 3,
+    gender: "Nữ",
+    category: "Phụ kiện khác",
   },
   {
     _id: "10",
@@ -113,55 +131,64 @@ const products = [
     countInStock: 10,
     rating: 5,
     numReviews: 9,
+    gender: "Nữ",
+    category: "Đồ điện tử",
   },
-  // {
-  //   _id: "11",
-  //   name: "Lace Walking Shoes For Boys & Girls  (Pink)",
-  //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396422/random/5_t573vi.png",
-  //   description:
-  //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-  //   price: 49,
-  //   countInStock: 7,
-  //   rating: 2,
-  //   numReviews: 2,
-  // },
-  // {
-  //   _id: "12",
-  //   name: "Women Red Heels Sandal",
-  //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/6_rowzeu.png",
-  //   description:
-  //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-  //   price: 29,
-  //   countInStock: 0,
-  //   rating: 0,
-  //   numReviews: 0,
-  // },
-  // {
-  //   _id: "13",
-  //   name: "Velcro Ballerinas For Girls (Pink)",
-  //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396418/random/11_dzj0un.png",
-  //   description:
-  //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-  //   price: 89,
-  //   countInStock: 3,
-  //   rating: 4,
-  //   numReviews: 4,
-  // },
-  // {
-  //   _id: "14",
-  //   name: "Velcro Sneakers For Boys & Girls  (Blue)",
-  //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/1_fiq56t.png",
-  //   description:
-  //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-  //   price: 599,
-  //   countInStock: 10,
-  //   rating: 2,
-  //   numReviews: 2,
-  // },
+  {
+    _id: "11",
+    name: "Tai nghe khử tiếng ồn Bose Headphone",
+    image:
+      "https://antien.vn/uploaded/Bose%20Headphone%20700/tai-nghe-bose-noise-cancelling-headphones-700.jpg",
+    description:
+      "Công nghệ Bose AR – Nền tảng tương tác thực tế ảo về âm thanh độc quyền và duy nhất của Bose. Người dùng sẽ được nghe thêm các thông tin, âm thanh, tiếng động về khu vực mình đang đứng nhờ vào các cảm biến cũng như định vị trên thiết bị. Thiết kế đẹp, hiện đại, cổng sạc USB-C và đem đến 20 giờ sử dụng liên tục.",
+    price: 499000,
+    countInStock: 7,
+    rating: 5,
+    numReviews: 2,
+    gender: "Nam",
+    category: "Đồ điện tử",
+  },
+  {
+    _id: "12",
+    name: "Bình nước giữ nhiệt Shamoshu 1L",
+    image:
+      "https://www.clgvietnam.com/uploads/shops/2019_01/1521470683-binh-giu-nhiet-shamoshu-1l-mau-den.jpg",
+    description:
+      "Bình Giữ Nhiệt Shamoshu 1L (Màu Đen)​ là bình nước giữ nhiệt  lạnh từ 5 đến 15 độ C, thuộc công ty Shamoshu nổi tiếng Nhật Bản. Thermos là thương hiệu lâu đời hình thành vào năm 1904 tại Nhật Bản, được khẳng định chất lượng và uy tín tại 120 quốc gia trên thế giới. Thermos không ngừng nổ lực để phát minh và cải tiến sản phẩm, nhằm đáp ứng nhu cầu người tiêu dùng và bảo vệ môi trường. Hiện tại, các nhà máy sản xuất sản phẩm Thermos có mặt ở nhiều nơi trên thế giới nhưng vẫn đảm bảo tiêu chất lượng và kiểu dáng toàn cầu.",
+    price: 200000,
+    countInStock: 5,
+    rating: 0,
+    numReviews: 0,
+    gender: "Nam",
+    category: "Phụ kiện khác",
+  },
+  {
+    _id: "13",
+    name: "Bàn phím cơ P240",
+    image:
+      "https://kenhtinhoc.vn/wp-content/uploads/2022/02/ban-phim-co-p240-7.jpg",
+    description:
+      "Ngoài những ưu điểm như các bộ phím cơ khác như thiết kế bố cục 104 phím cao thấp, nắp phím nổi hình chữ U ôm khít ngón tay hoàn hảo…, P240 còn được nâng cấp bảng điều khiển bằng hợp kim nhôm cao cấp, mang lại sự chắc chắn và độ bền cho thiết bị. Về màu sắc, P240 có sự kết hợp màu sắc độc đáo, 2 màu trên 1 bàn phím và cho bạn rất nhiều sự lựa chọn: xanh chủ đạo + trắng, trắng chủ đạo + xanh, hồng chủ đạo + trắng, trắng chủ đạo + hồng, đen chủ đạo + xám, xám chủ đạo + đen và đen hoàn toàn.",
+    price: 550000,
+    countInStock: 3,
+    rating: 4.8,
+    numReviews: 4,
+    gender: "Nam",
+    category: "Đồ điện tử",
+  },
+  {
+    _id: "14",
+    name: "Ốp Lưng Tpu Silicone In Hình Độc Đáo",
+    image: "https://cf.shopee.vn/file/339f60be434bbb962babfc2ef08fda5a",
+    description:
+      "Chất liệu nhựa Polycarbonat cao cấp khá bền bỉ, tuy là chất nhựa cứng nhưng nó vẫn dễ dàng uống cong, khá khó vỡ và tháo lắp cũng khá dễ dàng không làm tổn hại đến máy.",
+    price: 30000,
+    countInStock: 10,
+    rating: 4.2,
+    numReviews: 2,
+    gender: "Nam",
+    category: "Phụ kiện trang trí",
+  },
   // {
   //   _id: "15",
   //   name: "Sesame Street Unisex-Child ELMO Puppet Slipper",

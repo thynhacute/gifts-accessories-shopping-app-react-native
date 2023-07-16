@@ -66,6 +66,9 @@ function SingleProductScreen({ route }) {
           {product.description}
         </Text>
         <Text lineHeight={24} fontSize={14} fontWeight={500}>
+          Thích hợp dành cho: {product.gender}
+        </Text>
+        <Text lineHeight={24} fontSize={14} fontWeight={500}>
           Inventory: {product.countInStock}
         </Text>
         <Buttone

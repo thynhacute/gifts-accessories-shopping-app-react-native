@@ -9,7 +9,7 @@ function HomeScreen() {
   return (
     <Box flex={1} bg={Colors.subGreen}>
       <HomeSearch />
-      <Text
+      {/* <Text
         fontSize={20}
         fontWeight={500}
         style={{ textAlign: "center", color: "#CC0066", marginTop: 10 }}
@@ -26,7 +26,7 @@ function HomeScreen() {
         name="flower"
         size={24}
         color="black"
-      />
+      /> */}
       <HomeProducts />
     </Box>
   );
