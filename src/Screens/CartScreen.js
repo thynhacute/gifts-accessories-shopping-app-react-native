@@ -6,7 +6,7 @@ import Buttone from "../Components/Buttone";
 import CartEmpty from "../Components/CartEmpty";
 import CartItems from "../Components/CartIterms";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Alert,Linking} from "react-native";
+import { Alert, Linking} from "react-native";
 import axios from 'axios';
 
 function CartScreen({ route }) {
@@ -99,9 +99,9 @@ function CartScreen({ route }) {
   //payment
   const handlePaymentButtonPress = async () => {
     try {
-      const response = await axios.post('http://26.73.188.74:8080/payment/createPayment', {
+      const response = await axios.post('http://172.17.223.113:8080/payment/createPayment', {
         backCode: 'VNBANK',
-        amountParam: 100000,
+        amountParam: calculateTotal(),
       });
   
       // Kiểm tra phản hồi từ server
@@ -109,6 +109,7 @@ function CartScreen({ route }) {
         // Redirect đến đường dẫn thanh toán
         const paymentUrl = response.data.url;
         Linking.openURL(paymentUrl);
+        setCartItems([]);
       } else {
         // Xử lý khi có lỗi từ server
         Alert.alert('Error', 'Payment request failed');
