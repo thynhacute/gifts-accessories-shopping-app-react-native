@@ -1,38 +1,124 @@
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import {
   Box,
   Heading,
-  Image,
   ScrollView,
-  HStack,
   View,
-  Spacer,
   Text,
+  Image,
 } from "native-base";
-import React, { useState } from "react";
+import {
+  TouchableWithoutFeedback,
+  Animated,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import NumericInput from "react-native-numeric-input";
 import Colors from "../color";
 import Rating from "../Components/Rating";
-import NumericInput from "react-native-numeric-input";
 import Buttone from "../Components/Buttone";
 import Review from "../Components/Review";
-import { useNavigation } from "@react-navigation/native";
+import PRODUCTS from "../data/Products";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 
-function SingleProductScreen({ route }) {
-  const [quantity, setQuantity] = useState(1);
-  const navigation = useNavigation();
-  const product = route.params;
+function SingleProductScreen({ route, navigation }) {
+  const [quantity, setQuantity] = useState(route.params?.quantity || 1);
+  const [scaleValue, setScaleValue] = useState(new Animated.Value(1));
+  const [favData, setFavData] = useState([]);
+  const getProductId = route.params.productId;
+  const chosenProduct = PRODUCTS.find((product) => product._id === getProductId);
+  const nativeNavigation = useNavigation();
+
+  useEffect(() => {
+    getFromStorage();
+  }, []);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: chosenProduct.name,
+      headerShown: false,
+    });
+  }, [navigation]);
+
+  const getFromStorage = async () => {
+    try {
+      const data = await AsyncStorage.getItem("favorite");
+      if (data != null || data != undefined) {
+        setFavData(JSON.parse(data));
+      }
+    } catch (error) {
+      console.log("Error retrieving favorite products:", error);
+    }
+  };
+
+  const setDataToStorage = async () => {
+    let list;
+    if (favData == []) {
+      list = [chosenProduct._id];
+    } else {
+      list = [...favData, chosenProduct._id];
+    }
+
+    try {
+      await AsyncStorage.setItem("favorite", JSON.stringify(list));
+      setFavData(list);
+    } catch (error) {
+      console.log("Error saving favorite products:", error);
+    }
+  };
+
+  const removeDataFromStorage = async () => {
+    const list = favData.filter((product) => product !== getProductId);
+    try {
+      await AsyncStorage.setItem("favorite", JSON.stringify(list));
+      setFavData(list);
+    } catch (error) {
+      console.log("Error saving favorite products:", error);
+    }
+  };
+
+  const animatedButton = () => {
+    Animated.timing(scaleValue, {
+      toValue: 0.8,
+      duration: 200,
+      useNativeDriver: true,
+    }).start(() => {
+      Animated.timing(scaleValue, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true,
+      }).start();
+    });
+
+    if (favData.includes(chosenProduct._id)) {
+      removeDataFromStorage();
+    } else {
+      setDataToStorage();
+    }
+  };
+
+  const goBack = () => {
+    if (nativeNavigation.canGoBack()) {
+      nativeNavigation.goBack();
+    } else {
+      nativeNavigation.navigate("Home");
+    }
+  };
 
   const addToCart = async () => {
     const cartItem = {
-      product,
-      quantity,
+      product: chosenProduct,
+      quantity: quantity,
     };
     try {
       const cartItems = await AsyncStorage.getItem("cartItems");
       if (cartItems) {
         const parsedCartItems = JSON.parse(cartItems);
         const updatedCartItems = [...parsedCartItems, cartItem];
-        await AsyncStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+        await AsyncStorage.setItem(
+          "cartItems",
+          JSON.stringify(updatedCartItems)
+        );
       } else {
         await AsyncStorage.setItem("cartItems", JSON.stringify([cartItem]));
       }
@@ -45,54 +131,73 @@ function SingleProductScreen({ route }) {
   return (
     <Box safeArea flex={1} bg={Colors.white}>
       <ScrollView px={5} showsVerticalScrollIndicator={false}>
+        <TouchableWithoutFeedback onPress={goBack}>
+          <View style={styles.backButton}>
+            <Ionicons name="arrow-back" size={23} color="black" />
+          </View>
+        </TouchableWithoutFeedback>
         <Image
-          source={{ uri: product.image }}
-          alt="Image"
+          source={{ uri: chosenProduct.image }}
+          alt="image"
           w="full"
           h={300}
           resizeMode="contain"
         />
-        <Heading bold fontSize={15} mb={2} lineHeight={22}>
-          {product.name}
-        </Heading>
-        <Rating value={product.rating} text={`${product.numReviews} reviews`} />
-        <HStack space={2} alignItems="center" my={5}>
-          {product.countInStock > 0 ? (
+        <View style={styles.headerContainer}>
+          <Heading bold fontSize={15} mb={2} lineHeight={22}>
+            {chosenProduct.name}
+          </Heading>
+          <TouchableWithoutFeedback onPress={animatedButton}>
+            <Animated.View
+              style={[
+                styles.heartIcon,
+                { transform: [{ scale: scaleValue }] },
+              ]}
+            >
+              {favData.includes(chosenProduct._id) ? (
+                <Ionicons name="heart" size={23} color="#F20800" />
+              ) : (
+                <Ionicons name="heart-outline" size={23} color="black" />
+              )}
+            </Animated.View>
+          </TouchableWithoutFeedback>
+        </View>
+        <Rating
+          value={chosenProduct.rating}
+          text={`${chosenProduct.numReviews} reviews`}
+        />
+        <View style={styles.priceContainer}>
+          {chosenProduct.countInStock > 0 ? (
             <NumericInput
               value={quantity}
-              onChange={setQuantity}
               totalWidth={140}
               totalHeight={30}
               iconSize={25}
               step={1}
-              maxValue={product.countInStock}
+              maxValue={chosenProduct.countInStock}
               minValue={0}
               borderColor={Colors.deepGray}
               rounded
               textColor={Colors.black}
-              iconStyle={{ color: Colors.white }}
               rightButtonBackgroundColor={Colors.main}
               leftButtonBackgroundColor={Colors.main}
+              onChange={setQuantity}
             />
           ) : (
-            <Heading bold color={Colors.red} italic fontSize={12}>
-              Out of stock
-            </Heading>
+            <Text style={styles.outOfStockText}>Out of stock</Text>
           )}
-
-          <Spacer />
-          <Heading bold color={Colors.black} fontSize={19}>
-            {product.price.toLocaleString()} VND
-          </Heading>
-        </HStack>
+          <Text style={styles.price}>
+            {chosenProduct.price.toLocaleString()} VND
+          </Text>
+        </View>
         <Text lineHeight={24} fontSize={12}>
-          {product.description}
+          {chosenProduct.description}
         </Text>
         <Text lineHeight={24} fontSize={14} fontWeight={500}>
-          Thích hợp dành cho: {product.gender}
+          Thích hợp dành cho: {chosenProduct.gender}
         </Text>
         <Text lineHeight={24} fontSize={14} fontWeight={500}>
-          Inventory: {product.countInStock}
+          Inventory: {chosenProduct.countInStock}
         </Text>
         <Buttone
           onPress={addToCart}
@@ -102,11 +207,48 @@ function SingleProductScreen({ route }) {
         >
           ADD TO CART
         </Buttone>
-        {/* REVIEW */}
         <Review />
       </ScrollView>
     </Box>
   );
 }
+
+const styles = {
+  backButton: {
+    position: "absolute",
+    top: 20,
+    left: 10,
+    zIndex: 1,
+  },
+  headerContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  heartIcon: {
+    overflow: "hidden",
+    padding: 13,
+    borderRadius: 30,
+    backgroundColor: "#B9BDCE",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  priceContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 10,
+  },
+  outOfStockText: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "red",
+    marginLeft: 10,
+  },
+  price: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginLeft: 10,
+  },
+};
 
 export default SingleProductScreen;
