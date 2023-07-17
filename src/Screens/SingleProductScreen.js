@@ -16,13 +16,15 @@ import Buttone from "../Components/Buttone";
 import Review from "../Components/Review";
 import PRODUCTS from "../data/Products";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 
 function SingleProductScreen({ route, navigation }) {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(1);
   const [scaleValue, setScaleValue] = useState(new Animated.Value(1));
   const [favData, setFavData] = useState([]);
   const getProductId = route.params.productId;
   const chosenProduct = PRODUCTS.find((product) => product.id === getProductId);
+  const nativeNavigation = useNavigation();
 
   useEffect(() => {
     getFromStorage();
@@ -93,12 +95,31 @@ function SingleProductScreen({ route, navigation }) {
   };
 
   const goBack = () => {
-    if (navigation.canGoBack()) {
-      navigation.goBack();
+    if (nativeNavigation.canGoBack()) {
+      nativeNavigation.goBack();
     } else {
-      navigation.navigate('Home');
+      nativeNavigation.navigate('Home');
     }
+  };
 
+  const addToCart = async () => {
+    const cartItem = {
+      product: chosenProduct,
+      quantity: value,
+    };
+    try {
+      const cartItems = await AsyncStorage.getItem("cartItems");
+      if (cartItems) {
+        const parsedCartItems = JSON.parse(cartItems);
+        const updatedCartItems = [...parsedCartItems, cartItem];
+        await AsyncStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+      } else {
+        await AsyncStorage.setItem("cartItems", JSON.stringify([cartItem]));
+      }
+    } catch (error) {
+      console.log("Error adding item to cart:", error);
+    }
+    navigation.navigate("Cart", { item: cartItem });
   };
 
   return (
@@ -164,7 +185,7 @@ function SingleProductScreen({ route, navigation }) {
           Inventory: {chosenProduct.countInStock}
         </Text>
         <Buttone
-          onPress={() => navigation.navigate("Cart")}
+          onPress={addToCart}
           bg={Colors.main}
           color={Colors.white}
           mt={10}
