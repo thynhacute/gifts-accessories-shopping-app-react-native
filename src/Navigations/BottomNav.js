@@ -14,7 +14,7 @@ import Colors from "../color";
 import ProfileScreen from "../Screens/ProfileScreen";
 import CartScreen from "../Screens/CartScreen";
 import FavoriteScreen from "../Screens/FavoriteScreen";
-import DemoScreen from "../Screens/DemoScreen";
+import EmailScreen from "../Screens/EmailScreen";
 import StackNav from "./StackNav";
 
 const Tab = createBottomTabNavigator();
@@ -100,8 +100,8 @@ const BottomNav = () => {
       />
       {/* profile */}
       <Tab.Screen
-        name="Demo"
-        component={DemoScreen}
+        name="Send Contact"
+        component={EmailScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <Center>
