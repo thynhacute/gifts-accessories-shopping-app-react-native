@@ -14,7 +14,6 @@ const CartIterms = ({ cartItems, onDeleteItem }) => {
         previewOpenDelay={3000}
         data={cartItems}
         renderItem={({ item }) => <CartItem item={item} onDelete={() => onDeleteItem(item)} />}
-        renderHiddenItem={HiddenItem}
         showsVerticalScrollIndicator={false}
       />
     </Box>
@@ -47,7 +46,7 @@ const CartItem = ({ item, onDelete }) => (
             {item.quantity}
           </Button>
           <Pressable onPress={onDelete}>
-            <FontAwesome name="trash" size={24} color={Colors.black} style={{marginLeft: 10}} />
+            <FontAwesome name="trash" size={24} color={Colors.black} style={{ marginLeft: 10 }} />
           </Pressable>
         </HStack>
       </HStack>
@@ -55,13 +54,5 @@ const CartItem = ({ item, onDelete }) => (
   </Pressable>
 );
 
-
-const HiddenItem = () => (
-  <Pressable w={50} roundedTopRight={10} roundedBottomRight={10} h="88%" ml="auto" justifyContent="center" bg={Colors.red}>
-    <Center alignItems="center" space={2}>
-      <FontAwesome name="trash" size={24} color={Colors.white} />
-    </Center>
-  </Pressable>
-);
 
 export default CartIterms;

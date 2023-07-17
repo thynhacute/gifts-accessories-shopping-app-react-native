@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -10,14 +10,59 @@ import {
   Text,
   View,
 } from "native-base";
-import products from "../data/Products";
+import {
+  Animated
+} from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Ionicons } from "@expo/vector-icons";
+
+import PRODUCTS from "../data/Products";
 import Colors from "../color";
 import Rating from "./Rating";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 
 function HomeProducts() {
+  const [favData, setFavData] = useState([]);
+  const [scaleValue, setScaleValue] = useState(new Animated.Value(1));
   const navigation = useNavigation();
-  const uniqueCategories = products.reduce((categories, product) => {
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    getFromStorage();
+  }, [isFocused]);
+
+  const getFromStorage = async () => {
+    const data = await AsyncStorage.getItem("favorite");
+    setFavData(data != null || data != undefined ? JSON.parse(data) : []);
+  };
+
+  const setDataToStorage = async (_id) => {
+    let list;
+    if (favData.length === 0) {
+      list = [_id];
+      await AsyncStorage.setItem("favorite", JSON.stringify(list));
+    } else {
+      list = [...favData, _id];
+      await AsyncStorage.setItem("favorite", JSON.stringify(list));
+    }
+    setFavData(list);
+  };
+
+  const removeDataFromStorage = async (_id) => {
+    const list = favData.filter((productId) => productId !== _id);
+    await AsyncStorage.setItem("favorite", JSON.stringify(list));
+    setFavData(list);
+  };
+
+  function favoriteButton(_id) {
+    if (favData.includes(_id)) {
+      removeDataFromStorage(_id);
+    } else {
+      setDataToStorage(_id);
+    }
+  }
+
+  const uniqueCategories = PRODUCTS.reduce((categories, product) => {
     if (!categories.includes(product.category)) {
       categories.push(product.category);
     }
@@ -49,7 +94,7 @@ function HomeProducts() {
     setIsGenderDropdownOpen(false);
   };
 
-  const filteredProducts = products.filter((product) => {
+  const filteredProducts = PRODUCTS.filter((product) => {
     if (selectedCategory && product.category !== selectedCategory) {
       return false;
     }
@@ -58,6 +103,10 @@ function HomeProducts() {
     }
     return true;
   });
+
+  function onPressFunction(_id) {
+    navigation.navigate("Single", { productId: _id });
+  }
 
   return (
     <ScrollView flex={1} showsVerticalScrollIndicator={false}>
@@ -176,11 +225,10 @@ function HomeProducts() {
           direction="row"
           justifyContent="space-between"
           px={6}
-          marginTop={isCategoryDropdownOpen || isGenderDropdownOpen ? 0 : 0} // Điều chỉnh khoảng cách từ dropdown menu đến danh sách sản phẩm
         >
           {filteredProducts.map((product) => (
             <Pressable
-              onPress={() => navigation.navigate("Single", product)}
+              onPress={() => onPressFunction(product._id)}
               key={product._id}
               w="47%"
               bg={Colors.white}
@@ -215,6 +263,24 @@ function HomeProducts() {
                 </Heading>
                 <Rating value={product.rating} />
               </Box>
+              <Pressable
+                onPress={() => favoriteButton(product._id)}
+                style={{
+                  position: "absolute",
+                  top: 10,
+                  right: "4%",
+                  backgroundColor: "rgba(0,0,0,0.05)",
+                  padding: 5,
+                  borderRadius: 16,
+                  overflow: "hidden",
+                }}
+              >
+                {favData.includes(product._id) ? (
+                  <Ionicons name="heart" size={20} color="red" />
+                ) : (
+                  <Ionicons name="heart-outline" size={20} color="grey" />
+                )}
+              </Pressable>
             </Pressable>
           ))}
         </Flex>

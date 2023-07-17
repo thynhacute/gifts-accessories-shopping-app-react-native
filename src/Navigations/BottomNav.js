@@ -65,7 +65,7 @@ const BottomNav = () => {
           tabBarIcon: ({ focused }) => (
             <Center>
               {focused ? (
-                <AntDesign name="heart" size={24} color={Colors.main} />
+                <AntDesign name="heart" size={24} color={Colors.red} />
               ) : (
                 <AntDesign name="hearto" size={24} color={Colors.black} />
               )}
