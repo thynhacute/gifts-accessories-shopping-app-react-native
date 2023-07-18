@@ -1,12 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
-import { Box, Button, Center, HStack, ScrollView, Text } from "native-base";
+import { Box, Button, Center, HStack, ScrollView, Text} from "native-base";
 import React, {useState, useEffect} from "react";
 import Colors from "../color";
 import Buttone from "../Components/Buttone";
 import CartEmpty from "../Components/CartEmpty";
 import CartItems from "../Components/CartIterms";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Alert } from "react-native";
+import { Alert, Linking} from "react-native";
+import axios from 'axios';
 
 function CartScreen({ route }) {
   const navigation = useNavigation();
@@ -94,6 +95,32 @@ function CartScreen({ route }) {
     saveCartItems(cartItems);
   }, [cartItems]);
 
+
+  //payment
+  const handlePaymentButtonPress = async () => {
+    try {
+      const response = await axios.post('http://172.17.223.113:8080/payment/createPayment', {
+        backCode: 'VNBANK',
+        amountParam: calculateTotal(),
+      });
+  
+      // Kiểm tra phản hồi từ server
+      if (response.data.code === '00') {
+        // Redirect đến đường dẫn thanh toán
+        const paymentUrl = response.data.url;
+        Linking.openURL(paymentUrl);
+        setCartItems([]);
+      } else {
+        // Xử lý khi có lỗi từ server
+        Alert.alert('Error', 'Payment request failed');
+      }
+    } catch (error) {
+      // Xử lý khi có lỗi trong quá trình gọi API
+      Alert.alert('Error', 'Payment request failed');
+      console.log('Error:', error.message);
+    }
+  };
+
   return (
     <Box flex={1} safeAreaTop bg={Colors.subGreen}>
       {/* Header */}
@@ -154,7 +181,7 @@ function CartScreen({ route }) {
           {/* Checkout */}
           <Center px={5}>
             <Buttone
-              onPress={() => navigation.navigate("Shipping")}
+              onPress={handlePaymentButtonPress}
               bg={Colors.black}
               color={Colors.white}
               mt={5}
