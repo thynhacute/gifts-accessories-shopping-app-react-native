@@ -27,7 +27,7 @@ export default function ListItem({ data, removeDataFromStorage }) {
                     <Image
                         resizeMode="cover"
                         style={styles.image}
-                        source={{ uri: product.imageUrl }}
+                        source={{ uri: product.image }}
                         defaultSource={require("../../assets/LoadingImage.png")}
                     />
                     <View style={styles.textContainer}>
