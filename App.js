@@ -7,7 +7,6 @@ import OrderScreen from "./src/Screens/OrderScreen";
 import BottomNav from "./src/Navigations/BottomNav";
 import { LogBox } from "react-native";
 
-
 LogBox.ignoreAllLogs(true);
 
 const Stack = createNativeStackNavigator();
