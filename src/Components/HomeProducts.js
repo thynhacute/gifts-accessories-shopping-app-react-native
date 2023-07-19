@@ -10,11 +10,10 @@ import {
   Text,
   View,
 } from "native-base";
-import {
-  Animated
-} from "react-native";
+import { Animated } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
+import MultiSlider from "@ptomasroos/react-native-multi-slider";
 
 import PRODUCTS from "../data/Products";
 import Colors from "../color";
@@ -73,15 +72,25 @@ function HomeProducts() {
   const [selectedGender, setSelectedGender] = useState(null);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [isGenderDropdownOpen, setIsGenderDropdownOpen] = useState(false);
+  const [isPriceRangeVisible, setIsPriceRangeVisible] = useState(false);
+  const [priceRange, setPriceRange] = useState([0, 10000000]);
 
   const toggleCategoryDropdown = () => {
     setIsCategoryDropdownOpen(!isCategoryDropdownOpen);
     setIsGenderDropdownOpen(false);
+    setIsPriceRangeVisible(false);
   };
 
   const toggleGenderDropdown = () => {
     setIsGenderDropdownOpen(!isGenderDropdownOpen);
     setIsCategoryDropdownOpen(false);
+    setIsPriceRangeVisible(false);
+  };
+
+  const togglePriceRange = () => {
+    setIsPriceRangeVisible(!isPriceRangeVisible);
+    setIsCategoryDropdownOpen(false);
+    setIsGenderDropdownOpen(false);
   };
 
   const handleCategorySelect = (category) => {
@@ -94,11 +103,18 @@ function HomeProducts() {
     setIsGenderDropdownOpen(false);
   };
 
+  const handlePriceRangeChange = (values) => {
+    setPriceRange(values);
+  };
+
   const filteredProducts = PRODUCTS.filter((product) => {
     if (selectedCategory && product.category !== selectedCategory) {
       return false;
     }
     if (selectedGender && product.gender !== selectedGender) {
+      return false;
+    }
+    if (product.price < priceRange[0] || product.price > priceRange[1]) {
       return false;
     }
     return true;
@@ -123,6 +139,9 @@ function HomeProducts() {
           </Button>
           <Button onPress={toggleGenderDropdown} ml={2} mb={2}>
             {selectedGender ? selectedGender : "Chọn giới tính"}
+          </Button>
+          <Button onPress={togglePriceRange} ml={2} mb={2}>
+            Mức giá
           </Button>
         </Flex>
         {isCategoryDropdownOpen && (
@@ -218,6 +237,54 @@ function HomeProducts() {
             >
               Nữ
             </Button>
+          </View>
+        )}
+        {isPriceRangeVisible && (
+          <View
+            style={{
+              position: "absolute",
+              top: 60,
+              left: 0,
+              right: 0,
+              backgroundColor: "#fff",
+              borderRadius: 6,
+              padding: 10,
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
+              zIndex: 1,
+            }}
+          >
+            <Flex justifyContent="center" style={{ marginLeft: 55 }}>
+              <MultiSlider
+                values={priceRange}
+                min={0}
+                max={2000000}
+                step={10000}
+                sliderLength={280}
+                onValuesChange={handlePriceRangeChange}
+                allowOverlap={false}
+                snapped
+                markerStyle={{ height: 20, width: 20, borderRadius: 10 }}
+                pressedMarkerStyle={{ height: 28, width: 28, borderRadius: 14 }}
+                selectedStyle={{ backgroundColor: "#000" }}
+                trackStyle={{ height: 4, backgroundColor: "#ccc" }}
+                touchDimensions={{ height: 40, width: 40, borderRadius: 20 }}
+              />
+            </Flex>
+            <Flex justifyContent="space-between">
+              <Text style={{ marginLeft: 60, fontWeight: "bold" }}>
+                Min: {priceRange[0].toLocaleString()} VND
+              </Text>
+              <Text style={{ marginLeft: 60, fontWeight: "bold" }}>
+                Max: {priceRange[1].toLocaleString()} VND
+              </Text>
+            </Flex>
           </View>
         )}
         <Flex

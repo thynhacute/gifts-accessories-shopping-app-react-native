@@ -191,6 +191,19 @@ const products = [
     gender: "Nam",
     category: "Phụ kiện trang trí",
   },
+  {
+    _id: "15",
+    name: "Balo nam cao cấp màu đen trơn premium",
+    image: "https://cf.shopee.vn/file/1286ef5b358a6a5571e0a3505af2c526",
+    description:
+      "Chiếc BALO ĐI HỌC hợp dáng người, hợp màu sắc làm tăng vẻ đẹp của trang phục bạn mặc và khẳng định ấn tượng của bạn trong mắt người đối diện. Tuy nhiên, không phải ai cũng biết chọn một chiếc balo thực sự phù hợp với phom cơ thể của mình. Mang tới cho các cô nàng sự thoải mái khi đi dạo phố hoặc hẹn hò bè bạn vì không phải cầm mang những vật dụng linh tinh, balo đã trở thành người bạn không thể thiếu các nàng. Chúng có sự đa dạng từ kiểu cách tới màu sắc, size…tùy theo nhu cầu của mình mà các nàng lựa chọn một sản phẩm thích hợp. Và nếu bạn cũng đang đi tìm một balo thể thể hiện được cá tính của bản thân một cách rõ nét nhất và đang... lạc lối, thì hãy cùng khám phá và cảm nhận sản phẩm nhé!",
+    price: 300000,
+    countInStock: 10,
+    rating: 4.6,
+    numReviews: 2,
+    gender: "Nam",
+    category: "Đồ dùng học tập",
+  },
   // {
   //   _id: "15",
   //   name: "Sesame Street Unisex-Child ELMO Puppet Slipper",

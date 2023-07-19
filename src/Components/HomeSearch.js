@@ -8,7 +8,6 @@ import { AntDesign } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useIsFocused } from "@react-navigation/native";
 
-
 function HomeSearch() {
   const navigation = useNavigation();
   const [cartItemCount, setCartItemCount] = useState(0);
@@ -20,14 +19,15 @@ function HomeSearch() {
       const cartItems = await AsyncStorage.getItem("cartItems");
       if (cartItems) {
         const parsedCartItems = JSON.parse(cartItems);
-        const uniqueProductIds = new Set(parsedCartItems.map((item) => item.product._id));
+        const uniqueProductIds = new Set(
+          parsedCartItems.map((item) => item.product._id)
+        );
         setCartItemCount(uniqueProductIds.size);
       }
     } catch (error) {
       console.log("Error getting cart items:", error);
     }
   };
-  
 
   useEffect(() => {
     getCartItemCount();
@@ -44,7 +44,7 @@ function HomeSearch() {
       safeAreaTop
     >
       <Input
-        placeholder="Nike, Puma, Adidas ...."
+        placeholder="Loa, Sticker, Balo ...."
         w="85%"
         bg={Colors.white}
         type="search"
