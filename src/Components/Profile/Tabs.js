@@ -19,10 +19,10 @@ export default function Tabs() {
       key: "first",
       title: "PROFILE",
     },
-    {
-      key: "second",
-      title: "ORDERS",
-    },
+    // {
+    //   key: "second",
+    //   title: "ORDERS",
+    // },
   ]);
 
   const renderTabsBar = (props) => (

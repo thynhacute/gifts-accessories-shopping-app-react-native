@@ -1,33 +1,39 @@
-import { Box, FormControl, Input, ScrollView, VStack } from "native-base";
+import { Box, FormControl, ScrollView, Text, VStack } from "native-base";
 import React from "react";
 import Colors from "../../color";
 import Buttone from "../Buttone";
+import { useNavigation } from "@react-navigation/native";
 
 const Inputs = [
   {
-    label: "USERNAME",
-    type: "text",
+    label: "NAME",
+    info: "Hoang Nha Thy",
   },
   {
     label: "EMAIL",
-    type: "text",
+    info: "nhathy@gmail.com",
   },
   {
-    label: "NEW PASSWORD",
-    type: "password",
-  },
-  {
-    label: "CONFIRM PASSWORD",
-    type: "password",
+    label: "ACCOUNT NAME",
+    info: "nhathy",
   },
 ];
 
 const Profile = () => {
+  const navigation = useNavigation();
+
+  const handleLogout = () => {
+    // Thực hiện các xử lý logout
+
+    // Điều hướng về trang LoginScreen
+    navigation.navigate("Login");
+  };
+
   return (
     <Box h="full" bg={Colors.white} px={5}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <VStack space={10} mt={5} pb={10}>
-          {Inputs.map((i, index) => (
+          {Inputs.map((input, index) => (
             <FormControl key={index}>
               <FormControl.Label
                 _text={{
@@ -35,26 +41,28 @@ const Profile = () => {
                   fontWeight: "bold",
                 }}
               >
-                {i.label}
+                {input.label}
               </FormControl.Label>
-              <Input
+              <Text
+                padding={5}
                 borderWidth={0.2}
                 bg={Colors.subGreen}
                 borderColor={Colors.main}
                 py={4}
-                type={i.type}
-                color={Colors.main}
+                color={Colors.black}
                 fontSize={15}
                 _focus={{
                   bg: Colors.subGreen,
                   borderColor: Colors.main,
                   borderWidth: 1,
                 }}
-              />
+              >
+                {input.info}
+              </Text>
             </FormControl>
           ))}
-          <Buttone bg={Colors.main} color={Colors.white}>
-            UPDATE PROFILE
+          <Buttone bg={Colors.main} color={Colors.white} onPress={handleLogout}>
+            LOGOUT
           </Buttone>
         </VStack>
       </ScrollView>
