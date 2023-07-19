@@ -1,20 +1,39 @@
-import { useNavigation } from "@react-navigation/native";
-import { Box, Button, Center, FormControl, Input, ScrollView } from "native-base";
-import React, { useState } from "react";
-import Colors from "../color";
-import Buttone from "../Components/Buttone";
-import * as MailComposer from 'expo-mail-composer';
+import {
+  Box,
+  Button,
+  Center,
+  FormControl,
+  Input,
+  ScrollView,
+} from "native-base";
+import React, { useState, useEffect } from "react";
+import * as MailComposer from "expo-mail-composer";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function EmailScreen() {
-  const navigation = useNavigation();
-  const [customerEmail, setCustomerEmail] = useState('fgearhcmc@gmail.com');
-  const [emailContent, setEmailContent] = useState('');
+  const [customerEmail, setCustomerEmail] = useState("");
+  const [emailContent, setEmailContent] = useState("");
 
-  // Function to send the email
+  useEffect(() => {
+    loadUserData();
+  }, []);
+
+  const loadUserData = async () => {
+    try {
+      const userData = await AsyncStorage.getItem("user");
+      if (userData) {
+        const parsedUser = JSON.parse(userData);
+        setCustomerEmail(parsedUser.email); // Update the customerEmail state with the user's email
+      }
+    } catch (error) {
+      console.error("Error loading user data from AsyncStorage:", error);
+    }
+  };
+
   const sendEmail = () => {
     if (customerEmail && emailContent) {
-      const toEmail = 'shoppingappmma@gmail.com';
-      const subject = 'Regarding My Order';
+      const toEmail = "shoppingappmma@gmail.com";
+      const subject = "Regarding My Order";
       const body = `Customer Email: ${customerEmail}\n\n${emailContent}`;
 
       MailComposer.composeAsync({
@@ -22,30 +41,45 @@ function EmailScreen() {
         subject: subject,
         body: body,
       })
-      .then(result => {
-        if (result.status === 'sent') {
-          // Email sent successfully
-          console.log('Email sent');
-        } else {
-          console.log('Email not sent:', result);
-        }
-      })
-      .catch(error => {
-        console.log('Error sending email:', error);
-      });
+        .then((result) => {
+          if (result.status === "sent") {
+            // Email sent successfully
+            console.log("Email sent");
+          } else {
+            console.log("Email not sent:", result);
+          }
+        })
+        .catch((error) => {
+          console.log("Error sending email:", error);
+        });
 
-      // Clear the input fields after sending the email
-      // setCustomerEmail('');
-      setEmailContent('');
+      setEmailContent("");
     } else {
       // Notify the user if either of the input fields is empty
-      alert('Please enter both customer email and content before sending the email.');
+      alert(
+        "Please enter both customer email and content before sending the email."
+      );
     }
   };
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: '#F2F2F2' }}>
+    <ScrollView style={{ flex: 1, backgroundColor: "#F2F2F2" }}>
       <Center flex={1} px="4">
+        {/* Display user email from AsyncStorage */}
+        <FormControl mt={4}>
+          <FormControl.Label fontSize="lg" fontWeight="bold" mb={2}>
+            Email
+          </FormControl.Label>
+          <Input
+            bg="white"
+            borderRadius="md"
+            value={customerEmail}
+            onChangeText={setCustomerEmail} // This is optional since we're only displaying the email
+            _focus={{ borderColor: "primary.500" }}
+            disabled // Disable the input field to prevent editing
+          />
+        </FormControl>
+
         {/* Email Content */}
         <FormControl mt={8}>
           <FormControl.Label fontSize="lg" fontWeight="bold" mb={2}>
@@ -59,13 +93,18 @@ function EmailScreen() {
             placeholder="Enter email content..."
             value={emailContent}
             onChangeText={setEmailContent}
-            _focus={{ borderColor: 'primary.500' }}
+            _focus={{ borderColor: "primary.500" }}
             textAlignVertical="top" // Set the text alignment to start from the top
           />
         </FormControl>
 
         {/* Send Button */}
-        <Button onPress={sendEmail} mt={6} bg="primary.500" _pressed={{ opacity: 0.8 }}>
+        <Button
+          onPress={sendEmail}
+          mt={6}
+          bg="primary.500"
+          _pressed={{ opacity: 0.8 }}
+        >
           Send Email
         </Button>
       </Center>

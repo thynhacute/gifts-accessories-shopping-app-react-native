@@ -1,29 +1,35 @@
 import { Box, FormControl, ScrollView, Text, VStack } from "native-base";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Colors from "../../color";
 import Buttone from "../Buttone";
 import { useNavigation } from "@react-navigation/native";
-
-const Inputs = [
-  {
-    label: "NAME",
-    info: "Hoang Nha Thy",
-  },
-  {
-    label: "EMAIL",
-    info: "nhathy@gmail.com",
-  },
-  {
-    label: "ACCOUNT NAME",
-    info: "nhathy",
-  },
-];
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Profile = () => {
+  const [user, setUser] = useState(null);
   const navigation = useNavigation();
 
+  useEffect(() => {
+    // Load user data from AsyncStorage when the component mounts
+    loadUserData();
+  }, []);
+
+  const loadUserData = async () => {
+    try {
+      const userData = await AsyncStorage.getItem("user");
+      if (userData) {
+        const parsedUser = JSON.parse(userData);
+        setUser(parsedUser);
+      }
+    } catch (error) {
+      console.error("Error loading user data from AsyncStorage:", error);
+    }
+  };
+
   const handleLogout = () => {
-    // Thực hiện các xử lý logout
+    // Clear the user data from AsyncStorage
+    AsyncStorage.removeItem("cartItems");
+    AsyncStorage.removeItem("user");
 
     // Điều hướng về trang LoginScreen
     navigation.navigate("Login");
@@ -33,15 +39,16 @@ const Profile = () => {
     <Box h="full" bg={Colors.white} px={5}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <VStack space={10} mt={5} pb={10}>
-          {Inputs.map((input, index) => (
-            <FormControl key={index}>
+          {user && (
+            <>
+            <FormControl>
               <FormControl.Label
                 _text={{
-                  fontSize: "12px",
+                  fontSize: "15px",
                   fontWeight: "bold",
                 }}
               >
-                {input.label}
+                Full Name
               </FormControl.Label>
               <Text
                 padding={5}
@@ -50,17 +57,45 @@ const Profile = () => {
                 borderColor={Colors.main}
                 py={4}
                 color={Colors.black}
-                fontSize={15}
+                fontSize={18}
                 _focus={{
                   bg: Colors.subGreen,
                   borderColor: Colors.main,
                   borderWidth: 1,
                 }}
               >
-                {input.info}
+                {user.fullName}
               </Text>
             </FormControl>
-          ))}
+            <FormControl>
+              <FormControl.Label
+                _text={{
+                  fontSize: "18px",
+                  fontWeight: "bold",
+                }}
+              >
+                Email
+              </FormControl.Label>
+              <Text
+                padding={5}
+                borderWidth={0.2}
+                bg={Colors.subGreen}
+                borderColor={Colors.main}
+                py={4}
+                color={Colors.black}
+                fontSize={18}
+                _focus={{
+                  bg: Colors.subGreen,
+                  borderColor: Colors.main,
+                  borderWidth: 1,
+                }}
+              >
+                {user.email}
+              </Text>
+            </FormControl>
+            </>
+            
+          )}
           <Buttone bg={Colors.main} color={Colors.white} onPress={handleLogout}>
             LOGOUT
           </Buttone>
