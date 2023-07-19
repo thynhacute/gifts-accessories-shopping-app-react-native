@@ -35,7 +35,7 @@ function EmailScreen() {
       });
 
       // Clear the input fields after sending the email
-      setCustomerEmail('');
+      // setCustomerEmail('');
       setEmailContent('');
     } else {
       // Notify the user if either of the input fields is empty

@@ -42,8 +42,8 @@ function RegisterScreen() {
   return (
     <Box flex={1} bg={Colors.black} alignItems="center" justifyContent="center">
       <Box
-        w="80%"
-        h="80%"
+        w="100%"
+        h="100%"
         p={6}
         justifyContent="center"
         bg={Colors.white}

@@ -15,8 +15,8 @@ import { accounts, createAccount } from "../data/account";
 import { useNavigation } from "@react-navigation/native";
 
 function LoginScreen() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("hoangtam@gmail.com");
+  const [password, setPassword] = useState("1");
   const navigation = useNavigation();
 
   const handleLogin = () => {
@@ -45,8 +45,8 @@ function LoginScreen() {
   return (
     <Box flex={1} bg={Colors.black} alignItems="center" justifyContent="center">
       <Box
-        w="80%"
-        h="80%"
+        w="100%"
+        h="100%"
         p={6}
         justifyContent="center"
         bg={Colors.white}
