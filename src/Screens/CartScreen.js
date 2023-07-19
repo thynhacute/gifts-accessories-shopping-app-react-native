@@ -10,8 +10,24 @@ import { Alert, Linking} from "react-native";
 import axios from 'axios';
 
 function CartScreen({ route }) {
-  const navigation = useNavigation();
   const [cartItems, setCartItems] = useState([]);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    loadUserData();
+  }, []);
+
+  const loadUserData = async () => {
+    try {
+      const userData = await AsyncStorage.getItem("user");
+      if (userData) {
+        const parsedUser = JSON.parse(userData);
+        setUser(parsedUser);
+      }
+    } catch (error) {
+      console.error("Error loading user data from AsyncStorage:", error);
+    }
+  };
 
   const calculateTotal = () => {
     let total = 0;
@@ -96,7 +112,6 @@ function CartScreen({ route }) {
   }, [cartItems]);
 
 
-  //payment
   const handlePaymentButtonPress = async () => {
     try {
       const response = await axios.post('http://172.17.223.113:8080/payment/createPayment', {
@@ -104,22 +119,34 @@ function CartScreen({ route }) {
         amountParam: calculateTotal(),
       });
   
-      // Kiểm tra phản hồi từ server
       if (response.data.code === '00') {
-        // Redirect đến đường dẫn thanh toán
         const paymentUrl = response.data.url;
         Linking.openURL(paymentUrl);
-        setCartItems([]);
+  
+        // Add data to the mock API
+        const paymentData = {
+          userID: user.id,
+          bankCode: response.data.bankCode,
+          totalPrice: calculateTotal(),
+          vnp_TxnRef: response.data.vnp_TxnRef
+        };
+  
+        try {
+          const paymentResponse = await axios.post('https://64b7e2fd21b9aa6eb079381c.mockapi.io/payment', paymentData);
+          setCartItems([]);
+        } catch (error) {
+          console.log('Error adding payment data to the mock API:', error);
+        }
+  
       } else {
-        // Xử lý khi có lỗi từ server
         Alert.alert('Error', 'Payment request failed');
       }
     } catch (error) {
-      // Xử lý khi có lỗi trong quá trình gọi API
       Alert.alert('Error', 'Payment request failed');
       console.log('Error:', error.message);
     }
   };
+  
 
   return (
     <Box flex={1} safeAreaTop bg={Colors.subGreen}>

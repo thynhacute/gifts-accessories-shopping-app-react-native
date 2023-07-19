@@ -13,34 +13,50 @@ import Colors from "../color";
 import { MaterialIcons, Ionicons } from "@expo/vector-icons";
 import { accounts, createAccount } from "../data/account";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 function LoginScreen() {
-  const [email, setEmail] = useState("hoangtam@gmail.com");
+  const [email, setEmail] = useState("hoangtammht@gmail.com");
   const [password, setPassword] = useState("1");
   const navigation = useNavigation();
 
-  const handleLogin = () => {
-    // Kiểm tra thông tin đăng nhập và thực hiện các xử lý kiểm tra khác nếu cần
+  const handleLogin = async () => {
     if (email.trim() === "" || password.trim() === "") {
-      // Hiển thị thông báo khi không nhập đủ email và mật khẩu
-      alert("Vui lòng nhập email và mật khẩu");
+      alert("Please enter email and password");
       console.log(accounts);
       return;
     }
-
-    const foundAccount = accounts.find(
-      (account) => account.gmail === email && account.password === password
-    );
-
-    if (foundAccount) {
-      // Điều hướng đến trang HomeScreen
-      navigation.navigate("Bottom");
-    } else {
-      console.log(accounts);
-      // Xử lý khi đăng nhập không thành công (ví dụ: hiển thị thông báo lỗi)
-      alert("Email, Password does not match, please re-enter");
+  
+    try {
+      const usersResponse = await axios.get('https://64b7e2fd21b9aa6eb079381c.mockapi.io/users');
+      const users = usersResponse.data;
+  
+      const foundUser = users.find(user => user.email === email);
+  
+      if (!foundUser) {
+        alert("Account not found. Please register or check your credentials.");
+        return;
+      }
+  
+      if (foundUser.password === password) {
+        if (foundUser.roleName === "User") {
+          AsyncStorage.setItem("user", JSON.stringify(foundUser))
+          navigation.navigate("Bottom");
+        } else if (foundUser.roleName === "Admin") {
+          alert("Admin accounts are not allowed to log in.");
+        } else {
+          alert("Invalid role. Please contact support.");
+        }
+      } else {
+        alert("Email, Password does not match, please re-enter");
+      }
+    } catch (error) {
+      console.error("Error calling API:", error);
+      alert("An error occurred while trying to log in. Please try again later.");
     }
   };
+  
 
   return (
     <Box flex={1} bg={Colors.black} alignItems="center" justifyContent="center">
