@@ -111,16 +111,16 @@ const products = [
   },
   {
     _id: "9",
-    name: "Băng đô turban cài tóc sừng hươu",
+    name: "Giày trượt patin có đèn LED cho trẻ em",
     image:
-      "https://amansaigon.com/wp-content/uploads/2020/12/B%C4%82NG-%C4%90%C3%94-TURBAN-C%C3%80I-T%C3%93C-S%E1%BB%AANG-H%C6%AF%C6%A0U-TU%E1%BA%A6N-L%E1%BB%98C-%C4%90%C3%81NG-Y%C3%8AU-7.jpg",
+      "https://m.media-amazon.com/images/I/61yvMhFKm6L.__AC_SX300_SY300_QL70_ML2_.jpg",
     description:
-      "Băng Đô Cài Tóc sừng hươu tuần lộc có thiết kế xinh xắn, đáng yêu, mang lại vẻ xinh xắn cho bạn gái. Băng Đô cài tóc sừng hươu tuần lộc có màu nhẹ nhàng kết hợp với thiết kế thêm hai chiếc sừng hươu tuần lộc nhỏ siêu dễ thương phía trên. Băng đô có thiết kế đơn giản, phối màu nhẹ nhàng, nữ tính. Phụ kiện đơn giản phù hợp với các bạn nữ và phù hợp với nhiều trang phục.",
-    price: 30000,
+      "Đa chức năng: Bạn có thể cuộn nó lại bằng nút ở gót chân để hiển thị cửa sổ bật lên. Vì bạn có thể sử dụng cả giày trượt patin và giày thể thao thông thường Đế: Giày patin tổng hợp được thiết kế có công tắc điều khiển bật/tắt đèn để có thể mang như giày thông thường vào ban ngày. Đèn nháy khi giấu bên trong giày. Giày phát sáng có đèn LED có thể sạc lại Chất liệu bánh xe: PU Loại bánh xe: Bánh đôi Khi cần sử dụng giày thể thao, bạn có thể tháo bánh trước ra, bánh sau có thể thu vào. Đèn LED chống nước, rung nhấp nháy",
+    price: 1700000,
     countInStock: 20,
     rating: 4.5,
     numReviews: 3,
-    gender: "Nữ",
+    gender: "Nam",
     category: "Phụ kiện khác",
   },
   {

@@ -9,7 +9,10 @@ import {
   ScrollView,
   Text,
   View,
+  HStack,
+  Input,
 } from "native-base";
+import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { Animated } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
@@ -25,6 +28,30 @@ function HomeProducts() {
   const [scaleValue, setScaleValue] = useState(new Animated.Value(1));
   const navigation = useNavigation();
   const isFocused = useIsFocused();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const [cartItemCount, setCartItemCount] = useState(0);
+
+  const check = useIsFocused();
+
+  const getCartItemCount = async () => {
+    try {
+      const cartItems = await AsyncStorage.getItem("cartItems");
+      if (cartItems) {
+        const parsedCartItems = JSON.parse(cartItems);
+        const uniqueProductIds = new Set(
+          parsedCartItems.map((item) => item.product._id)
+        );
+        setCartItemCount(uniqueProductIds.size);
+      }
+    } catch (error) {
+      console.log("Error getting cart items:", error);
+    }
+  };
+
+  useEffect(() => {
+    getCartItemCount();
+  }, [check]);
 
   useEffect(() => {
     getFromStorage();
@@ -117,6 +144,12 @@ function HomeProducts() {
     if (product.price < priceRange[0] || product.price > priceRange[1]) {
       return false;
     }
+    if (
+      searchQuery &&
+      !product.name.toLowerCase().includes(searchQuery.toLowerCase())
+    ) {
+      return false;
+    }
     return true;
   });
 
@@ -126,6 +159,71 @@ function HomeProducts() {
 
   return (
     <ScrollView flex={1} showsVerticalScrollIndicator={false}>
+      <HStack
+        space={3}
+        w="full"
+        px={6}
+        bg={Colors.main}
+        py={4}
+        alignItems="center"
+        safeAreaTop
+      >
+        <Input
+          placeholder="Loa, Sticker, Balo ...."
+          w="85%"
+          bg={Colors.white}
+          type="search"
+          variant="filled"
+          h={12}
+          borderWidth={0}
+          _focus={{
+            bg: Colors.white,
+          }}
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          InputRightElement={
+            <Pressable
+              onPress={() => setSearchQuery("")}
+              alignItems="center"
+              justifyContent="center"
+              pr={2}
+              rounded="full"
+              bg={Colors.gray}
+              w={8}
+              h={8}
+            >
+              <MaterialIcons
+                name="search"
+                size={18}
+                color={Colors.black}
+                style={{ marginLeft: 2 }}
+              />
+            </Pressable>
+          }
+        />
+        <Pressable ml={3} onPress={() => navigation.navigate("Cart")}>
+          <AntDesign
+            name="shoppingcart"
+            size={24}
+            color={Colors.white}
+            style={{ marginLeft: 10 }}
+          />
+          <Box
+            px={1}
+            rounded="full"
+            position="absolute"
+            top={-13}
+            left={2}
+            bg={Colors.red}
+            _text={{
+              color: Colors.white,
+              fontSize: "11px",
+            }}
+          >
+            {cartItemCount}
+          </Box>
+        </Pressable>
+      </HStack>
       <View style={{ position: "relative" }}>
         <Flex
           flexWrap="wrap"
