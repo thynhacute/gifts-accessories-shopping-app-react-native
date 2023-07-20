@@ -13,39 +13,42 @@ import Colors from "../color";
 import { MaterialIcons, Ionicons } from "@expo/vector-icons";
 import { accounts, createAccount } from "../data/account";
 import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import AuthContext from "../AuthContext/AuthContext";
 
 function LoginScreen() {
   const [email, setEmail] = useState("hoangtammht@gmail.com");
   const [password, setPassword] = useState("1");
   const navigation = useNavigation();
-
+  const { fetchAllData } = React.useContext(AuthContext);
   const handleLogin = async () => {
     if (email.trim() === "" || password.trim() === "") {
       alert("Please enter email and password");
       console.log(accounts);
       return;
     }
-  
+
     try {
-      const usersResponse = await axios.get('https://64b7e2fd21b9aa6eb079381c.mockapi.io/users');
+      const usersResponse = await axios.get(
+        "https://64b7e2fd21b9aa6eb079381c.mockapi.io/users"
+      );
       const users = usersResponse.data;
-  
-      const foundUser = users.find(user => user.email === email);
-  
+
+      const foundUser = users.find((user) => user.email === email);
+
       if (!foundUser) {
         alert("Account not found. Please register or check your credentials.");
         return;
       }
-  
+      fetchAllData();
       if (foundUser.password === password) {
         if (foundUser.roleName === "User") {
-          AsyncStorage.setItem("user", JSON.stringify(foundUser))
+          AsyncStorage.setItem("user", JSON.stringify(foundUser));
           navigation.navigate("Bottom");
         } else if (foundUser.roleName === "Admin") {
           alert("Admin accounts are not allowed to log in.");
-        } else if(foundUser.roleName === "Employee") {
+        } else if (foundUser.roleName === "Employee") {
           navigation.navigate("BottomTab");
         } else {
           alert("Invalid role. Please contact support.");
@@ -55,10 +58,11 @@ function LoginScreen() {
       }
     } catch (error) {
       console.error("Error calling API:", error);
-      alert("An error occurred while trying to log in. Please try again later.");
+      alert(
+        "An error occurred while trying to log in. Please try again later."
+      );
     }
   };
-  
 
   return (
     <Box flex={1} bg={Colors.black} alignItems="center" justifyContent="center">

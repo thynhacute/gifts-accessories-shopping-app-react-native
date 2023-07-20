@@ -22,12 +22,12 @@ export default function Review() {
         REVIEW
       </Heading>
       {/* IF THERE IS NO REVIEW */}
-      {/* <Message
+      <Message
         color={Colors.main}
         bg={Colors.deepGray}
         bold
         children={"NO REVIEW"}
-      /> */}
+      />
       {/* REVIEW */}
       <Box p={3} bg={Colors.pink} mt={5} rounded={5}>
         <Heading fontSize={15} color={Colors.black}>
@@ -46,8 +46,8 @@ export default function Review() {
           }
         />
       </Box>
-      {/* WRITE REVIEW */}
-      {/* <Box mt={6}>
+      WRITE REVIEW
+      <Box mt={6}>
         <Heading fontSize={15} bold mb={4}>
           REVIEW THIS PRODUCT
         </Heading>
@@ -109,7 +109,7 @@ export default function Review() {
             children={"Please 'Login' to write a review"}
           />
         </VStack>
-      </Box> */}
+      </Box>
     </Box>
   );
 }

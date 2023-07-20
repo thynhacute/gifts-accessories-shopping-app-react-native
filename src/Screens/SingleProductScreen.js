@@ -1,16 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
-import {
-  Box,
-  Heading,
-  ScrollView,
-  View,
-  Text,
-  Image,
-} from "native-base";
-import {
-  TouchableWithoutFeedback,
-  Animated,
-} from "react-native";
+import { Box, Heading, ScrollView, View, Text, Image } from "native-base";
+import { TouchableWithoutFeedback, Animated } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import NumericInput from "react-native-numeric-input";
 import Colors from "../color";
@@ -20,13 +10,20 @@ import Review from "../Components/Review";
 import PRODUCTS from "../data/Products";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import AuthContext from "../AuthContext/AuthContext";
 
 function SingleProductScreen({ route, navigation }) {
   const [quantity, setQuantity] = useState(route.params?.quantity || 1);
   const [scaleValue, setScaleValue] = useState(new Animated.Value(1));
   const [favData, setFavData] = useState([]);
+  const { preview, user } = React.useContext(AuthContext);
   const getProductId = route.params.productId;
-  const chosenProduct = PRODUCTS.find((product) => product._id === getProductId);
+  const chosenProduct = PRODUCTS.find(
+    (product) => product._id === getProductId
+  );
+  const previewData = preview?.filter(
+    (re) => re?.idProduct === chosenProduct?.id
+  );
   const nativeNavigation = useNavigation();
 
   useEffect(() => {
@@ -149,10 +146,7 @@ function SingleProductScreen({ route, navigation }) {
           </Heading>
           <TouchableWithoutFeedback onPress={animatedButton}>
             <Animated.View
-              style={[
-                styles.heartIcon,
-                { transform: [{ scale: scaleValue }] },
-              ]}
+              style={[styles.heartIcon, { transform: [{ scale: scaleValue }] }]}
             >
               {favData.includes(chosenProduct._id) ? (
                 <Ionicons name="heart" size={23} color="#F20800" />
@@ -164,7 +158,7 @@ function SingleProductScreen({ route, navigation }) {
         </View>
         <Rating
           value={chosenProduct.rating}
-          text={`${chosenProduct.numReviews} reviews`}
+          text={`${previewData?.length} reviews`}
         />
         <View style={styles.priceContainer}>
           {chosenProduct.countInStock > 0 ? (
