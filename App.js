@@ -1,3 +1,4 @@
+import "deprecated-react-native-prop-types";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NativeBaseProvider, StatusBar } from "native-base";
@@ -5,6 +6,7 @@ import LoginScreen from "./src/Screens/LoginScreen";
 import RegisterScreen from "./src/Screens/RegisterScreen";
 import OrderScreen from "./src/Screens/OrderScreen";
 import BottomNav from "./src/Navigations/BottomNav";
+import AdminScreen from "./src/Admin/AdminScreen";
 import { LogBox } from "react-native";
 
 LogBox.ignoreAllLogs(true);
@@ -26,6 +28,7 @@ export default function App() {
           <Stack.Screen name="Register" component={RegisterScreen} />
           <Stack.Screen name="order" component={OrderScreen} />
           <Stack.Screen name="Bottom" component={BottomNav} />
+          <Stack.Screen name="Admin" component={AdminScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>
