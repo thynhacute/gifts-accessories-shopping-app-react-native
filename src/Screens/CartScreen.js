@@ -123,16 +123,16 @@ function CartScreen({ route }) {
         const paymentUrl = response.data.url;
         Linking.openURL(paymentUrl);
   
-        // Add data to the mock API
         const paymentData = {
           userID: user.id,
           bankCode: response.data.bankCode,
           totalPrice: calculateTotal(),
-          vnp_TxnRef: response.data.vnp_TxnRef
+          vnp_TxnRef: response.data.vnp_TxnRef,
+          status: "Waiting"
         };
   
         try {
-          const paymentResponse = await axios.post('https://64b7e2fd21b9aa6eb079381c.mockapi.io/payment', paymentData);
+          const paymentResponse = await axios.post('https://64b7e2fd21b9aa6eb079381c.mockapi.io/orders', paymentData);
           setCartItems([]);
         } catch (error) {
           console.log('Error adding payment data to the mock API:', error);
