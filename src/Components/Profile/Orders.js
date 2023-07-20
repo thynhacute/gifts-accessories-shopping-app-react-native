@@ -4,36 +4,23 @@ import { Pressable } from "react-native";
 import Colors from "../../color";
 import axios from "axios";
 
-const Orders = () => {
+const Orders = ({ userID }) => {
   const [orders, setOrders] = useState([]);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    loadUserData();
-  }, []);
-
-  const loadUserData = async () => {
-    try {
-      const userData = await AsyncStorage.getItem("user");
-      if (userData) {
-        const parsedUser = JSON.parse(userData);
-        setUser(parsedUser);
-      }
-    } catch (error) {
-      console.error("Error loading user data from AsyncStorage:", error);
-    }
-  };
-
-  useEffect(() => {
-      fetchOrders();
-  }, []);
+    fetchOrders();
+  }, [userID]); 
 
   const fetchOrders = async () => {
     try {
-      const userID = 1;
-      const response = await axios.get(`https://64b7e2fd21b9aa6eb079381c.mockapi.io/payment?userID=${userID}`);
-      const data = response.data;
-      setOrders(data);
+      if (userID) {
+        const response = await axios.get(
+          `https://64b7e2fd21b9aa6eb079381c.mockapi.io/payment?userID=${userID}`
+        );
+        const data = response.data;
+        setOrders(data);
+      }
     } catch (error) {
       console.error("Error fetching orders:", error);
     }

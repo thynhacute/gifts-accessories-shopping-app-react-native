@@ -69,7 +69,7 @@ function ProfileScreen() {
         )}
       </Center>
       {/* TABS */}
-      <Tabs />
+      <Tabs user={user} />
     </>
   );
 }

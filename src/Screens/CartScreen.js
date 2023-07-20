@@ -187,7 +187,7 @@ function CartScreen({ route }) {
                   bg: Colors.main,
                 }}
               >
-                {calculateTotal().toLocaleString()} VND
+                {calculateTotal().toLocaleString("en-US")} VND
               </Button>
             </HStack>
           </Center>
