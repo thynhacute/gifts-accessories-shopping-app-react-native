@@ -6,12 +6,7 @@ import Profile from "./Profile";
 import Colors from "../../color";
 import { Text } from "native-base";
 
-const renderScene = SceneMap({
-  first: Profile,
-  second: Orders,
-});
-
-export default function Tabs() {
+export default function Tabs({ user }) {
   const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
   const [routes] = useState([
@@ -24,6 +19,22 @@ export default function Tabs() {
       title: "ORDERS",
     },
   ]);
+
+  const renderScene = ({ route }) => {
+    switch (route.key) {
+      case "first":
+        return <Profile user={user} />;
+      case "second":
+        return <Orders userID={user?.id} />;
+      default:
+        return null;
+    }
+  };
+
+  // const renderSceneMap = SceneMap({
+  //   first: Profile,
+  //   second: Orders,
+  // });
 
   const renderTabsBar = (props) => (
     <TabBar

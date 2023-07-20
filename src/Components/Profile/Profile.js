@@ -5,26 +5,8 @@ import Buttone from "../Buttone";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Profile = () => {
-  const [user, setUser] = useState(null);
+const Profile = ({user}) => {
   const navigation = useNavigation();
-
-  useEffect(() => {
-    // Load user data from AsyncStorage when the component mounts
-    loadUserData();
-  }, []);
-
-  const loadUserData = async () => {
-    try {
-      const userData = await AsyncStorage.getItem("user");
-      if (userData) {
-        const parsedUser = JSON.parse(userData);
-        setUser(parsedUser);
-      }
-    } catch (error) {
-      console.error("Error loading user data from AsyncStorage:", error);
-    }
-  };
 
   const handleLogout = () => {
     // Clear the user data from AsyncStorage
