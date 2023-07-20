@@ -17,11 +17,10 @@ import { Animated } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
-
-import PRODUCTS from "../data/Products";
 import Colors from "../color";
 import Rating from "./Rating";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
+import axios from "axios";
 
 function HomeProducts() {
   const [favData, setFavData] = useState([]);
@@ -29,6 +28,23 @@ function HomeProducts() {
   const navigation = useNavigation();
   const isFocused = useIsFocused();
   const [searchQuery, setSearchQuery] = useState("");
+
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get(
+        "https://64b7e5bb21b9aa6eb0793cc6.mockapi.io/api/products"
+      );
+      setProducts(response.data);
+    } catch (error) {
+      console.log("Error fetching products:", error);
+    }
+  };
 
   const [cartItemCount, setCartItemCount] = useState(0);
 
@@ -40,7 +56,7 @@ function HomeProducts() {
       if (cartItems) {
         const parsedCartItems = JSON.parse(cartItems);
         const uniqueProductIds = new Set(
-          parsedCartItems.map((item) => item.product._id)
+          parsedCartItems.map((item) => item.product.id)
         );
         setCartItemCount(uniqueProductIds.size);
       }
@@ -62,33 +78,33 @@ function HomeProducts() {
     setFavData(data != null || data != undefined ? JSON.parse(data) : []);
   };
 
-  const setDataToStorage = async (_id) => {
+  const setDataToStorage = async (id) => {
     let list;
     if (favData.length === 0) {
-      list = [_id];
+      list = [id];
       await AsyncStorage.setItem("favorite", JSON.stringify(list));
     } else {
-      list = [...favData, _id];
+      list = [...favData, id];
       await AsyncStorage.setItem("favorite", JSON.stringify(list));
     }
     setFavData(list);
   };
 
-  const removeDataFromStorage = async (_id) => {
-    const list = favData.filter((productId) => productId !== _id);
+  const removeDataFromStorage = async (id) => {
+    const list = favData.filter((productId) => productId !== id);
     await AsyncStorage.setItem("favorite", JSON.stringify(list));
     setFavData(list);
   };
 
-  function favoriteButton(_id) {
-    if (favData.includes(_id)) {
-      removeDataFromStorage(_id);
+  function favoriteButton(id) {
+    if (favData.includes(id)) {
+      removeDataFromStorage(id);
     } else {
-      setDataToStorage(_id);
+      setDataToStorage(id);
     }
   }
 
-  const uniqueCategories = PRODUCTS.reduce((categories, product) => {
+  const uniqueCategories = products.reduce((categories, product) => {
     if (!categories.includes(product.category)) {
       categories.push(product.category);
     }
@@ -134,7 +150,7 @@ function HomeProducts() {
     setPriceRange(values);
   };
 
-  const filteredProducts = PRODUCTS.filter((product) => {
+  const filteredProducts = products.filter((product) => {
     if (selectedCategory && product.category !== selectedCategory) {
       return false;
     }
@@ -153,8 +169,8 @@ function HomeProducts() {
     return true;
   });
 
-  function onPressFunction(_id) {
-    navigation.navigate("Single", { productId: _id });
+  function onPressFunction(id) {
+    navigation.navigate("Single", { productId: id });
   }
 
   return (
@@ -393,8 +409,8 @@ function HomeProducts() {
         >
           {filteredProducts.map((product) => (
             <Pressable
-              onPress={() => onPressFunction(product._id)}
-              key={product._id}
+              onPress={() => onPressFunction(product.id)}
+              key={product.id}
               w="47%"
               bg={Colors.white}
               rounded="md"
@@ -429,7 +445,7 @@ function HomeProducts() {
                 <Rating value={product.rating} />
               </Box>
               <Pressable
-                onPress={() => favoriteButton(product._id)}
+                onPress={() => favoriteButton(product.id)}
                 style={{
                   position: "absolute",
                   top: 10,
@@ -440,7 +456,7 @@ function HomeProducts() {
                   overflow: "hidden",
                 }}
               >
-                {favData.includes(product._id) ? (
+                {favData.includes(product.id) ? (
                   <Ionicons name="heart" size={20} color="red" />
                 ) : (
                   <Ionicons name="heart-outline" size={20} color="grey" />

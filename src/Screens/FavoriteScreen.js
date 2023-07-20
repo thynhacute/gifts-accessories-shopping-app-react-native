@@ -1,20 +1,24 @@
-import { Alert, BackHandler, Image, StyleSheet, Text, View, ScrollView, TouchableOpacity } from "react-native";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import {
+  Alert,
+  BackHandler,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ListItem from "../Components/ListItem";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
-import PRODUCTS from "../data/Products";
-import Colors from "../color";
+import axios from "axios";
 
 function FavoriteScreen() {
   const [favData, setFavData] = useState([]);
+  const [dataFav, setDataFav] = useState([]);
   const isFocused = useIsFocused();
   const navigation = useNavigation();
-
-  let dataFav;
-  if (favData != null)
-    dataFav = PRODUCTS.filter((product) => favData.includes(product._id));
-  else dataFav = [];
 
   useEffect(() => {
     getFromStorage();
@@ -32,18 +36,30 @@ function FavoriteScreen() {
   }, []);
 
   const getFromStorage = async () => {
-    const storageData = await AsyncStorage.getItem("favorite");
-    setFavData(storageData != null ? JSON.parse(storageData) : []);
+    try {
+      const storageData = await AsyncStorage.getItem("favorite");
+      setFavData(storageData != null ? JSON.parse(storageData) : []);
 
-    if (favData != null && storageData != null)
-      dataFav = PRODUCTS.filter((product) =>
-        JSON.parse(storageData).includes(product._id)
-      );
-    else dataFav = [];
+      if (storageData != null) {
+        const response = await axios.get(
+          "https://64b7e5bb21b9aa6eb0793cc6.mockapi.io/api/products"
+        );
+        const products = response.data;
+        const filteredProducts = products.filter((product) =>
+          JSON.parse(storageData).includes(product.id)
+        );
+        setDataFav(filteredProducts);
+      } else {
+        setDataFav([]);
+      }
+    } catch (error) {
+      console.log("Error getting favorites:", error);
+    }
   };
 
   const removeAllStorage = async () => {
     if (favData.length === 1) {
+      // Handle case when there is only one favorite item
     } else if (favData.length >= 2) {
       Alert.alert(
         "Bạn có chắc không?",
@@ -59,7 +75,7 @@ function FavoriteScreen() {
             onPress: async () => {
               await AsyncStorage.removeItem("favorite");
               setFavData([]);
-              dataFav = [];
+              setDataFav([]);
             },
           },
         ]
@@ -67,10 +83,11 @@ function FavoriteScreen() {
     }
   };
 
-  const removeDataFromStorage = async (_id) => {
-    const list = favData.filter((product) => product !== _id);
+  const removeDataFromStorage = async (id) => {
+    const list = favData.filter((product) => product !== id);
     await AsyncStorage.setItem("favorite", JSON.stringify(list));
     setFavData(list);
+    setDataFav((prevData) => prevData.filter((product) => product.id !== id));
   };
 
   return (
@@ -105,7 +122,6 @@ function FavoriteScreen() {
   );
 }
 export default FavoriteScreen;
-
 
 const styles = StyleSheet.create({
   rootContainer: {

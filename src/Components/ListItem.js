@@ -13,16 +13,16 @@ import { Ionicons } from "@expo/vector-icons";
 export default function ListItem({ data, removeDataFromStorage }) {
     const navigation = useNavigation();
 
-    function onPressFunction(_id) {
-        navigation.navigate("Single", { productId: _id });
+    function onPressFunction(id) {
+        navigation.navigate("Single", { productId: id });
     }
 
     function renderSingleItem(product) {
         return (
-            <View style={styles.rootContainer} key={product._id}>
+            <View style={styles.rootContainer} key={product.id}>
                 <Pressable
                     style={styles.innerContainer}
-                    onPress={onPressFunction.bind(this, product._id)}
+                    onPress={onPressFunction.bind(this, product.id)}
                 >
                     <Image
                         resizeMode="cover"
@@ -33,7 +33,7 @@ export default function ListItem({ data, removeDataFromStorage }) {
                     <View style={styles.textContainer}>
                         <Text style={styles.text}>{product.name}</Text>
                     </View>
-                    <Ionicons onPress={removeDataFromStorage.bind(this, product._id)}
+                    <Ionicons onPress={removeDataFromStorage.bind(this, product.id)}
                         style={styles.icon}
                         name="ios-heart-sharp"
                         size={25}

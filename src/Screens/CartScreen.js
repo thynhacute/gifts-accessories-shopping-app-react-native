@@ -1,12 +1,12 @@
 import { useNavigation } from "@react-navigation/native";
-import { Box, Button, Center, HStack, ScrollView, Text} from "native-base";
-import React, {useState, useEffect} from "react";
+import { Box, Button, Center, HStack, ScrollView, Text } from "native-base";
+import React, { useState, useEffect } from "react";
 import Colors from "../color";
 import Buttone from "../Components/Buttone";
 import CartEmpty from "../Components/CartEmpty";
 import CartItems from "../Components/CartIterms";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Alert, Linking} from "react-native";
+import { Alert, Linking } from "react-native";
 import axios from 'axios';
 
 function CartScreen({ route }) {
@@ -39,7 +39,7 @@ function CartScreen({ route }) {
 
   const addItemToCart = (item) => {
     const existingItemIndex = cartItems.findIndex(
-      (cartItem) => cartItem.product._id === item.product._id
+      (cartItem) => cartItem.product.id === item.product.id
     );
     if (existingItemIndex !== -1) {
       const updatedCartItems = [...cartItems];
@@ -51,7 +51,7 @@ function CartScreen({ route }) {
   };
 
   const deleteCartItem = (item) => {
-    const updatedCartItems = cartItems.filter((cartItem) => cartItem.product._id !== item.product._id);
+    const updatedCartItems = cartItems.filter((cartItem) => cartItem.product.id !== item.product.id);
     setCartItems(updatedCartItems);
   };
 
@@ -118,11 +118,11 @@ function CartScreen({ route }) {
         backCode: 'VNBANK',
         amountParam: calculateTotal(),
       });
-  
+
       if (response.data.code === '00') {
         const paymentUrl = response.data.url;
         Linking.openURL(paymentUrl);
-  
+
         const paymentData = {
           userID: user.id,
           bankCode: response.data.bankCode,
@@ -130,14 +130,14 @@ function CartScreen({ route }) {
           vnp_TxnRef: response.data.vnp_TxnRef,
           status: "Waiting"
         };
-  
+
         try {
           const paymentResponse = await axios.post('https://64b7e2fd21b9aa6eb079381c.mockapi.io/orders', paymentData);
           setCartItems([]);
         } catch (error) {
           console.log('Error adding payment data to the mock API:', error);
         }
-  
+
       } else {
         Alert.alert('Error', 'Payment request failed');
       }
@@ -146,7 +146,7 @@ function CartScreen({ route }) {
       console.log('Error:', error.message);
     }
   };
-  
+
 
   return (
     <Box flex={1} safeAreaTop bg={Colors.subGreen}>

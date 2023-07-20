@@ -17,28 +17,42 @@ import Colors from "../color";
 import Rating from "../Components/Rating";
 import Buttone from "../Components/Buttone";
 import Review from "../Components/Review";
-import PRODUCTS from "../data/Products";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
 
 function SingleProductScreen({ route, navigation }) {
   const [quantity, setQuantity] = useState(route.params?.quantity || 1);
   const [scaleValue, setScaleValue] = useState(new Animated.Value(1));
   const [favData, setFavData] = useState([]);
+  const [chosenProduct, setChosenProduct] = useState(null);
   const getProductId = route.params.productId;
-  const chosenProduct = PRODUCTS.find((product) => product._id === getProductId);
   const nativeNavigation = useNavigation();
 
   useEffect(() => {
     getFromStorage();
+    fetchData();
   }, []);
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: chosenProduct.name,
+      title: chosenProduct?.name || "Product Detail",
       headerShown: false,
     });
-  }, [navigation]);
+  }, [navigation, chosenProduct]);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        "https://64b7e5bb21b9aa6eb0793cc6.mockapi.io/api/products"
+      );
+      const products = response.data;
+      const product = products.find((product) => product.id === getProductId);
+      setChosenProduct(product);
+    } catch (error) {
+      console.log("Error fetching data:", error);
+    }
+  };
 
   const getFromStorage = async () => {
     try {
@@ -54,9 +68,9 @@ function SingleProductScreen({ route, navigation }) {
   const setDataToStorage = async () => {
     let list;
     if (favData == []) {
-      list = [chosenProduct._id];
+      list = [getProductId];
     } else {
-      list = [...favData, chosenProduct._id];
+      list = [...favData, getProductId];
     }
 
     try {
@@ -90,7 +104,7 @@ function SingleProductScreen({ route, navigation }) {
       }).start();
     });
 
-    if (favData.includes(chosenProduct._id)) {
+    if (favData.includes(getProductId)) {
       removeDataFromStorage();
     } else {
       setDataToStorage();
@@ -128,6 +142,14 @@ function SingleProductScreen({ route, navigation }) {
     navigation.navigate("Cart", { item: cartItem });
   };
 
+  if (!chosenProduct) {
+    return (
+      <Box safeArea flex={1} bg={Colors.white}>
+        <Text>Loading...</Text>
+      </Box>
+    );
+  }
+
   return (
     <Box safeArea flex={1} bg={Colors.white}>
       <ScrollView px={5} showsVerticalScrollIndicator={false}>
@@ -154,7 +176,7 @@ function SingleProductScreen({ route, navigation }) {
                 { transform: [{ scale: scaleValue }] },
               ]}
             >
-              {favData.includes(chosenProduct._id) ? (
+              {favData.includes(getProductId) ? (
                 <Ionicons name="heart" size={23} color="#F20800" />
               ) : (
                 <Ionicons name="heart-outline" size={23} color="black" />

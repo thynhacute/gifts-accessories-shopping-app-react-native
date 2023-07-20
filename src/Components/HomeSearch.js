@@ -20,7 +20,7 @@ function HomeSearch() {
       if (cartItems) {
         const parsedCartItems = JSON.parse(cartItems);
         const uniqueProductIds = new Set(
-          parsedCartItems.map((item) => item.product._id)
+          parsedCartItems.map((item) => item.product.id)
         );
         setCartItemCount(uniqueProductIds.size);
       }
