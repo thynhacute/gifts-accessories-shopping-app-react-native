@@ -45,6 +45,8 @@ function LoginScreen() {
           navigation.navigate("Bottom");
         } else if (foundUser.roleName === "Admin") {
           alert("Admin accounts are not allowed to log in.");
+        } else if(foundUser.roleName === "Employee") {
+          navigation.navigate("BottomTab");
         } else {
           alert("Invalid role. Please contact support.");
         }
