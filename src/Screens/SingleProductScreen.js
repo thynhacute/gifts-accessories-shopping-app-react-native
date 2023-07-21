@@ -229,7 +229,7 @@ function SingleProductScreen({ route, navigation }) {
         >
           ADD TO CART
         </Buttone>
-        <Review />
+        <Review productId={getProductId}/>
       </ScrollView>
     </Box>
   );

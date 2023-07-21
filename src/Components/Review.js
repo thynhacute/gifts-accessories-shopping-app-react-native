@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   CheckIcon,
@@ -8,46 +8,173 @@ import {
   Text,
   TextArea,
   VStack,
+  HStack,
+  Pressable
 } from "native-base";
 import Colors from "../color";
 import Rating from "./Rating";
 import Message from "./Notfications/Message";
 import Buttone from "./Buttone";
+import axios from "axios";
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {TouchableOpacity,View,KeyboardAvoidingView,Platform} from 'react-native'
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function Review() {
+
+export default function Review({ productId }) {
   const [ratings, setRatings] = useState("");
-  return (
-    <Box my={9}>
-      <Heading bold fontSize={15} mb={2}>
-        REVIEW
-      </Heading>
-      {/* IF THERE IS NO REVIEW */}
-      {/* <Message
-        color={Colors.main}
-        bg={Colors.deepGray}
-        bold
-        children={"NO REVIEW"}
-      /> */}
-      {/* REVIEW */}
-      <Box p={3} bg={Colors.pink} mt={5} rounded={5}>
+  const [reviews, setReviews] = useState([]);
+  const [filteredReviews, setFilteredReviews] = useState([]);
+  const [users, setUsers] = useState({});
+  const [comment, setComment] = useState("");
+  const [starRating, setStarRating] = useState(0);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    // Khi reviews hoặc productId thay đổi, lọc danh sách review theo productId
+    const filtered = reviews.filter((review) => review.idProduct === productId);
+    setFilteredReviews(filtered);
+  }, [reviews, productId]);
+
+
+  const loadUserData = async () => {
+    try {
+      const userData = await AsyncStorage.getItem("user");
+      if (userData) {
+        const parsedUser = JSON.parse(userData);
+        setUsers(parsedUser);
+      }
+    } catch (error) {
+      console.error("Error loading user data from AsyncStorage:", error);
+    }
+  };
+
+  const calculateAverageRating = (reviews) => {
+    if (reviews.length === 0) return 0;
+  
+    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+    return totalRating / reviews.length;
+  };
+
+  const postReview = async () => {
+    try {
+      // Lấy ngày giờ hiện tại
+      const createdAt = new Date().toISOString();
+
+      // Lấy thông tin người dùng
+      const userData = await AsyncStorage.getItem("user");
+      if (!userData) {
+        console.error("User data not found in AsyncStorage.");
+        return;
+      }
+      const parsedUser = JSON.parse(userData);
+      const { id: userId } = parsedUser; // Lấy id của người dùng
+
+      // Tạo đối tượng review
+      const newReview = {
+        createdAt,
+        description: comment,
+        idProduct: productId,
+        idUser: userId,
+        rating: parseInt(ratings),
+        id: String(reviews.length + 1), // Cần cung cấp một id duy nhất cho review, có thể lấy từ reviews.length + 1
+      };
+
+      // Gửi request POST đến API
+      const response = await axios.post(
+        "https://64b999a279b7c9def6c13695.mockapi.io/api/pre/v1/preview",
+        newReview
+      );
+      // Sau khi post thành công, cập nhật danh sách reviews và clear form
+      setReviews([...reviews, newReview]);
+      setRatings("");
+      setComment("");
+      setStarRating(0);
+
+      const newNumReviews = reviews.length + 1; // Số người review mới sẽ là tổng số reviews sau khi thêm mới
+      const newRating = calculateAverageRating([...reviews, newReview]);
+
+      const updatedProductInfo = {
+        numReviews: newNumReviews,
+        rating: newRating,
+      };
+      await updateProductInfo(productId, updatedProductInfo);
+    } catch (error) {
+      console.error("Error posting review:", error);
+    }
+  };
+  
+  const updateProductInfo = async (productId, data) => {
+    try {
+      // Gọi API để cập nhật thông tin sản phẩm
+      const response = await axios.put(
+        `https://64b7e5bb21b9aa6eb0793cc6.mockapi.io/api/products/${productId}`,
+        data
+      );
+    } catch (error) {
+      console.error("Error updating product info:", error);
+    }
+  };
+  
+
+  const handleStarRating = (rating) => {
+    setStarRating(rating);
+    setRatings(String(rating)); // Chuyển số sao thành chuỗi và lưu vào state "ratings"
+  };
+
+  const fetchData = async () => {
+    try {
+      // Gọi API để lấy danh sách review
+      const reviewResponse = await axios.get(
+        "https://64b999a279b7c9def6c13695.mockapi.io/api/pre/v1/preview"
+      );
+      setReviews(reviewResponse.data);
+
+      // Gọi API để lấy danh sách người dùng
+      const userResponse = await axios.get(
+        "https://64b7e2fd21b9aa6eb079381c.mockapi.io/users"
+      );
+      const usersData = userResponse.data.reduce((acc, user) => {
+        acc[user.id] = user;
+        return acc;
+      }, {});
+
+      // Lưu thông tin người dùng vào state users
+      setUsers(usersData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  filteredReviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+  const renderReviewWithAuthor = (review) => {
+    const author = users[review.idUser] || {}; // Lấy thông tin người dùng từ state users
+    const authorName = author.fullName || "Unknown"; // Lấy tên tác giả từ thông tin người dùng
+    return (
+      <Box key={review.id} p={3} bg={Colors.pink} mt={5} rounded={5}>
         <Heading fontSize={15} color={Colors.black}>
-          Nhã Thy cute vjppro
+          {authorName} {/* Hiển thị tên tác giả */}
         </Heading>
-        <Rating value={4} />
+        <Rating value={parseInt(review.rating)} /> {/* Hiển thị rating của review */}
         <Text my={2} fontSize={11}>
-          July 16 2023
+          {new Date(review.createdAt).toLocaleDateString()} {/* Hiển thị ngày tạo review */}
         </Text>
         <Message
           color={Colors.black}
           bg={Colors.white}
           size={10}
-          children={
-            "Tui đã mua ở đây, đồ gất nà xinh, gất cutie ze thuong, bữa mua tặng ngiu khen wa trời hihi"
-          }
+          children={review.description}
         />
       </Box>
-      {/* WRITE REVIEW */}
-      {/* <Box mt={6}>
+    );
+  };
+
+  return (
+    <Box my={9}>
+      <Box mt={6} bg={Colors.pink} p={4} rounded={5}>
         <Heading fontSize={15} bold mb={4}>
           REVIEW THIS PRODUCT
         </Heading>
@@ -61,23 +188,17 @@ export default function Review() {
             >
               Rating
             </FormControl.Label>
-            <Select
-              bg={Colors.subGreen}
-              borderWidth={0}
-              rounded={5}
-              py={4}
-              placeholder="Choose Rate"
-              _selectedItem={{
-                bg: Colors.subGreen,
-                endIcon: <CheckIcon size={3} />,
-              }}
-              selectedValue={ratings}
-              onValueChange={(e) => setRatings(e)}
-            >
-              <Select.Item label="1 - Poor" value="1" />
-              <Select.Item label="2 - Fair" value="2" />
-              <Select.Item label="3 - Good" value="3" />
-            </Select>
+            <HStack space={1}>
+            {[1, 2, 3, 4, 5].map((rating) => (
+              <Icon
+                key={rating}
+                name={rating <= starRating ? 'star' : 'star-o'} // Hiển thị icon sao đầy hoặc rỗng tùy vào số sao được chọn
+                size={25}
+                color="yellow" // Màu sao đầy
+                onPress={() => handleStarRating(rating)} // Xử lý khi người dùng chọn số sao
+              />
+            ))}
+          </HStack>
           </FormControl>
           <FormControl>
             <FormControl.Label
@@ -92,24 +213,37 @@ export default function Review() {
               h={24}
               w="full"
               placeholder="This product is good ....."
-              borderWidth={0}
+              borderWidth={1} // Thêm border cho form
+              borderColor={Colors.black} // Màu sắc của border
               bg={Colors.subGreen}
               py={4}
+              value={comment} // Giá trị của text area là state comment
+              onChangeText={setComment} // Hàm để cập nhật state comment khi người dùng thay đổi nội dung
               _focus={{
                 bg: Colors.subGreen,
               }}
             />
           </FormControl>
-          <Buttone bg={Colors.main} color={Colors.white}>
+          <Buttone bg={Colors.main} color={Colors.white} onPress={postReview}>
             SUBMIT
           </Buttone>
-          <Message
-            color={Colors.white}
-            bg={Colors.black}
-            children={"Please 'Login' to write a review"}
-          />
         </VStack>
-      </Box> */}
+      </Box>
+      <Heading bold fontSize={15} mt={5} mb={2}>
+        REVIEW
+      </Heading>
+      {/* IF THERE IS NO REVIEW */}
+      {filteredReviews.length === 0 ? (
+        <Message
+          color={Colors.main}
+          bg={Colors.deepGray}
+          bold
+          children={"NO REVIEW"}
+        />
+      ) : (
+        /* REVIEW */
+        filteredReviews.map((review) => renderReviewWithAuthor(review))
+      )}
     </Box>
   );
 }
