@@ -20,13 +20,14 @@ const Products = () => {
   const [products, setProducts] = useState([]);
   const [genders, setGenders] = useState(["Nữ", "Nam"]);
   const [categories, setCategories] = useState([]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isAddModalVisible, setIsAddModalVisible] = useState(false);
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [imageUri, setImageUri] = useState(null);
 
   const [newProductName, setNewProductName] = useState("");
   const [selectedGender, setSelectedGender] = useState("Nữ");
-  const [newProductCategory, setNewProductCategory] = useState("Name 1");
+  const [newProductCategory, setNewProductCategory] = useState("Đồ điện tử");
   const [Description, setDescription] = useState("");
   const [Price, setPrice] = useState("");
   const [CountInStock, setCountInStock] = useState("");
@@ -46,11 +47,22 @@ const Products = () => {
       });
   }, []);
 
+  const handleRefreshData = () => {
+    // Gọi lại API để lấy danh sách products
+    axios
+      .get("https://64b7e5bb21b9aa6eb0793cc6.mockapi.io/api/products")
+      .then((response) => {
+        setProducts(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  };
   const handleEditProduct = (productId) => {
     // Tìm sản phẩm trong danh sách sản phẩm dựa vào productId
     const productToEdit = products.find((product) => product.id === productId);
     setEditingProduct(productToEdit);
-    setIsModalVisible(true);
+    setIsEditModalVisible(true);
   };
 
   const deleteProductInAPI = async (productId) => {
@@ -106,7 +118,7 @@ const Products = () => {
         `https://64b7e5bb21b9aa6eb0793cc6.mockapi.io/api/products/${editingProduct.id}`,
         {
           name: editingProduct.name,
-          image: editingProduct.image,
+          image: photoApi,
           category: editingProduct.category,
           gender: editingProduct.gender,
           description: editingProduct.description,
@@ -116,12 +128,15 @@ const Products = () => {
         }
       );
       console.log("Product updated successfully.");
+      handleRefreshData();
+    // Đặt lại state editingProduct về null để sẵn sàng cho lần chỉnh sửa tiếp theo
+    setEditingProduct(null);
     } catch (error) {
       console.error("Error updating product:", error);
     }
 
     // Đóng Modal
-    setIsModalVisible(false);
+    setIsEditModalVisible(false);
     // Cập nhật lại danh sách sản phẩm với thông tin sản phẩm đã chỉnh sửa
     setProducts((prevProducts) =>
       prevProducts.map((product) =>
@@ -132,6 +147,9 @@ const Products = () => {
     setEditingProduct(null);
   };
   const addProduct = async () => {
+    const gender = selectedGender === "" ? "Nữ" : selectedGender;
+
+    const category = newProductCategory === "" ? "Đồ điện tử" : newProductCategory;
     const isProductNameDuplicate = products.some(
       (product) => product.name === newProductName
     );
@@ -140,9 +158,6 @@ const Products = () => {
       alert("Product name is already taken. Please choose a different name.");
       return;
     }
-    const gender = selectedGender === "" ? "Nữ" : selectedGender;
-
-    const category = newProductCategory === "" ? "name 1" : newProductCategory;
 
     if (
       !newProductName ||
@@ -150,8 +165,7 @@ const Products = () => {
       !newProductCategory ||
       !Description ||
       !Price ||
-      !CountInStock ||
-      !newProductImage
+      !CountInStock
     ) {
       alert("Please fill in all fields.");
       return;
@@ -178,20 +192,20 @@ const Products = () => {
     setProducts([...products, newProduct]);
 
     // Đóng Modal
-    setIsModalVisible(false);
+    setIsAddModalVisible(false);
 
     // Reset các giá trị ô input về trạng thái ban đầu
     setNewProductName("");
-    setNewProductImage("");
-    setNewProductCategory("");
-    setSelectedGender("");
     setDescription("");
     setPrice("");
     setCountInStock("");
+    setPhotoApi("");
   };
 
   const handleShowAddForm = () => {
-    setIsModalVisible(true);
+    setIsAddModalVisible(true);
+    setNewProductCategory("Nữ");
+    setSelectedGender("Đồ điện tử");
   };
   useEffect(() => {
     getPermissions();
@@ -286,10 +300,10 @@ const Products = () => {
   return (
     <View>
       <Modal
-        visible={isModalVisible}
+        visible={isAddModalVisible}
         animationType="fade"
         transparent={true}
-        onRequestClose={() => setIsModalVisible(false)}
+        onRequestClose={() => setIsAddModalVisible(false)}
       >
         {/* Nội dung của Modal */}
         <View style={styles.modalContainer}>
@@ -345,18 +359,24 @@ const Products = () => {
               onChangeText={(text) => setCountInStock(text)}
               keyboardType="numeric"
             />
-            <TextInput
-              style={styles.input}
-              placeholder="image link"
-              value={newProductImage}
-              onChangeText={(text) => setNewProductImage(text)}
-            />
+            <TouchableOpacity
+              style={{ backgroundColor: "black" }}
+              onPress={pickImage}
+            >
+              <Text style={{ color: "black" }}>Chọn từ máy bạn</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleUploadImage}
+              style={{ backgroundColor: "red" }}
+            >
+              <Text style={{ color: "white" }}>Gửi</Text>
+            </TouchableOpacity>
 
             <View style={styles.buttonsContainer}>
               <Button mode="contained" onPress={addProduct}>
                 Add Product
               </Button>
-              <Button mode="outlined" onPress={() => setIsModalVisible(false)}>
+              <Button mode="outlined" onPress={() => setIsAddModalVisible(false)}>
                 Cancel
               </Button>
             </View>
@@ -365,10 +385,10 @@ const Products = () => {
       </Modal>
 
       <Modal
-        visible={isModalVisible}
+        visible={isEditModalVisible}
         animationType="fade"
         transparent={true}
-        onRequestClose={() => setIsModalVisible(false)}
+        onRequestClose={() => setIsEditModalVisible(false)}
       >
         {/* Nội dung của Modal */}
         <View style={styles.modalContainer}>
@@ -465,16 +485,6 @@ const Products = () => {
               }
               keyboardType="numeric"
             />
-            <TextInput
-              style={styles.input}
-              placeholder={photoApi}
-              value={editingProduct ? editingProduct.image : newProductImage}
-              onChangeText={(text) =>
-                editingProduct
-                  ? setEditingProduct({ ...editingProduct, image: text })
-                  : setNewProductImage(text)
-              }
-            />
             <TouchableOpacity
               style={{ backgroundColor: "black" }}
               onPress={pickImage}
@@ -487,6 +497,7 @@ const Products = () => {
             >
               <Text style={{ color: "white" }}>Gửi</Text>
             </TouchableOpacity>
+
             <View style={styles.buttonsContainer}>
               {editingProduct ? (
                 <Button mode="contained" onPress={updateProduct}>
@@ -497,7 +508,7 @@ const Products = () => {
                   Add Product
                 </Button>
               )}
-              <Button mode="outlined" onPress={() => setIsModalVisible(false)}>
+              <Button mode="outlined" onPress={() => setIsEditModalVisible(false)}>
                 Cancel
               </Button>
             </View>
@@ -531,7 +542,6 @@ const Products = () => {
           </View>
         </View>
       </Modal>
-
       <TouchableOpacity style={styles.addButton} onPress={handleShowAddForm}>
         <Text style={styles.addButtonText}>Add Product</Text>
       </TouchableOpacity>
