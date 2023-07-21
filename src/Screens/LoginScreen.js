@@ -17,8 +17,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
 function LoginScreen() {
-  const [email, setEmail] = useState("hoangtammht@gmail.com");
-  const [password, setPassword] = useState("1");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigation = useNavigation();
 
   const handleLogin = async () => {
@@ -44,7 +44,8 @@ function LoginScreen() {
           AsyncStorage.setItem("user", JSON.stringify(foundUser))
           navigation.navigate("Bottom");
         } else if (foundUser.roleName === "Admin") {
-          alert("Admin accounts are not allowed to log in.");
+          AsyncStorage.setItem("admin", JSON.stringify(foundUser))
+          navigation.navigate("Admin");
         } else {
           alert("Invalid role. Please contact support.");
         }

@@ -1,11 +1,14 @@
-import { Box, Button, HStack, ScrollView, Text, Badge } from "native-base";
+import { Box, Button, HStack, VStack, ScrollView, Text, Badge, Image } from "native-base";
 import React, { useEffect, useState } from "react";
-import { Pressable, Alert } from "react-native";
+import { Pressable, Alert, Modal } from "react-native";
 import Colors from "../../color";
 import axios from "axios";
 
 const Orders = ({ userID }) => {
   const [orders, setOrders] = useState([]);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchOrders();
@@ -22,10 +25,11 @@ const Orders = ({ userID }) => {
       }
     } catch (error) {
       console.error("Error fetching orders:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Helper function to get colorScheme based on status
   const getColorScheme = (status) => {
     switch (status) {
       case "Waiting":
@@ -40,17 +44,18 @@ const Orders = ({ userID }) => {
   };
 
   const handleConfirmButtonPress = async (order) => {
-    // Display an alert to confirm the action
-    Alert.alert("Confirm", "Are you sure you want to change the status to Done?", [
-      {
-        text: "Cancel",
-        style: "cancel",
-      },
-      {
-        text: "OK",
-        onPress: () => updateOrderStatus(order),
-      },
-    ]);
+    if (order.status === "Confirm") {
+      Alert.alert("Confirm", "Are you sure you want to change the status to Done?", [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: () => updateOrderStatus(order),
+        },
+      ]);
+    }
   };
 
   const updateOrderStatus = async (order) => {
@@ -62,7 +67,6 @@ const Orders = ({ userID }) => {
       );
 
       if (response.status === 200) {
-        // Refresh the orders after updating the status
         fetchOrders();
       }
     } catch (error) {
@@ -70,72 +74,160 @@ const Orders = ({ userID }) => {
     }
   };
 
+  const handleOrderPress = (order) => {
+    setSelectedOrder(order);
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setSelectedOrder(null);
+    setModalVisible(false);
+  };
+
   return (
     <Box h="full" bg={Colors.white} pt={5}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {orders.length === 0 ? (
+        {loading ? (
+          <Text textAlign="center" fontSize={15} color={Colors.black} mt={5}>
+            Loading...
+          </Text>
+        ) : orders.length === 0 ? (
           <Text textAlign="center" fontSize={15} color={Colors.black} mt={5}>
             No transaction yet
           </Text>
         ) : (
-          orders.map((order) => (
-            <Pressable key={order.id} onPress={() => handleConfirmButtonPress(order)}>
-              <HStack
-                space={4}
-                justifyContent="space-between"
-                alignItems="center"
-                bg={Colors.deepGray}
-                py={5}
-                px={2}
-              >
-                <Text fontSize={15} color={Colors.blue} isTruncated>
-                  {order.vnp_TxnRef}
-                </Text>
+          orders
+            .slice()
+            .sort((a, b) => b.id - a.id)
+            .map((order, index) => (
+              <React.Fragment key={order.id}>
                 {order.status === "Confirm" ? (
-                  <Pressable onPress={() => handleConfirmButtonPress(order)}>
-                    <Badge
-                      variant="subtle"
-                      colorScheme={getColorScheme(order.status)} // Set color based on status
-                      p={3}
-                      rounded="md"
+                  <Pressable onPress={() => handleOrderPress(order)}>
+                    <HStack
+                      space={4}
+                      justifyContent="space-between"
+                      alignItems="center"
+                      bg={Colors.deepGray}
+                      py={5}
+                      px={2}
                     >
-                      <Text>Confirm</Text>
-                    </Badge>
+                      <Text fontSize={15} color={Colors.blue} isTruncated>
+                        {order.vnp_TxnRef}
+                      </Text>
+                      <Pressable onPress={() => handleConfirmButtonPress(order)}>
+                        <Badge
+                          variant="subtle"
+                          colorScheme={getColorScheme(order.status)}
+                          p={3}
+                          rounded="md"
+                        >
+                          <Text>Confirm</Text>
+                        </Badge>
+                      </Pressable>
+                      <Text fontSize={15} italic color={Colors.black} isTruncated>
+                        {new Date(order.paymentDateTime * 1000).toLocaleDateString()}
+                      </Text>
+                      <Button
+                        px={7}
+                        py={1.5}
+                        rounded={50}
+                        bg={order.totalPrice > 0 ? Colors.main : Colors.red}
+                        _text={{
+                          color: Colors.white,
+                        }}
+                        _pressed={{
+                          bg: order.totalPrice > 0 ? Colors.main : Colors.red,
+                        }}
+                      >
+                        <Text>{order.totalPrice.toLocaleString("en-US")} VND</Text>
+                      </Button>
+                    </HStack>
                   </Pressable>
                 ) : (
-                  <Badge
-                  variant="subtle"
-                  colorScheme={getColorScheme(order.status)} // Set color based on status
-                  p={3}
-                  rounded="md"
-                >
-                  {order.status}
-                </Badge>
+                  <Pressable onPress={() => handleOrderPress(order)}>
+                    <HStack
+                      key={order.id}
+                      space={4}
+                      justifyContent="space-between"
+                      alignItems="center"
+                      bg={Colors.deepGray}
+                      py={5}
+                      px={2}
+                    >
+                      <Text fontSize={15} color={Colors.blue} isTruncated>
+                        {order.vnp_TxnRef}
+                      </Text>
+                      <Badge variant="subtle" colorScheme={getColorScheme(order.status)} p={3} rounded="md">
+                        {order.status}
+                      </Badge>
+                      <Text fontSize={15} italic color={Colors.black} isTruncated>
+                        {new Date(order.paymentDateTime * 1000).toLocaleDateString()}
+                      </Text>
+                      <Button
+                        px={7}
+                        py={1.5}
+                        rounded={50}
+                        bg={order.totalPrice > 0 ? Colors.main : Colors.red}
+                        _text={{
+                          color: Colors.white,
+                        }}
+                        _pressed={{
+                          bg: order.totalPrice > 0 ? Colors.main : Colors.red,
+                        }}
+                      >
+                        <Text>{order.totalPrice.toLocaleString("en-US")} VND</Text>
+                      </Button>
+                    </HStack>
+                  </Pressable>
                 )}
-                <Text fontSize={15} italic color={Colors.black} isTruncated>
-                  {new Date(order.paymentDateTime * 1000).toLocaleDateString()}
-                </Text>
-                <Button
-                  px={7}
-                  py={1.5}
-                  rounded={50}
-                  bg={order.totalPrice > 0 ? Colors.main : Colors.red}
-                  _text={{
-                    color: Colors.white,
-                  }}
-                  _pressed={{
-                    bg: order.totalPrice > 0 ? Colors.main : Colors.red,
-                  }}
-                >
-                  <Text>
-                    {order.totalPrice.toLocaleString("en-US")} VND
-                  </Text>
-                </Button>
-              </HStack>
-            </Pressable>
-          ))
+                {index !== orders.length - 1 && (
+                  <Box height={0.2} bg={Colors.gray} mx={2} my={1} />
+                )}
+              </React.Fragment>
+            ))
         )}
       </ScrollView>
+      <Modal visible={modalVisible} animationType="slide" transparent>
+        <Box flex={1} justifyContent="center" alignItems="center" bg="rgba(0, 0, 0, 0.5)">
+          <Box bg={Colors.white} p={4} width="80%" borderRadius={8}>
+            {selectedOrder && (
+              <>
+                {selectedOrder.orderDetail.map((detail) => (
+                  <HStack key={detail.productId} justifyContent="space-between" py={2}>
+                    <Image
+                      source={{ uri: detail.productImage }}
+                      alt={detail.productName}
+                      w={50}
+                      h={50}
+                      resizeMode="contain"
+                      borderRadius={8}
+                    />
+                    <VStack w="50%" px={2} space={2}>
+                      <Text color={Colors.black} bold fontSize={12}>
+                        {detail.productName}
+                      </Text>
+                    </VStack>
+                    <HStack alignItems="center">
+                      <Button
+                        bg={Colors.main}
+                        _pressed={{ bg: Colors.main }}
+                        _text={{
+                          color: Colors.white,
+                        }}
+                      >
+                        {detail.quantity}
+                      </Button>
+                    </HStack>
+                  </HStack>
+                ))}
+                <Button onPress={closeModal} mt={4}>
+                  Close
+                </Button>
+              </>
+            )}
+          </Box>
+        </Box>
+      </Modal>
     </Box>
   );
 };
