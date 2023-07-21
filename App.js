@@ -6,6 +6,7 @@ import RegisterScreen from "./src/Screens/RegisterScreen";
 import OrderScreen from "./src/Screens/OrderScreen";
 import BottomNav from "./src/Navigations/BottomNav";
 import { LogBox } from "react-native";
+import SingleProductScreen from "./src/Screens/SingleProductScreen";
 
 LogBox.ignoreAllLogs(true);
 
@@ -22,10 +23,11 @@ export default function App() {
             headerShown: false,
           }}
         >
+          <Stack.Screen name="Bottom" component={BottomNav} />
+          <Stack.Screen name="Single" component={SingleProductScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} />
           <Stack.Screen name="order" component={OrderScreen} />
-          <Stack.Screen name="Bottom" component={BottomNav} />
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>
