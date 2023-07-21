@@ -161,7 +161,7 @@ const Products = () => {
       "https://64b7e5bb21b9aa6eb0793cc6.mockapi.io/api/products",
       {
         name: newProductName,
-        image: newProductImage,
+        image: photoApi,
         category: newProductCategory,
         gender: selectedGender,
         description: Description,

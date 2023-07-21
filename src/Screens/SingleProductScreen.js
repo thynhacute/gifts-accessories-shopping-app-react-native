@@ -24,6 +24,8 @@ function SingleProductScreen({ route, navigation }) {
   const previewData = preview?.filter(
     (re) => re?.idProduct === chosenProduct?.id
   );
+  console.log(previewData?.length);
+
   const nativeNavigation = useNavigation();
 
   useEffect(() => {
