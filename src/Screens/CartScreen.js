@@ -114,7 +114,7 @@ function CartScreen({ route }) {
 
   const handlePaymentButtonPress = async () => {
     try {
-      const response = await axios.post('http://172.17.223.113:8080/payment/createPayment', {
+      const response = await axios.post('http://26.73.188.74:8080/payment/createPayment', {
         backCode: 'VNBANK',
         amountParam: calculateTotal(),
       });
@@ -133,6 +133,23 @@ function CartScreen({ route }) {
 
         try {
           const paymentResponse = await axios.post('https://64b7e2fd21b9aa6eb079381c.mockapi.io/orders', paymentData);
+          try{
+            const productsFromAPI = await fetchProductsFromAPI();
+            const updatedProductQuantities = cartItems.map((item) => {
+              const product = productsFromAPI.find((p) => p.id === item.product.id);
+              if (product) {
+                // Tính toán số lượng còn lại sau khi mua hàng
+                const remainingQuantity = product.countInStock - item.quantity;
+    
+                // Sử dụng API PUT để cập nhật lại số lượng sản phẩm trên server
+                updateProductQuantityOnServer(item.product.id, remainingQuantity);
+              }
+    
+              return item;
+            });
+          }catch(error){
+            console.log('Error put data of products to the mock API:', error);
+          }
           setCartItems([]);
         } catch (error) {
           console.log('Error adding payment data to the mock API:', error);
@@ -146,7 +163,24 @@ function CartScreen({ route }) {
       console.log('Error:', error.message);
     }
   };
-
+  const fetchProductsFromAPI = async () => {
+    try {
+      const response = await axios.get('https://64b7e5bb21b9aa6eb0793cc6.mockapi.io/api/products');
+      return response.data;
+    } catch (error) {
+      console.log('Error fetching products from API:', error);
+      return [];
+    }
+  };
+  
+  // Hàm gọi API PUT để cập nhật lại số lượng sản phẩm trên server
+  const updateProductQuantityOnServer = async (productId, quantity) => {
+    try {
+      await axios.put(`https://64b7e5bb21b9aa6eb0793cc6.mockapi.io/api/products/${productId}`, { countInStock: quantity });
+    } catch (error) {
+      console.log('Error updating product quantity on server:', error);
+    }
+  };
 
   return (
     <Box flex={1} safeAreaTop bg={Colors.subGreen}>
