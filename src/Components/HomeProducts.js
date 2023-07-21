@@ -116,7 +116,7 @@ function HomeProducts() {
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [isGenderDropdownOpen, setIsGenderDropdownOpen] = useState(false);
   const [isPriceRangeVisible, setIsPriceRangeVisible] = useState(false);
-  const [priceRange, setPriceRange] = useState([0, 10000000]);
+  const [priceRange, setPriceRange] = useState([0, 2000000]);
 
   const toggleCategoryDropdown = () => {
     setIsCategoryDropdownOpen(!isCategoryDropdownOpen);
@@ -406,6 +406,7 @@ function HomeProducts() {
           direction="row"
           justifyContent="space-between"
           px={6}
+          paddingBottom={300}
         >
           {filteredProducts.map((product) => (
             <Pressable
