@@ -1,6 +1,6 @@
 const products = [
   {
-    _id: "1",
+    id: "1",
     name: "Hộp đựng bút hình thùng rác",
     image: "https://cf.shopee.vn/file/be41fe7f99a4d05af48452fd36da3011",
     caterogy: "",
@@ -15,7 +15,7 @@ const products = [
     category: "Đồ dùng học tập",
   },
   {
-    _id: "2",
+    id: "2",
     name: "Sticker trang trí phòng hoạt hình",
     image: "https://cf.shopee.vn/file/3796010415b94587f9a95b92cf4ebece",
     description:
@@ -28,7 +28,7 @@ const products = [
     category: "Đồ trang trí",
   },
   {
-    _id: "3",
+    id: "3",
     name: "Túi đụng bút hình con thỏ",
     image:
       "https://filebroker-cdn.lazada.vn/kf/Sab46e1a1de2f4c47a68ea1a181cfaaeeV.jpg",
@@ -42,7 +42,7 @@ const products = [
     category: "Đồ dùng học tập",
   },
   {
-    _id: "4",
+    id: "4",
     name: "Balo xinh xắn màu hồng",
     image: "https://baloxinh.vn/wp-content/uploads/2021/09/balo-mau-hong.jpg",
     description:
@@ -55,7 +55,7 @@ const products = [
     category: "Đồ dùng học tập",
   },
   {
-    _id: "5",
+    id: "5",
     name: "Ốp lưng Iphone 11 hình quả Đào",
     image: "https://cf.shopee.vn/file/0992d94596530d5e7f77f6a1134991b8",
     description:
@@ -68,7 +68,7 @@ const products = [
     category: "Phụ kiện trang trí",
   },
   {
-    _id: "6",
+    id: "6",
     name: "Loa Bluetooth thông minh Divoom Ditoo Plus",
     image:
       "https://bizweb.dktcdn.net/100/450/808/products/aff5a433-702e-4cde-81eb-670bce500c95.jpg?v=1664936103533",
@@ -82,7 +82,7 @@ const products = [
     category: "Đồ điện tử",
   },
   {
-    _id: "7",
+    id: "7",
     name: "Bàn phím N520 (Pink)",
     image:
       "https://down-vn.img.susercontent.com/file/0f8772fd6c51a57f81e11eef8b40125f",
@@ -96,7 +96,7 @@ const products = [
     category: "Đồ điện tử",
   },
   {
-    _id: "8",
+    id: "8",
     name: "Bình Nước Thủy Tinh Màu Hồng Cute",
     image:
       "https://vn-test-11.slatic.net/p/828213a69fa1bb12124bbb667851f6f2.jpg",
@@ -110,7 +110,7 @@ const products = [
     category: "Phụ kiện khác",
   },
   {
-    _id: "9",
+    id: "9",
     name: "Giày trượt patin có đèn LED cho trẻ em",
     image:
       "https://m.media-amazon.com/images/I/61yvMhFKm6L.__AC_SX300_SY300_QL70_ML2_.jpg",
@@ -124,7 +124,7 @@ const products = [
     category: "Phụ kiện khác",
   },
   {
-    _id: "10",
+    id: "10",
     name: "Tai nghe E-Dra EH412 Pro Pink led RGB",
     image: "https://cf.shopee.vn/file/78345eb09f934156073cec68a79e54cb",
     description:
@@ -137,7 +137,7 @@ const products = [
     category: "Đồ điện tử",
   },
   {
-    _id: "11",
+    id: "11",
     name: "Tai nghe khử tiếng ồn Bose Headphone",
     image:
       "https://antien.vn/uploaded/Bose%20Headphone%20700/tai-nghe-bose-noise-cancelling-headphones-700.jpg",
@@ -151,7 +151,7 @@ const products = [
     category: "Đồ điện tử",
   },
   {
-    _id: "12",
+    id: "12",
     name: "Bình nước giữ nhiệt Shamoshu 1L",
     image:
       "https://www.clgvietnam.com/uploads/shops/2019_01/1521470683-binh-giu-nhiet-shamoshu-1l-mau-den.jpg",
@@ -165,7 +165,7 @@ const products = [
     category: "Phụ kiện khác",
   },
   {
-    _id: "13",
+    id: "13",
     name: "Bàn phím cơ P240",
     image:
       "https://kenhtinhoc.vn/wp-content/uploads/2022/02/ban-phim-co-p240-7.jpg",
@@ -179,7 +179,7 @@ const products = [
     category: "Đồ điện tử",
   },
   {
-    _id: "14",
+    id: "14",
     name: "Ốp Lưng Tpu Silicone In Hình Độc Đáo",
     image: "https://cf.shopee.vn/file/339f60be434bbb962babfc2ef08fda5a",
     description:
@@ -192,7 +192,7 @@ const products = [
     category: "Phụ kiện trang trí",
   },
   {
-    _id: "15",
+    id: "15",
     name: "Balo nam cao cấp màu đen trơn premium",
     image: "https://cf.shopee.vn/file/1286ef5b358a6a5571e0a3505af2c526",
     description:
@@ -205,7 +205,7 @@ const products = [
     category: "Đồ dùng học tập",
   },
   // {
-  //   _id: "15",
+  //   id: "15",
   //   name: "Sesame Street Unisex-Child ELMO Puppet Slipper",
   //   image:
   //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/10_kglqts.png",
@@ -217,7 +217,7 @@ const products = [
   //   numReviews: 3,
   // },
   // {
-  //   _id: "16",
+  //   id: "16",
   //   name: "Lace Casual Boots For Boys & Girls  (Tan)",
   //   image:
   //     "https://res.cloudinary.com/zpune/image/upload/v1644396427/random/7_mgja42.png",
@@ -229,7 +229,7 @@ const products = [
   //   numReviews: 9,
   // },
   // {
-  //   _id: "17",
+  //   id: "17",
   //   name: "Lace Walking Shoes For Boys & Girls  (Pink)",
   //   image:
   //     "https://res.cloudinary.com/zpune/image/upload/v1644396422/random/5_t573vi.png",
@@ -241,7 +241,7 @@ const products = [
   //   numReviews: 2,
   // },
   // {
-  //   _id: "18",
+  //   id: "18",
   //   name: "Women Red Heels Sandal",
   //   image:
   //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/6_rowzeu.png",
@@ -253,7 +253,7 @@ const products = [
   //   numReviews: 0,
   // },
   // {
-  //   _id: "19",
+  //   id: "19",
   //   name: "Velcro Ballerinas For Girls (Pink)",
   //   image:
   //     "https://res.cloudinary.com/zpune/image/upload/v1644396418/random/11_dzj0un.png",
@@ -265,7 +265,7 @@ const products = [
   //   numReviews: 4,
   // },
   // {
-  //   _id: "20",
+  //   id: "20",
   //   name: "Velcro Sneakers For Boys & Girls  (Blue)",
   //   image:
   //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/1_fiq56t.png",
@@ -277,7 +277,7 @@ const products = [
   //   numReviews: 2,
   // },
   // {
-  //   _id: "21",
+  //   id: "21",
   //   name: "Velcro Ballerinas For Girls (Pink)",
   //   image:
   //     "https://res.cloudinary.com/zpune/image/upload/v1644396418/random/11_dzj0un.png",
@@ -289,7 +289,7 @@ const products = [
   //   numReviews: 4,
   // },
   // {
-  //   _id: "22",
+  //   id: "22",
   //   name: "Velcro Sneakers For Boys & Girls  (Blue)",
   //   image:
   //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/1_fiq56t.png",
@@ -301,7 +301,7 @@ const products = [
   //   numReviews: 2,
   // },
   // {
-  //   _id: "23",
+  //   id: "23",
   //   name: "Sesame Street Unisex-Child ELMO Puppet Slipper",
   //   image:
   //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/10_kglqts.png",
@@ -313,7 +313,7 @@ const products = [
   //   numReviews: 3,
   // },
   // {
-  //   _id: "24",
+  //   id: "24",
   //   name: "Lace Casual Boots For Boys & Girls  (Tan)",
   //   image:
   //     "https://res.cloudinary.com/zpune/image/upload/v1644396427/random/7_mgja42.png",
@@ -325,7 +325,7 @@ const products = [
   //   numReviews: 9,
   // },
   // {
-  //   _id: "25",
+  //   id: "25",
   //   name: "Lace Walking Shoes For Boys & Girls  (Pink)",
   //   image:
   //     "https://res.cloudinary.com/zpune/image/upload/v1644396422/random/5_t573vi.png",
@@ -337,7 +337,7 @@ const products = [
   //   numReviews: 2,
   // },
   // {
-  //   _id: "26",
+  //   id: "26",
   //   name: "Women Red Heels Sandal",
   //   image:
   //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/6_rowzeu.png",
@@ -349,7 +349,7 @@ const products = [
   //   numReviews: 0,
   // },
   // {
-  //   _id: "27",
+  //   id: "27",
   //   name: "Velcro Ballerinas For Girls (Pink)",
   //   image:
   //     "https://res.cloudinary.com/zpune/image/upload/v1644396418/random/11_dzj0un.png",
@@ -361,7 +361,7 @@ const products = [
   //   numReviews: 4,
   // },
   // {
-  //   _id: "28",
+  //   id: "28",
   //   name: "Velcro Sneakers For Boys & Girls  (Blue)",
   //   image:
   //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/1_fiq56t.png",
@@ -373,7 +373,7 @@ const products = [
   //   numReviews: 2,
   // },
   // {
-  //   _id: "29",
+  //   id: "29",
   //   name: "Sesame Street Unisex-Child ELMO Puppet Slipper",
   //   image:
   //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/10_kglqts.png",
@@ -385,7 +385,7 @@ const products = [
   //   numReviews: 3,
   // },
   // {
-  //   _id: "30",
+  //   id: "30",
   //   name: "Lace Casual Boots For Boys & Girls  (Tan)",
   //   image:
   //     "https://res.cloudinary.com/zpune/image/upload/v1644396427/random/7_mgja42.png",
@@ -397,7 +397,7 @@ const products = [
   //   numReviews: 9,
   // },
   // {
-  //   _id: "31",
+  //   id: "31",
   //   name: "Lace Walking Shoes For Boys & Girls  (Pink)",
   //   image:
   //     "https://res.cloudinary.com/zpune/image/upload/v1644396422/random/5_t573vi.png",
@@ -409,7 +409,7 @@ const products = [
   //   numReviews: 2,
   // },
   // {
-  //   _id: "32",
+  //   id: "32",
   //   name: "Women Red Heels Sandal",
   //   image:
   //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/6_rowzeu.png",
@@ -421,7 +421,7 @@ const products = [
   //   numReviews: 0,
   // },
   // {
-  //   _id: "33",
+  //   id: "33",
   //   name: "Velcro Ballerinas For Girls (Pink)",
   //   image:
   //     "https://res.cloudinary.com/zpune/image/upload/v1644396418/random/11_dzj0un.png",
@@ -433,7 +433,7 @@ const products = [
   //   numReviews: 4,
   // },
   // {
-  //   _id: "34",
+  //   id: "34",
   //   name: "Velcro Sneakers For Boys & Girls  (Blue)",
   //   image:
   //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/1_fiq56t.png",
@@ -445,7 +445,7 @@ const products = [
   //   numReviews: 2,
   // },
   // {
-  //   _id: "35",
+  //   id: "35",
   //   name: "Sesame Street Unisex-Child ELMO Puppet Slipper",
   //   image:
   //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/10_kglqts.png",
@@ -457,7 +457,7 @@ const products = [
   //   numReviews: 3,
   // },
   // {
-  //   _id: "36",
+  //   id: "36",
   //   name: "Lace Casual Boots For Boys & Girls  (Tan)",
   //   image:
   //     "https://res.cloudinary.com/zpune/image/upload/v1644396427/random/7_mgja42.png",
@@ -469,7 +469,7 @@ const products = [
   //   numReviews: 9,
   // },
   // {
-  //   _id: "37",
+  //   id: "37",
   //   name: "Lace Walking Shoes For Boys & Girls  (Pink)",
   //   image:
   //     "https://res.cloudinary.com/zpune/image/upload/v1644396422/random/5_t573vi.png",
@@ -481,7 +481,7 @@ const products = [
   //   numReviews: 2,
   // },
   // {
-  //   _id: "38",
+  //   id: "38",
   //   name: "Women Red Heels Sandal",
   //   image:
   //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/6_rowzeu.png",
@@ -493,7 +493,7 @@ const products = [
   //   numReviews: 0,
   // },
   // {
-  //   _id: "39",
+  //   id: "39",
   //   name: "Velcro Ballerinas For Girls (Pink)",
   //   image:
   //     "https://res.cloudinary.com/zpune/image/upload/v1644396418/random/11_dzj0un.png",
@@ -505,7 +505,7 @@ const products = [
   //   numReviews: 4,
   // },
   // {
-  //   _id: "40",
+  //   id: "40",
   //   name: "Velcro Sneakers For Boys & Girls  (Blue)",
   //   image:
   //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/1_fiq56t.png",
