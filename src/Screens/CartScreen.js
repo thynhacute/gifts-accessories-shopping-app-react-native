@@ -114,7 +114,7 @@ function CartScreen({ route }) {
 
   const handlePaymentButtonPress = async () => {
     try {
-      const response = await axios.post('http://26.73.188.74:8080/payment/createPayment', {
+      const response = await axios.post('http://172.17.223.113:8080/payment/createPayment', {
         backCode: 'VNBANK',
         amountParam: calculateTotal(),
       });

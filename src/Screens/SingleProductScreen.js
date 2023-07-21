@@ -173,7 +173,7 @@ function SingleProductScreen({ route, navigation }) {
         </View>
         <Rating
           value={chosenProduct.rating}
-          text={`${previewData?.length} reviews`}
+          text={`${chosenProduct.numReviews} reviews`}
         />
         <View style={styles.priceContainer}>
           {chosenProduct.countInStock > 0 ? (

@@ -18,10 +18,10 @@ import axios from "axios";
 import AuthContext from "../AuthContext/AuthContext";
 
 function LoginScreen() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("hoangtammht@gmail.com");
+  const [password, setPassword] = useState("1");
   const navigation = useNavigation();
-  const { fetchAllData } = React.useContext(AuthContext);
+  // const { fetchAllData } = React.useContext(AuthContext);
   const handleLogin = async () => {
     if (email.trim() === "" || password.trim() === "") {
       alert("Please enter email and password");
@@ -41,7 +41,7 @@ function LoginScreen() {
         alert("Account not found. Please register or check your credentials.");
         return;
       }
-      fetchAllData();
+      // fetchAllData();
       if (foundUser.password === password) {
         if (foundUser.roleName === "User") {
           AsyncStorage.setItem("user", JSON.stringify(foundUser));
@@ -49,7 +49,6 @@ function LoginScreen() {
         } else if (foundUser.roleName === "Admin") {
           AsyncStorage.setItem("admin", JSON.stringify(foundUser))
           navigation.navigate("Admin");
-          alert("Admin accounts are not allowed to log in.");
         } else if (foundUser.roleName === "Employee") {
           navigation.navigate("BottomTab");
         } else {
