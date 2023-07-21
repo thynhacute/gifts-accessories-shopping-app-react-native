@@ -122,13 +122,21 @@ function CartScreen({ route }) {
       if (response.data.code === '00') {
         const paymentUrl = response.data.url;
         Linking.openURL(paymentUrl);
+
+        const orderDetail = cartItems.map((item) => ({
+          productId: item.product._id,
+          productImage: item.product.image,
+          productName: item.product.name,
+          quantity: item.quantity,
+        }));
   
         const paymentData = {
           userID: user.id,
           bankCode: response.data.bankCode,
           totalPrice: calculateTotal(),
           vnp_TxnRef: response.data.vnp_TxnRef,
-          status: "Waiting"
+          status: "Waiting",
+          orderDetail: orderDetail
         };
   
         try {
