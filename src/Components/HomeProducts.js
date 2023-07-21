@@ -21,12 +21,14 @@ import Colors from "../color";
 import Rating from "./Rating";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import axios from "axios";
+import { useFocusEffect } from "@react-navigation/native";
 
 function HomeProducts() {
   const [favData, setFavData] = useState([]);
   const [scaleValue, setScaleValue] = useState(new Animated.Value(1));
   const navigation = useNavigation();
   const isFocused = useIsFocused();
+  const [shouldReloadData, setShouldReloadData] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
   const [products, setProducts] = useState([]);
@@ -45,7 +47,7 @@ function HomeProducts() {
       console.log("Error fetching products:", error);
     }
   };
-
+  
   const [cartItemCount, setCartItemCount] = useState(0);
 
   const check = useIsFocused();

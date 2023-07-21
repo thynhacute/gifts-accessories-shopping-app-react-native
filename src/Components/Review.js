@@ -21,16 +21,18 @@ import {TouchableOpacity,View,KeyboardAvoidingView,Platform} from 'react-native'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
-export default function Review({ productId }) {
+export default function Review({ productId, onReviewPosted }  ) {
   const [ratings, setRatings] = useState("");
   const [reviews, setReviews] = useState([]);
   const [filteredReviews, setFilteredReviews] = useState([]);
   const [users, setUsers] = useState({});
   const [comment, setComment] = useState("");
   const [starRating, setStarRating] = useState(0);
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
     fetchData();
+    loadUserData();
   }, []);
 
   useEffect(() => {
@@ -46,6 +48,7 @@ export default function Review({ productId }) {
       if (userData) {
         const parsedUser = JSON.parse(userData);
         setUsers(parsedUser);
+        setCurrentUser(parsedUser);
       }
     } catch (error) {
       console.error("Error loading user data from AsyncStorage:", error);
@@ -94,14 +97,15 @@ export default function Review({ productId }) {
       setComment("");
       setStarRating(0);
 
-      const newNumReviews = reviews.length + 1; // Số người review mới sẽ là tổng số reviews sau khi thêm mới
-      const newRating = calculateAverageRating([...reviews, newReview]);
+      const newNumReviews = filteredReviews.length + 1; // Số người review mới sẽ là tổng số reviews sau khi thêm mới
+      const newRating = calculateAverageRating([...filteredReviews, newReview]);
 
       const updatedProductInfo = {
         numReviews: newNumReviews,
         rating: newRating,
       };
       await updateProductInfo(productId, updatedProductInfo);
+      onReviewPosted();
     } catch (error) {
       console.error("Error posting review:", error);
     }
@@ -153,9 +157,11 @@ export default function Review({ productId }) {
   const renderReviewWithAuthor = (review) => {
     const author = users[review.idUser] || {}; // Lấy thông tin người dùng từ state users
     const authorName = author.fullName || "Unknown"; // Lấy tên tác giả từ thông tin người dùng
+    const isCurrentUserReview = currentUser && review.idUser === currentUser.id;
+    console.log(isCurrentUserReview)
     return (
       <Box key={review.id} p={3} bg={Colors.pink} mt={5} rounded={5}>
-        <Heading fontSize={15} color={Colors.black}>
+        <Heading fontSize={15} color={isCurrentUserReview ? Colors.blue : Colors.black}>
           {authorName} {/* Hiển thị tên tác giả */}
         </Heading>
         <Rating value={parseInt(review.rating)} /> {/* Hiển thị rating của review */}
