@@ -8,6 +8,7 @@ import BottomNav from "./src/Navigations/BottomNav";
 import AdminScreen from "./src/Admin/AdminScreen";
 import { LogBox } from "react-native";
 import BottomTab from "./src/Employee/BottomTab";
+import Orders from "./src/Employee/Orders";
 import { AuthProvider } from "./src/AuthContext/AuthContext";
 import SingleProductScreen from "./src/Screens/SingleProductScreen.js";
 
@@ -32,6 +33,7 @@ export default function App() {
           <Stack.Screen name="order" component={OrderScreen} />
           <Stack.Screen name="Bottom" component={BottomNav} />
           <Stack.Screen name="BottomTab" component={BottomTab} />
+          <Stack.Screen name="Orders" component={Orders} />
           <Stack.Screen name="Admin" component={AdminScreen} />
         </Stack.Navigator>
       </NavigationContainer>

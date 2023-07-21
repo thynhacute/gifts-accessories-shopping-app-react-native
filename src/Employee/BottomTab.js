@@ -1,12 +1,18 @@
-import { View, Text, StyleSheet,TextInput } from "react-native";
+import { View, Text, StyleSheet, TextInput } from "react-native";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { FontAwesome5, MaterialCommunityIcons, Entypo, AntDesign } from "@expo/vector-icons";
+import {
+  FontAwesome5,
+  MaterialCommunityIcons,
+  Entypo,
+  AntDesign,
+} from "@expo/vector-icons";
 import Colors from "../color";
 import Products from "./Products";
 import Orders from "./Orders";
+import Logout from "./Logout";
 import { Center, Pressable } from "native-base";
-import {Button } from 'react-native-paper';
+import { Button } from "react-native-paper";
 
 const Tab = createBottomTabNavigator();
 
@@ -27,7 +33,11 @@ const BottomTab = () => {
           tabBarIcon: ({ focused }) => (
             <Center>
               {focused ? (
-                <MaterialCommunityIcons name="home" size={24} color={Colors.main} />
+                <MaterialCommunityIcons
+                  name="home"
+                  size={24}
+                  color={Colors.main}
+                />
               ) : (
                 <AntDesign name="home" size={24} color={Colors.black} />
               )}
@@ -38,6 +48,21 @@ const BottomTab = () => {
       <Tab.Screen
         name="Orders"
         component={Orders}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <Center>
+              {focused ? (
+                <FontAwesome5 name="heart" size={24} color={Colors.main} />
+              ) : (
+                <Entypo name="heart" size={24} color={Colors.black} />
+              )}
+            </Center>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Logout"
+        component={Logout}
         options={{
           tabBarIcon: ({ focused }) => (
             <Center>
