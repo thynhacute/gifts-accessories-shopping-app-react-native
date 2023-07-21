@@ -1,16 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
-import {
-  Box,
-  Heading,
-  ScrollView,
-  View,
-  Text,
-  Image,
-} from "native-base";
-import {
-  TouchableWithoutFeedback,
-  Animated,
-} from "react-native";
+import { Box, Heading, ScrollView, View, Text, Image } from "native-base";
+import { TouchableWithoutFeedback, Animated } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import NumericInput from "react-native-numeric-input";
 import Colors from "../color";
@@ -171,10 +161,7 @@ function SingleProductScreen({ route, navigation }) {
           </Heading>
           <TouchableWithoutFeedback onPress={animatedButton}>
             <Animated.View
-              style={[
-                styles.heartIcon,
-                { transform: [{ scale: scaleValue }] },
-              ]}
+              style={[styles.heartIcon, { transform: [{ scale: scaleValue }] }]}
             >
               {favData.includes(getProductId) ? (
                 <Ionicons name="heart" size={23} color="#F20800" />
@@ -186,7 +173,7 @@ function SingleProductScreen({ route, navigation }) {
         </View>
         <Rating
           value={chosenProduct.rating}
-          text={`${chosenProduct.numReviews} reviews`}
+          text={`${previewData?.length} reviews`}
         />
         <View style={styles.priceContainer}>
           {chosenProduct.countInStock > 0 ? (

@@ -113,7 +113,7 @@ const products = [
     id: "9",
     name: "Giày trượt patin có đèn LED cho trẻ em",
     image:
-      "https://m.media-amazon.com/images/I/61yvMhFKm6L.__AC_SX300_SY300_QL70_ML2_.jpg",
+      "https://m.media-amazon.com/images/I/61yvMhFKm6L.ACSX300SY300QL70ML2.jpg",
     description:
       "Đa chức năng: Bạn có thể cuộn nó lại bằng nút ở gót chân để hiển thị cửa sổ bật lên. Vì bạn có thể sử dụng cả giày trượt patin và giày thể thao thông thường Đế: Giày patin tổng hợp được thiết kế có công tắc điều khiển bật/tắt đèn để có thể mang như giày thông thường vào ban ngày. Đèn nháy khi giấu bên trong giày. Giày phát sáng có đèn LED có thể sạc lại Chất liệu bánh xe: PU Loại bánh xe: Bánh đôi Khi cần sử dụng giày thể thao, bạn có thể tháo bánh trước ra, bánh sau có thể thu vào. Đèn LED chống nước, rung nhấp nháy",
     price: 1700000,
@@ -154,7 +154,7 @@ const products = [
     id: "12",
     name: "Bình nước giữ nhiệt Shamoshu 1L",
     image:
-      "https://www.clgvietnam.com/uploads/shops/2019_01/1521470683-binh-giu-nhiet-shamoshu-1l-mau-den.jpg",
+      "https://www.clgvietnam.com/uploads/shops/201901/1521470683-binh-giu-nhiet-shamoshu-1l-mau-den.jpg",
     description:
       "Bình Giữ Nhiệt Shamoshu 1L (Màu Đen)​ là bình nước giữ nhiệt  lạnh từ 5 đến 15 độ C, thuộc công ty Shamoshu nổi tiếng Nhật Bản. Thermos là thương hiệu lâu đời hình thành vào năm 1904 tại Nhật Bản, được khẳng định chất lượng và uy tín tại 120 quốc gia trên thế giới. Thermos không ngừng nổ lực để phát minh và cải tiến sản phẩm, nhằm đáp ứng nhu cầu người tiêu dùng và bảo vệ môi trường. Hiện tại, các nhà máy sản xuất sản phẩm Thermos có mặt ở nhiều nơi trên thế giới nhưng vẫn đảm bảo tiêu chất lượng và kiểu dáng toàn cầu.",
     price: 200000,
@@ -208,7 +208,7 @@ const products = [
   //   id: "15",
   //   name: "Sesame Street Unisex-Child ELMO Puppet Slipper",
   //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/10_kglqts.png",
+  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/10kglqts.png",
   //   description:
   //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
   //   price: 929,
@@ -220,7 +220,7 @@ const products = [
   //   id: "16",
   //   name: "Lace Casual Boots For Boys & Girls  (Tan)",
   //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396427/random/7_mgja42.png",
+  //     "https://res.cloudinary.com/zpune/image/upload/v1644396427/random/7mgja42.png",
   //   description:
   //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
   //   price: 399,
@@ -232,7 +232,7 @@ const products = [
   //   id: "17",
   //   name: "Lace Walking Shoes For Boys & Girls  (Pink)",
   //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396422/random/5_t573vi.png",
+  //     "https://res.cloudinary.com/zpune/image/upload/v1644396422/random/5t573vi.png",
   //   description:
   //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
   //   price: 49,
@@ -244,7 +244,7 @@ const products = [
   //   id: "18",
   //   name: "Women Red Heels Sandal",
   //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/6_rowzeu.png",
+  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/6rowzeu.png",
   //   description:
   //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
   //   price: 29,
@@ -256,7 +256,7 @@ const products = [
   //   id: "19",
   //   name: "Velcro Ballerinas For Girls (Pink)",
   //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396418/random/11_dzj0un.png",
+  //     "https://res.cloudinary.com/zpune/image/upload/v1644396418/random/11dzj0un.png",
   //   description:
   //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
   //   price: 89,
@@ -268,7 +268,7 @@ const products = [
   //   id: "20",
   //   name: "Velcro Sneakers For Boys & Girls  (Blue)",
   //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/1_fiq56t.png",
+  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/1fiq56t.png",
   //   description:
   //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
   //   price: 599,
@@ -280,7 +280,7 @@ const products = [
   //   id: "21",
   //   name: "Velcro Ballerinas For Girls (Pink)",
   //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396418/random/11_dzj0un.png",
+  //     "https://res.cloudinary.com/zpune/image/upload/v1644396418/random/11dzj0un.png",
   //   description:
   //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
   //   price: 89,
@@ -292,7 +292,7 @@ const products = [
   //   id: "22",
   //   name: "Velcro Sneakers For Boys & Girls  (Blue)",
   //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/1_fiq56t.png",
+  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/1fiq56t.png",
   //   description:
   //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
   //   price: 599,
@@ -304,7 +304,7 @@ const products = [
   //   id: "23",
   //   name: "Sesame Street Unisex-Child ELMO Puppet Slipper",
   //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/10_kglqts.png",
+  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/10kglqts.png",
   //   description:
   //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
   //   price: 929,
@@ -316,7 +316,7 @@ const products = [
   //   id: "24",
   //   name: "Lace Casual Boots For Boys & Girls  (Tan)",
   //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396427/random/7_mgja42.png",
+  //     "https://res.cloudinary.com/zpune/image/upload/v1644396427/random/7mgja42.png",
   //   description:
   //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
   //   price: 399,
@@ -328,7 +328,7 @@ const products = [
   //   id: "25",
   //   name: "Lace Walking Shoes For Boys & Girls  (Pink)",
   //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396422/random/5_t573vi.png",
+  //     "https://res.cloudinary.com/zpune/image/upload/v1644396422/random/5t573vi.png",
   //   description:
   //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
   //   price: 49,
@@ -340,7 +340,7 @@ const products = [
   //   id: "26",
   //   name: "Women Red Heels Sandal",
   //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/6_rowzeu.png",
+  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/6rowzeu.png",
   //   description:
   //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
   //   price: 29,
@@ -352,7 +352,7 @@ const products = [
   //   id: "27",
   //   name: "Velcro Ballerinas For Girls (Pink)",
   //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396418/random/11_dzj0un.png",
+  //     "https://res.cloudinary.com/zpune/image/upload/v1644396418/random/11dzj0un.png",
   //   description:
   //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
   //   price: 89,
@@ -364,7 +364,7 @@ const products = [
   //   id: "28",
   //   name: "Velcro Sneakers For Boys & Girls  (Blue)",
   //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/1_fiq56t.png",
+  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/1fiq56t.png",
   //   description:
   //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
   //   price: 599,
@@ -376,7 +376,7 @@ const products = [
   //   id: "29",
   //   name: "Sesame Street Unisex-Child ELMO Puppet Slipper",
   //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/10_kglqts.png",
+  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/10kglqts.png",
   //   description:
   //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
   //   price: 929,
@@ -388,7 +388,7 @@ const products = [
   //   id: "30",
   //   name: "Lace Casual Boots For Boys & Girls  (Tan)",
   //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396427/random/7_mgja42.png",
+  //     "https://res.cloudinary.com/zpune/image/upload/v1644396427/random/7mgja42.png",
   //   description:
   //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
   //   price: 399,
@@ -400,7 +400,7 @@ const products = [
   //   id: "31",
   //   name: "Lace Walking Shoes For Boys & Girls  (Pink)",
   //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396422/random/5_t573vi.png",
+  //     "https://res.cloudinary.com/zpune/image/upload/v1644396422/random/5t573vi.png",
   //   description:
   //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
   //   price: 49,
@@ -412,7 +412,7 @@ const products = [
   //   id: "32",
   //   name: "Women Red Heels Sandal",
   //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/6_rowzeu.png",
+  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/6rowzeu.png",
   //   description:
   //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
   //   price: 29,
@@ -424,7 +424,7 @@ const products = [
   //   id: "33",
   //   name: "Velcro Ballerinas For Girls (Pink)",
   //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396418/random/11_dzj0un.png",
+  //     "https://res.cloudinary.com/zpune/image/upload/v1644396418/random/11dzj0un.png",
   //   description:
   //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
   //   price: 89,
@@ -436,7 +436,7 @@ const products = [
   //   id: "34",
   //   name: "Velcro Sneakers For Boys & Girls  (Blue)",
   //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/1_fiq56t.png",
+  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/1fiq56t.png",
   //   description:
   //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
   //   price: 599,
@@ -448,7 +448,7 @@ const products = [
   //   id: "35",
   //   name: "Sesame Street Unisex-Child ELMO Puppet Slipper",
   //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/10_kglqts.png",
+  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/10kglqts.png",
   //   description:
   //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
   //   price: 929,
@@ -460,7 +460,7 @@ const products = [
   //   id: "36",
   //   name: "Lace Casual Boots For Boys & Girls  (Tan)",
   //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396427/random/7_mgja42.png",
+  //     "https://res.cloudinary.com/zpune/image/upload/v1644396427/random/7mgja42.png",
   //   description:
   //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
   //   price: 399,
@@ -472,7 +472,7 @@ const products = [
   //   id: "37",
   //   name: "Lace Walking Shoes For Boys & Girls  (Pink)",
   //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396422/random/5_t573vi.png",
+  //     "https://res.cloudinary.com/zpune/image/upload/v1644396422/random/5t573vi.png",
   //   description:
   //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
   //   price: 49,
@@ -484,7 +484,7 @@ const products = [
   //   id: "38",
   //   name: "Women Red Heels Sandal",
   //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/6_rowzeu.png",
+  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/6rowzeu.png",
   //   description:
   //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
   //   price: 29,
@@ -496,7 +496,7 @@ const products = [
   //   id: "39",
   //   name: "Velcro Ballerinas For Girls (Pink)",
   //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396418/random/11_dzj0un.png",
+  //     "https://res.cloudinary.com/zpune/image/upload/v1644396418/random/11dzj0un.png",
   //   description:
   //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
   //   price: 89,
@@ -508,7 +508,7 @@ const products = [
   //   id: "40",
   //   name: "Velcro Sneakers For Boys & Girls  (Blue)",
   //   image:
-  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/1_fiq56t.png",
+  //     "https://res.cloudinary.com/zpune/image/upload/v1644396419/random/1fiq56t.png",
   //   description:
   //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
   //   price: 599,

@@ -7,6 +7,8 @@ import OrderScreen from "./src/Screens/OrderScreen";
 import BottomNav from "./src/Navigations/BottomNav";
 import AdminScreen from "./src/Admin/AdminScreen";
 import { LogBox } from "react-native";
+import BottomTab from "./src/Employee/BottomTab";
+import { AuthProvider } from "./src/AuthContext/AuthContext";
 
 LogBox.ignoreAllLogs(true);
 
