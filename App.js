@@ -9,7 +9,7 @@ import AdminScreen from "./src/Admin/AdminScreen";
 import { LogBox } from "react-native";
 import BottomTab from "./src/Employee/BottomTab";
 import { AuthProvider } from "./src/AuthContext/AuthContext";
-import SingleProductScreen from './src/Screens/SingleProductScreen.js'
+import SingleProductScreen from "./src/Screens/SingleProductScreen.js";
 
 LogBox.ignoreAllLogs(true);
 
@@ -31,6 +31,7 @@ export default function App() {
           <Stack.Screen name="Register" component={RegisterScreen} />
           <Stack.Screen name="order" component={OrderScreen} />
           <Stack.Screen name="Bottom" component={BottomNav} />
+          <Stack.Screen name="BottomTab" component={BottomTab} />
           <Stack.Screen name="Admin" component={AdminScreen} />
         </Stack.Navigator>
       </NavigationContainer>
