@@ -82,21 +82,34 @@ const RevenueScreen = () => {
 
   const getMostPopularProducts = (orders) => {
     const productCounts = {};
+  
     orders.forEach((order) => {
-      order.orderDetail.forEach((detail) => {
-        const { productId, productName, quantity } = detail;
+      if (order.status !== "Done") {
+        return; // Skip orders that are not marked as "Done"
+      }
+  
+      const orderDetails = order.orderDetail;
+  
+      if (!Array.isArray(orderDetails)) {
+        console.error(`Error: Invalid order details for order ID ${order.id}`);
+        return;
+      }
+  
+      orderDetails.forEach((detail) => {
+        const { productId, productName, productImage, quantity } = detail;
         if (productCounts[productId]) {
           productCounts[productId].quantity += quantity;
         } else {
-          productCounts[productId] = { productId, productName, quantity };
+          productCounts[productId] = { productId, productName, productImage, quantity };
         }
       });
     });
-
+  
     const sortedProducts = Object.values(productCounts).sort((a, b) => b.quantity - a.quantity);
-
+  
     return sortedProducts.slice(0, 5); // Show the top 5 most popular products
   };
+  
 
   const handleOptionChange = (option) => {
     setSelectedOption(option);
@@ -134,16 +147,22 @@ const RevenueScreen = () => {
       </View>
 
       <View style={styles.popularProductsSection}>
-        <Text style={styles.sectionTitle}>Today's Most Popular Products:</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {mostPopularToday.map((product) => (
-            <View key={product.productId} style={styles.productItem}>
-              <Image source={{ uri: product.productImage }} style={styles.productImage} />
-              <Text style={styles.productName}>{product.productName}</Text>
-              <Text style={styles.productQuantity}>{`${product.quantity} sold`}</Text>
-            </View>
-          ))}
-        </ScrollView>
+        {mostPopularToday.length === 0 ? (
+          <Text style={styles.noDealsText}>No deals available for Today's Most Popular Products</Text>
+        ) : (
+          <>
+            <Text style={styles.sectionTitle}>Today's Most Popular Products:</Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              {mostPopularToday.map((product) => (
+                <View key={product.productId} style={styles.productItem}>
+                  <Image source={{ uri: product.productImage }} style={styles.productImage} />
+                  <Text style={styles.productName}>{product.productName}</Text>
+                  <Text style={styles.productQuantity}>{`${product.quantity} sold`}</Text>
+                </View>
+              ))}
+            </ScrollView>
+          </>
+        )}
 
         <Text style={styles.sectionTitle}>This Month's Most Popular Products:</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -245,6 +264,12 @@ const styles = StyleSheet.create({
   },
   productQuantity: {
     fontSize: 12,
+    color: "gray",
+  },
+  noDealsText: {
+    fontSize: 16,
+    textAlign: "center",
+    marginVertical: 20,
     color: "gray",
   },
 });
