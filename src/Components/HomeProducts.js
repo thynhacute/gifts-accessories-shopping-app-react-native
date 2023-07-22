@@ -248,13 +248,27 @@ function HomeProducts() {
           px={6}
           mt={3}
         >
-          <Button onPress={toggleCategoryDropdown} mb={2}>
+          <Button
+            style={{ backgroundColor: "#B03060" }}
+            onPress={toggleCategoryDropdown}
+            mb={2}
+          >
             {selectedCategory ? selectedCategory : "Chọn loại phụ kiện"}
           </Button>
-          <Button onPress={toggleGenderDropdown} ml={2} mb={2}>
+          <Button
+            style={{ backgroundColor: "#B03060" }}
+            onPress={toggleGenderDropdown}
+            ml={2}
+            mb={2}
+          >
             {selectedGender ? selectedGender : "Chọn giới tính"}
           </Button>
-          <Button onPress={togglePriceRange} ml={2} mb={2}>
+          <Button
+            style={{ backgroundColor: "#B03060" }}
+            onPress={togglePriceRange}
+            ml={2}
+            mb={2}
+          >
             Mức giá
           </Button>
         </Flex>
@@ -406,7 +420,7 @@ function HomeProducts() {
           direction="row"
           justifyContent="space-between"
           px={6}
-          paddingBottom={300}
+          paddingBottom={5}
         >
           {filteredProducts.map((product) => (
             <Pressable
