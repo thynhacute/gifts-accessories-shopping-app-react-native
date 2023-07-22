@@ -12,8 +12,7 @@ const Colors = {
   blue: "#3B87F9",
   underline: "#E5E5E5",
   paypal: "#FFB730",
-  pink: "#FFC0CB",
-  blue: "00008B",
+  pink: "#FFC0CB"
 };
 
 export default Colors;

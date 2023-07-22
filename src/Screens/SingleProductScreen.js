@@ -30,7 +30,10 @@ function SingleProductScreen({ route, navigation }) {
       headerShown: false,
     });
   }, [navigation, chosenProduct]);
-
+  const updateReviewData = async () => {
+    // Gọi lại hàm fetchData để cập nhật lại danh sách đánh giá và thông tin sản phẩm sau khi đánh giá mới được thêm vào
+    await fetchData();
+  };
   const fetchData = async () => {
     try {
       const response = await axios.get(
@@ -100,7 +103,6 @@ function SingleProductScreen({ route, navigation }) {
       setDataToStorage();
     }
   };
-
   const goBack = () => {
     if (nativeNavigation.canGoBack()) {
       nativeNavigation.goBack();
@@ -217,7 +219,7 @@ function SingleProductScreen({ route, navigation }) {
         >
           ADD TO CART
         </Buttone>
-        <Review productId={getProductId} />
+        <Review productId={getProductId} onReviewPosted={updateReviewData}/>
       </ScrollView>
     </Box>
   );
