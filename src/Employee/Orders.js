@@ -89,7 +89,7 @@ const Orders = () => {
               renderItem={renderItem}
               keyExtractor={(item) => item.id}
               ListHeaderComponent={
-                <Text style={styles.title}>Waiting Screen</Text>
+                <Text style={styles.title}>Đơn hàng đang chờ duyệt</Text>
               }
             />
           )}
@@ -101,7 +101,7 @@ const Orders = () => {
               renderItem={renderItem}
               keyExtractor={(item) => item.id}
               ListHeaderComponent={
-                <Text style={styles.title}>Confirm Screen</Text>
+                <Text style={styles.title}>Đơn hàng đã xác nhận</Text>
               }
             />
           )}
@@ -113,7 +113,7 @@ const Orders = () => {
               renderItem={renderItem}
               keyExtractor={(item) => item.id}
               ListHeaderComponent={
-                <Text style={styles.title}>Done Screen</Text>
+                <Text style={styles.title}>Đơn hàng đã hoàn thành</Text>
               }
             />
           )}
@@ -129,9 +129,12 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   title: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: "bold",
     marginBottom: 16,
+    marginTop: 10,
+    textAlign: "center",
+    color: "green",
   },
   productContainer: {
     backgroundColor: "#f0f0f0",

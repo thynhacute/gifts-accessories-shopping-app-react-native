@@ -6,6 +6,7 @@ import {
   MaterialCommunityIcons,
   Entypo,
   AntDesign,
+  MaterialIcons,
 } from "@expo/vector-icons";
 import Colors from "../color";
 import Products from "./Products";
@@ -13,10 +14,18 @@ import Orders from "./Orders";
 import Logout from "./Logout";
 import { Center, Pressable } from "native-base";
 import { Button } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Tab = createBottomTabNavigator();
 
-const BottomTab = () => {
+const BottomTab = (user) => {
+  const navigation = useNavigation();
+
+  const handleLogout = () => {
+    AsyncStorage.removeItem("user");
+    navigation.navigate("Login");
+  };
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -33,13 +42,9 @@ const BottomTab = () => {
           tabBarIcon: ({ focused }) => (
             <Center>
               {focused ? (
-                <MaterialCommunityIcons
-                  name="home"
-                  size={24}
-                  color={Colors.main}
-                />
+                <MaterialCommunityIcons name="home" size={24} color={"green"} />
               ) : (
-                <AntDesign name="home" size={24} color={Colors.black} />
+                <AntDesign name="home" size={24} color={"green"} />
               )}
             </Center>
           ),
@@ -52,9 +57,9 @@ const BottomTab = () => {
           tabBarIcon: ({ focused }) => (
             <Center>
               {focused ? (
-                <FontAwesome5 name="heart" size={24} color={Colors.main} />
+                <Entypo name="heart" size={24} color={"green"} />
               ) : (
-                <Entypo name="heart" size={24} color={Colors.black} />
+                <FontAwesome5 name="heart" size={24} color={"green"} />
               )}
             </Center>
           ),
@@ -62,14 +67,20 @@ const BottomTab = () => {
       />
       <Tab.Screen
         name="Logout"
-        component={Logout}
+        component={() => null}
+        listeners={{
+          tabPress: () => {
+            // Xử lý đăng xuất khi người dùng bấm vào tab "Logout"
+            handleLogout();
+          },
+        }}
         options={{
           tabBarIcon: ({ focused }) => (
             <Center>
               {focused ? (
-                <FontAwesome5 name="heart" size={24} color={Colors.main} />
+                <MaterialIcons name="logout" size={24} color={"green"} />
               ) : (
-                <Entypo name="heart" size={24} color={Colors.black} />
+                <MaterialIcons name="logout" size={24} color={"green"} />
               )}
             </Center>
           ),

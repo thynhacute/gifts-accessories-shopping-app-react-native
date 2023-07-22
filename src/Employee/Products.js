@@ -10,6 +10,7 @@ import {
   ScrollView,
   ToastAndroid,
 } from "react-native";
+import { Flex } from "native-base";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Button } from "react-native-paper";
@@ -17,6 +18,7 @@ import { Picker } from "@react-native-picker/picker";
 import * as ImagePicker from "expo-image-picker";
 
 const Products = () => {
+  const BOTTOM_TAB_HEIGHT = 95;
   const [products, setProducts] = useState([]);
   const [genders, setGenders] = useState(["Nữ", "Nam"]);
   const [categories, setCategories] = useState([]);
@@ -34,8 +36,54 @@ const Products = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [photoApi, setPhotoApi] = useState("");
+  const [searchProductName, setSearchProductName] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
+  const [selectedGenderFilter, setSelectedGenderFilter] = useState(null);
+  const [isGenderDropdownOpen, setIsGenderDropdownOpen] = useState(false);
+
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchProductName.toLowerCase())
+  );
+  const toggleCategoryDropdown = () => {
+    setIsCategoryDropdownOpen(!isCategoryDropdownOpen);
+    setIsGenderDropdownOpen(false);
+  };
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+    setIsCategoryDropdownOpen(false);
+  };
+  const filteredData = products.filter((item) => {
+    if (selectedCategory && item.category !== selectedCategory) {
+      return false;
+    }
+    if (selectedGenderFilter && item.gender !== selectedGenderFilter) {
+      return false;
+    }
+    if (
+      searchProductName &&
+      !item.name.toLowerCase().includes(searchProductName.toLowerCase())
+    ) {
+      return false;
+    }
+    return true;
+  });
+  const toggleGenderDropdown = () => {
+    setIsGenderDropdownOpen(!isGenderDropdownOpen);
+    setIsCategoryDropdownOpen(false);
+  };
+  const handleGenderSelect = (gender) => {
+    setSelectedGenderFilter(gender);
+    setIsGenderDropdownOpen(false);
+  };
+
+  const uniqueCategories = products.reduce((categories, product) => {
+    if (!categories.includes(product.category)) {
+      categories.push(product.category);
+    }
+    return categories;
+  }, []);
   useEffect(() => {
-    // Gửi yêu cầu GET đến API endpoint để lấy danh sách products
     axios
       .get("https://64b7e5bb21b9aa6eb0793cc6.mockapi.io/api/products")
       .then((response) => {
@@ -47,7 +95,6 @@ const Products = () => {
   }, []);
 
   const handleEditProduct = (productId) => {
-    // Tìm sản phẩm trong danh sách sản phẩm dựa vào productId
     const productToEdit = products.find((product) => product.id === productId);
     setEditingProduct(productToEdit);
     setIsModalVisible(true);
@@ -55,7 +102,6 @@ const Products = () => {
 
   const deleteProductInAPI = async (productId) => {
     try {
-      // Gọi API để xóa sản phẩm dựa vào productId
       await axios.delete(
         `https://64b7e5bb21b9aa6eb0793cc6.mockapi.io/api/products/${productId}`
       );
@@ -70,7 +116,7 @@ const Products = () => {
       const response = await axios.get(
         "https://64b7e5bb21b9aa6eb0793cc6.mockapi.io/api/Category"
       );
-      return response.data; // Trả về dữ liệu "category" từ API
+      return response.data;
     } catch (error) {
       console.error("Error fetching categories:", error);
       return [];
@@ -282,9 +328,10 @@ const Products = () => {
   );
 
   const sortedProducts = products.sort((a, b) => b.id - a.id);
+  const sortedAndFilteredProducts = filteredData.sort((a, b) => b.id - a.id);
 
   return (
-    <View>
+    <View style={{ backgroundColor: "#E8FFE9" }}>
       <Modal
         visible={isModalVisible}
         animationType="fade"
@@ -531,12 +578,148 @@ const Products = () => {
           </View>
         </View>
       </Modal>
+      <TextInput
+        style={styles.searchInput}
+        placeholder="Search by name"
+        value={searchProductName}
+        onChangeText={setSearchProductName}
+      />
+      <Flex
+        flexWrap="wrap"
+        direction="row"
+        justifyContent="center"
+        px={6}
+        mt={3}
+      >
+        <Button
+          style={{
+            backgroundColor: "#FFC5D6",
+            borderRadius: 6,
+            marginRight: 3,
+            alignSelf: "center",
+          }}
+          onPress={toggleCategoryDropdown}
+          colorScheme="black"
+          mb={2}
+        >
+          {selectedCategory ? selectedCategory : "Chọn loại phụ kiện"}
+        </Button>
+        <Button
+          style={{
+            backgroundColor: "#FFC5D6",
+            borderRadius: 6,
+            marginRight: 3,
+            alignSelf: "center",
+          }}
+          onPress={toggleGenderDropdown}
+          ml={2}
+          mb={2}
+        >
+          {selectedGenderFilter ? selectedGenderFilter : "Chọn giới tính"}
+        </Button>
+        <TouchableOpacity style={styles.addButton} onPress={handleShowAddForm}>
+          <Text style={styles.addButtonText}>Add Product</Text>
+        </TouchableOpacity>
+      </Flex>
+      {isCategoryDropdownOpen && (
+        <View
+          style={{
+            position: "absolute",
+            top: 95,
+            left: 0,
+            right: 0,
+            backgroundColor: "#fff",
+            borderRadius: 6,
+            padding: 10,
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            elevation: 5,
+            zIndex: 1,
+          }}
+        >
+          <Button
+            key="all"
+            size="sm"
+            mr={2}
+            mb={2}
+            onPress={() => setSelectedCategory(null)}
+            colorScheme={selectedCategory === null ? "blue" : "gray"}
+          >
+            Tất cả
+          </Button>
+          {uniqueCategories.map((category) => (
+            <Button
+              key={category}
+              size="sm"
+              mb={2}
+              onPress={() => handleCategorySelect(category)}
+              colorScheme={selectedCategory === category ? "blue" : "gray"}
+            >
+              {category}
+            </Button>
+          ))}
+        </View>
+      )}
+      {isGenderDropdownOpen && (
+        <View
+          style={{
+            position: "absolute",
+            top: 95,
+            left: 0,
+            right: 0,
+            backgroundColor: "#fff",
+            borderRadius: 6,
+            padding: 10,
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            elevation: 5,
+            zIndex: 1,
+          }}
+        >
+          <Button
+            key="all"
+            size="sm"
+            mr={2}
+            mb={2}
+            onPress={() => setSelectedGenderFilter(null)}
+            colorScheme={selectedGenderFilter === null ? "blue" : "gray"}
+          >
+            Tất cả
+          </Button>
+          <Button
+            key="male"
+            size="sm"
+            mb={2}
+            onPress={() => handleGenderSelect("Nam")}
+            colorScheme={selectedGenderFilter === "Nam" ? "blue" : "gray"}
+          >
+            Nam
+          </Button>
+          <Button
+            key="female"
+            size="sm"
+            mb={2}
+            onPress={() => handleGenderSelect("Nữ")}
+            colorScheme={selectedGenderFilter === "Nữ" ? "blue" : "gray"}
+          >
+            Nữ
+          </Button>
+        </View>
+      )}
 
-      <TouchableOpacity style={styles.addButton} onPress={handleShowAddForm}>
-        <Text style={styles.addButtonText}>Add Product</Text>
-      </TouchableOpacity>
       <FlatList
-        data={sortedProducts}
+        style={{ marginBottom: 95 }}
+        data={sortedAndFilteredProducts}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
       />
@@ -565,10 +748,11 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   productImage: {
-    width: 100,
-    height: 100,
+    width: 140,
+    height: 140,
     borderRadius: 10,
     marginRight: 10,
+    marginLeft: 30,
   },
   productInfo: {
     flex: 1,
@@ -576,6 +760,11 @@ const styles = StyleSheet.create({
   productName: {
     fontSize: 16,
     fontWeight: "bold",
+    marginLeft: 5,
+    marginRight: 8,
+    marginBottom: 10,
+    textAlign: "center",
+    color: "#005500",
   },
   editButton: {
     backgroundColor: "orange",
@@ -583,9 +772,12 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     borderRadius: 5,
     marginTop: 5,
+    width: 60,
+    marginLeft: 80,
   },
   editButtonText: {
     color: "white",
+    textAlign: "center",
   },
   deleteButton: {
     backgroundColor: "red",
@@ -593,8 +785,11 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     borderRadius: 5,
     marginTop: 5,
+    width: 60,
+    marginLeft: 80,
   },
   deleteButtonText: {
+    textAlign: "center",
     color: "white",
   },
   modalContainer: {
@@ -647,6 +842,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 20,
+  },
+  searchInput: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    padding: 5,
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 5,
   },
 });
 
