@@ -27,15 +27,25 @@ function HomeProducts() {
   const [favData, setFavData] = useState([]);
   const [scaleValue, setScaleValue] = useState(new Animated.Value(1));
   const navigation = useNavigation();
+  
   const isFocused = useIsFocused();
+
   const [shouldReloadData, setShouldReloadData] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-
   const [products, setProducts] = useState([]);
+
 
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  const focus = useIsFocused()
+
+  useEffect(() => {
+    if(focus) {
+      fetchProducts();
+    }
+  }, [focus]);
 
   const fetchProducts = async () => {
     try {
