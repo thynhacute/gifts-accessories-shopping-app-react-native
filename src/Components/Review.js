@@ -9,17 +9,21 @@ import {
   TextArea,
   VStack,
   HStack,
-  Pressable
+  Pressable,
 } from "native-base";
 import Colors from "../color";
 import Rating from "./Rating";
 import Message from "./Notfications/Message";
 import Buttone from "./Buttone";
 import axios from "axios";
-import Icon from 'react-native-vector-icons/FontAwesome';
-import {TouchableOpacity,View,KeyboardAvoidingView,Platform} from 'react-native'
+import Icon from "react-native-vector-icons/FontAwesome";
+import {
+  TouchableOpacity,
+  View,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
 
 export default function Review({ productId }) {
   const [ratings, setRatings] = useState("");
@@ -39,7 +43,6 @@ export default function Review({ productId }) {
     setFilteredReviews(filtered);
   }, [reviews, productId]);
 
-
   const loadUserData = async () => {
     try {
       const userData = await AsyncStorage.getItem("user");
@@ -54,7 +57,7 @@ export default function Review({ productId }) {
 
   const calculateAverageRating = (reviews) => {
     if (reviews.length === 0) return 0;
-  
+
     const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
     return totalRating / reviews.length;
   };
@@ -106,7 +109,7 @@ export default function Review({ productId }) {
       console.error("Error posting review:", error);
     }
   };
-  
+
   const updateProductInfo = async (productId, data) => {
     try {
       // Gọi API để cập nhật thông tin sản phẩm
@@ -118,7 +121,6 @@ export default function Review({ productId }) {
       console.error("Error updating product info:", error);
     }
   };
-  
 
   const handleStarRating = (rating) => {
     setStarRating(rating);
@@ -154,13 +156,15 @@ export default function Review({ productId }) {
     const author = users[review.idUser] || {}; // Lấy thông tin người dùng từ state users
     const authorName = author.fullName || "Unknown"; // Lấy tên tác giả từ thông tin người dùng
     return (
-      <Box key={review.id} p={3} bg={Colors.pink} mt={5} rounded={5}>
+      <Box key={review.id} p={3} bg={"#FFB8C9"} mt={5} rounded={5}>
         <Heading fontSize={15} color={Colors.black}>
           {authorName} {/* Hiển thị tên tác giả */}
         </Heading>
-        <Rating value={parseInt(review.rating)} /> {/* Hiển thị rating của review */}
+        <Rating value={parseInt(review.rating)} />{" "}
+        {/* Hiển thị rating của review */}
         <Text my={2} fontSize={11}>
-          {new Date(review.createdAt).toLocaleDateString()} {/* Hiển thị ngày tạo review */}
+          {new Date(review.createdAt).toLocaleDateString()}{" "}
+          {/* Hiển thị ngày tạo review */}
         </Text>
         <Message
           color={Colors.black}
@@ -174,7 +178,14 @@ export default function Review({ productId }) {
 
   return (
     <Box my={9}>
-      <Box mt={6} bg={Colors.pink} p={4} rounded={5}>
+      <Box
+        mt={6}
+        bg={"#FFE2EB"}
+        p={4}
+        rounded={5}
+        shadow={4}
+        shadowColor={"gray"}
+      >
         <Heading fontSize={15} bold mb={4}>
           REVIEW THIS PRODUCT
         </Heading>
@@ -189,16 +200,16 @@ export default function Review({ productId }) {
               Rating
             </FormControl.Label>
             <HStack space={1}>
-            {[1, 2, 3, 4, 5].map((rating) => (
-              <Icon
-                key={rating}
-                name={rating <= starRating ? 'star' : 'star-o'} // Hiển thị icon sao đầy hoặc rỗng tùy vào số sao được chọn
-                size={25}
-                color="yellow" // Màu sao đầy
-                onPress={() => handleStarRating(rating)} // Xử lý khi người dùng chọn số sao
-              />
-            ))}
-          </HStack>
+              {[1, 2, 3, 4, 5].map((rating) => (
+                <Icon
+                  key={rating}
+                  name={rating <= starRating ? "star" : "star-o"} // Hiển thị icon sao đầy hoặc rỗng tùy vào số sao được chọn
+                  size={25}
+                  color="yellow" // Màu sao đầy
+                  onPress={() => handleStarRating(rating)} // Xử lý khi người dùng chọn số sao
+                />
+              ))}
+            </HStack>
           </FormControl>
           <FormControl>
             <FormControl.Label
@@ -215,7 +226,7 @@ export default function Review({ productId }) {
               placeholder="This product is good ....."
               borderWidth={1} // Thêm border cho form
               borderColor={Colors.black} // Màu sắc của border
-              bg={Colors.subGreen}
+              bg={"#FFBFD3"}
               py={4}
               value={comment} // Giá trị của text area là state comment
               onChangeText={setComment} // Hàm để cập nhật state comment khi người dùng thay đổi nội dung
