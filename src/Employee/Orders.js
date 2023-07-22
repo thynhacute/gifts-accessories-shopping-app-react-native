@@ -5,6 +5,8 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  Modal,
+  Image,
 } from "react-native";
 import axios from "axios";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -15,6 +17,8 @@ const Orders = () => {
   const [waitingProducts, setWaitingProducts] = useState([]);
   const [confirmProducts, setConfirmProducts] = useState([]);
   const [doneProducts, setDoneProducts] = useState([]);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     fetchProducts();
@@ -26,23 +30,46 @@ const Orders = () => {
       .then((response) => {
         const data = response.data;
 
-        // Lọc ra các sản phẩm có status là "Waiting"
-        const waitingProducts = data.filter(
-          (product) => product.status === "Waiting"
+        // Lấy thông tin người dùng từ API
+        const uniqueUserIDs = Array.from(
+          new Set(data.map((product) => product.userID))
         );
-        setWaitingProducts(waitingProducts);
 
-        // Lọc ra các sản phẩm có status là "Confirm"
-        const confirmProducts = data.filter(
-          (product) => product.status === "Confirm"
+        const userPromises = uniqueUserIDs.map((userID) =>
+          axios.get(
+            `https://64b7e2fd21b9aa6eb079381c.mockapi.io/users/${userID}`
+          )
         );
-        setConfirmProducts(confirmProducts);
 
-        // Lọc ra các sản phẩm có status là "Done"
-        const doneProducts = data.filter(
-          (product) => product.status === "Done"
-        );
-        setDoneProducts(doneProducts);
+        Promise.all(userPromises)
+          .then((userResponses) => {
+            const users = userResponses.map((response) => response.data);
+
+            // Tạo mảng mới với thông tin đơn hàng và người dùng kết hợp
+            const ordersWithUsers = data.map((order) => ({
+              ...order,
+              user: users.find((user) => user.id === order.userID),
+            }));
+
+            // Lọc đơn hàng theo trạng thái và lưu vào các trạng thái tương ứng
+            const waitingProducts = ordersWithUsers.filter(
+              (product) => product.status === "Waiting"
+            );
+            setWaitingProducts(waitingProducts);
+
+            const confirmProducts = ordersWithUsers.filter(
+              (product) => product.status === "Confirm"
+            );
+            setConfirmProducts(confirmProducts);
+
+            const doneProducts = ordersWithUsers.filter(
+              (product) => product.status === "Done"
+            );
+            setDoneProducts(doneProducts);
+          })
+          .catch((error) => {
+            console.error("Error fetching users:", error);
+          });
       })
       .catch((error) => {
         console.error("Error fetching orders:", error);
@@ -55,7 +82,6 @@ const Orders = () => {
         status: "Confirm",
       })
       .then((response) => {
-        // Sau khi xác nhận thành công, gọi lại fetchProducts để tải lại dữ liệu
         fetchProducts();
       })
       .catch((error) => {
@@ -63,24 +89,130 @@ const Orders = () => {
       });
   };
 
-  const renderItem = ({ item }) => (
-    <View style={styles.productContainer}>
-      <Text style={styles.productText}>
-        ID: {item.id} - User ID: {item.userID} - Total Price: {item.totalPrice}
-      </Text>
-      {item.status === "Waiting" && (
-        <TouchableOpacity
-          style={styles.confirmButton}
-          onPress={() => handleConfirmProduct(item.id)}
-        >
-          <Text style={styles.confirmButtonText}>Confirm</Text>
-        </TouchableOpacity>
-      )}
-    </View>
-  );
+  const capitalizeName = (name) => {
+    return name
+      .toLowerCase()
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  };
+  const renderItem = ({ item }) => {
+    const user = users.find((user) => user.id === item.userID);
+
+    return (
+      <TouchableOpacity
+        onPress={() => setSelectedOrder(item)}
+        style={styles.productContainer}
+      >
+        <Text style={styles.productTextt}>Đơn hàng: {item.id}</Text>
+        {/* <Text style={styles.productText}>
+          Email: {user ? user.email : "N/A"}
+        </Text> */}
+        {/* <Text style={styles.productText}>
+          Đơn hàng của khách: {user ? capitalizeName(user.fullName) : "N/A"}
+        </Text> */}
+        <Text style={styles.productText}>
+          Giá trị đơn hàng: {item.totalPrice.toLocaleString()} VND
+        </Text>
+        {item.status === "Waiting" && (
+          <TouchableOpacity
+            style={styles.confirmButton}
+            onPress={() => handleConfirmProduct(item.id)}
+          >
+            <Text style={styles.confirmButtonText}>Confirm</Text>
+          </TouchableOpacity>
+        )}
+      </TouchableOpacity>
+    );
+  };
+
+  const renderUserInfo = () => {
+    if (selectedOrder && selectedOrder.user) {
+      return (
+        <View style={styles.userInfoContainer}>
+          <Text style={styles.userInfoText}>
+            Email: {selectedOrder.user.email}
+          </Text>
+          <Text style={styles.userInfoText}>
+            Fullname: {capitalizeName(selectedOrder.user.fullName)}
+          </Text>
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.userInfoContainer}>
+          <Text style={styles.userInfoText}>Email: N/A</Text>
+          <Text style={styles.userInfoText}>Fullname: N/A</Text>
+        </View>
+      );
+    }
+  };
+
+  const renderOrderDetailsModal = () => {
+    return (
+      <Modal visible={selectedOrder !== null} animationType="slide">
+        <View style={styles.modalContainer}>
+          {selectedOrder && (
+            <View>
+              <Text style={styles.modalTitle}>Chi tiết đơn hàng</Text>
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: "bold",
+                  color: "green",
+                  marginBottom: 5,
+                  marginTop: 25,
+                  marginLeft: 40,
+                }}
+              >
+                Đơn hàng số: {selectedOrder.id}
+              </Text>
+              {renderUserInfo()}
+              <Text
+                style={{
+                  fontSize: 15,
+                  fontWeight: "bold",
+                  color: "blue",
+                  marginLeft: 40,
+                }}
+              >
+                Giá trị đơn hàng: {selectedOrder.totalPrice.toLocaleString()}{" "}
+                VND
+              </Text>
+              <FlatList
+                data={selectedOrder.orderDetail}
+                renderItem={({ item }) => (
+                  <View style={styles.orderItemContainer}>
+                    <Image
+                      source={{ uri: item.productImage }}
+                      style={styles.productImage}
+                    />
+                    <Text style={{ marginLeft: 60, fontWeight: "bold" }}>
+                      Tên sản phẩm: {item.productName}
+                    </Text>
+                    <Text style={{ marginLeft: 60, fontWeight: "bold" }}>
+                      Số lượng mua: {item.quantity}
+                    </Text>
+                  </View>
+                )}
+                keyExtractor={(item) => item.productId}
+              />
+              <TouchableOpacity
+                onPress={() => setSelectedOrder(null)}
+                style={styles.closeButton}
+              >
+                <Text style={styles.closeButtonText}>Close</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
+      </Modal>
+    );
+  };
 
   return (
     <View style={styles.container}>
+      {renderOrderDetailsModal()}
       <Tab.Navigator>
         <Tab.Screen name="Waiting" options={{ title: "Waiting" }}>
           {() => (
@@ -127,6 +259,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    backgroundColor: "#EBFFE3",
   },
   title: {
     fontSize: 18,
@@ -137,25 +270,77 @@ const styles = StyleSheet.create({
     color: "green",
   },
   productContainer: {
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#EBE4FF",
     padding: 12,
     marginBottom: 8,
     borderRadius: 8,
-    flexDirection: "row",
-    justifyContent: "space-between",
   },
   productText: {
     fontSize: 16,
+    fontWeight: "regular",
+  },
+  productTextt: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#006400",
   },
   confirmButton: {
     backgroundColor: "#008000",
     padding: 8,
     borderRadius: 4,
+    width: 100,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 130,
   },
   confirmButtonText: {
     color: "#ffffff",
     fontSize: 16,
     fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalContainer: {
+    padding: 16,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  orderItemContainer: {
+    marginVertical: 10,
+  },
+  productImage: {
+    width: 200,
+    height: 200,
+    marginBottom: 8,
+    borderRadius: 10,
+    marginLeft: 90,
+  },
+  closeButton: {
+    backgroundColor: "#008000",
+    padding: 8,
+    borderRadius: 4,
+    marginTop: 16,
+    alignSelf: "center",
+  },
+  closeButtonText: {
+    color: "#ffffff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  userInfoContainer: {
+    backgroundColor: "#E7FFE4",
+    padding: 12,
+    marginBottom: 8,
+    borderRadius: 8,
+    marginLeft: 30,
+    marginRight: 30,
+  },
+  userInfoText: {
+    fontSize: 16,
+    fontWeight: "regular",
   },
 });
 
