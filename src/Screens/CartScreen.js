@@ -124,7 +124,7 @@ function CartScreen({ route }) {
         Linking.openURL(paymentUrl);
 
         const orderDetail = cartItems.map((item) => ({
-          productId: item.product._id,
+          productId: item.product.id,
           productImage: item.product.image,
           productName: item.product.name,
           quantity: item.quantity,
