@@ -35,7 +35,6 @@ export default function App() {
           <Stack.Screen name="BottomTab" component={BottomTab} />
           <Stack.Screen name="Orders" component={Orders} />
           <Stack.Screen name="Admin" component={AdminScreen} />
-          <Stack.Screen name="BottomTab" component={BottomTab} />
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>

@@ -161,7 +161,6 @@ export default function Review({ productId, onReviewPosted }  ) {
     const author = users[review.idUser] || {}; // Lấy thông tin người dùng từ state users
     const authorName = author.fullName || "Unknown"; // Lấy tên tác giả từ thông tin người dùng
     const isCurrentUserReview = currentUser && review.idUser === currentUser.id;
-    console.log(isCurrentUserReview)
     return (
       <Box key={review.id} p={3} bg={Colors.pink} mt={5} rounded={5}>
         <Heading fontSize={15} color={isCurrentUserReview ? Colors.blue : Colors.black}>
