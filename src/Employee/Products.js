@@ -175,8 +175,8 @@ const Products = () => {
       );
       console.log("Product updated successfully.");
       handleRefreshData();
-    // Đặt lại state editingProduct về null để sẵn sàng cho lần chỉnh sửa tiếp theo
-    setEditingProduct(null);
+      // Đặt lại state editingProduct về null để sẵn sàng cho lần chỉnh sửa tiếp theo
+      setEditingProduct(null);
     } catch (error) {
       console.error("Error updating product:", error);
     }
@@ -195,7 +195,8 @@ const Products = () => {
   const addProduct = async () => {
     const gender = selectedGender === "" ? "Nữ" : selectedGender;
 
-    const category = newProductCategory === "" ? "Đồ điện tử" : newProductCategory;
+    const category =
+      newProductCategory === "" ? "Đồ điện tử" : newProductCategory;
     const isProductNameDuplicate = products.some(
       (product) => product.name === newProductName
     );
@@ -312,7 +313,7 @@ const Products = () => {
 
         console.log("Gửi ảnh lên server thành công:", response.data);
         setPhotoApi(response.data.data.newImage.img);
-        ToastAndroid.show("Đăng bài thành công!", ToastAndroid.SHORT);
+        ToastAndroid.show("Up ảnh thành công!", ToastAndroid.SHORT);
       } catch (error) {
         console.error("Lỗi khi gửi ảnh lên server:", error);
       }
@@ -407,23 +408,63 @@ const Products = () => {
               keyboardType="numeric"
             />
             <TouchableOpacity
-              style={{ backgroundColor: "black" }}
+              style={{
+                backgroundColor: "#C2BFFD",
+                padding: 10,
+                borderRadius: 10,
+                width: 200,
+                height: 40,
+                marginLeft: 40,
+                marginTop: 10,
+              }}
               onPress={pickImage}
             >
-              <Text style={{ color: "black" }}>Chọn từ máy bạn</Text>
+              <Text
+                style={{
+                  color: "black",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                }}
+              >
+                Chọn từ máy bạn
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={handleUploadImage}
-              style={{ backgroundColor: "red" }}
+              style={{
+                backgroundColor: "#837DFF",
+                marginLeft: 100,
+                marginTop: 10,
+                padding: 10,
+                borderRadius: 15,
+                width: 80,
+                height: 40,
+              }}
             >
-              <Text style={{ color: "white" }}>Gửi</Text>
+              <Text
+                style={{
+                  color: "white",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                }}
+              >
+                Gửi
+              </Text>
             </TouchableOpacity>
 
             <View style={styles.buttonsContainer}>
-              <Button mode="contained" onPress={addProduct}>
+              <Button
+                style={{ backgroundColor: "green" }}
+                mode="contained"
+                onPress={addProduct}
+              >
                 Add Product
               </Button>
-              <Button mode="outlined" onPress={() => setIsAddModalVisible(false)}>
+              <Button
+                mode="outlined"
+                onPress={() => setIsAddModalVisible(false)}
+                style={styles.cancelButton}
+              >
                 Cancel
               </Button>
             </View>
@@ -533,29 +574,68 @@ const Products = () => {
               keyboardType="numeric"
             />
             <TouchableOpacity
-              style={{ backgroundColor: "black" }}
+              style={{
+                backgroundColor: "#C2BFFD",
+                padding: 10,
+                borderRadius: 10,
+                width: 200,
+                height: 40,
+                marginLeft: 40,
+                marginTop: 10,
+              }}
               onPress={pickImage}
             >
-              <Text style={{ color: "black" }}>Chọn từ máy bạn</Text>
+              <Text
+                style={{
+                  color: "black",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                }}
+              >
+                Chọn từ máy bạn
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={handleUploadImage}
-              style={{ backgroundColor: "red" }}
+              style={{
+                backgroundColor: "#837DFF",
+                marginLeft: 100,
+                marginTop: 10,
+                padding: 10,
+                borderRadius: 15,
+                width: 80,
+                height: 40,
+              }}
             >
-              <Text style={{ color: "white" }}>Gửi</Text>
+              <Text
+                style={{
+                  color: "white",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                }}
+              >
+                Gửi
+              </Text>
             </TouchableOpacity>
-
             <View style={styles.buttonsContainer}>
               {editingProduct ? (
                 <Button mode="contained" onPress={updateProduct}>
                   Save Changes
                 </Button>
               ) : (
-                <Button mode="contained" onPress={addProduct}>
+                <Button
+                  style={{ backgroundColor: "green" }}
+                  mode="contained"
+                  onPress={addProduct}
+                >
                   Add Product
                 </Button>
               )}
-              <Button mode="outlined" onPress={() => setIsEditModalVisible(false)}>
+              <Button
+                style={styles.cancelButton}
+                mode="outlined"
+                onPress={() => setIsEditModalVisible(false)}
+              >
                 Cancel
               </Button>
             </View>
@@ -862,6 +942,9 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
     marginTop: 5,
+  },
+  cancelButton: {
+    color: "black",
   },
 });
 
