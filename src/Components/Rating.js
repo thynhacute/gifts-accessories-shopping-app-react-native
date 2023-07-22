@@ -4,8 +4,8 @@ import { FontAwesome } from "@expo/vector-icons";
 import Colors from "../color";
 
 function Rating({ value, text }) {
-  const size = 8;
-  const color = Colors.orange;
+  const size = 15;
+  const color = "#FFEA30";
   return (
     <HStack space={0.4} mt={1} alignItems="center">
       <FontAwesome
