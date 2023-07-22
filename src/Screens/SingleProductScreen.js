@@ -131,11 +131,12 @@ function SingleProductScreen({ route, navigation }) {
     }
     navigation.navigate("Cart", { item: cartItem });
   };
+  const imagePath = require("../../assets/images/anya.jpg");
 
   if (!chosenProduct) {
     return (
       <Box safeArea flex={1} bg={Colors.white}>
-        <Text>Loading...</Text>
+        <Image source={imagePath} style={styles.image} />
       </Box>
     );
   }
@@ -216,7 +217,7 @@ function SingleProductScreen({ route, navigation }) {
         >
           ADD TO CART
         </Buttone>
-        <Review productId={getProductId}/>
+        <Review productId={getProductId} />
       </ScrollView>
     </Box>
   );
@@ -257,6 +258,10 @@ const styles = {
     fontSize: 16,
     fontWeight: "bold",
     marginLeft: 10,
+  },
+  image: {
+    width: "100%",
+    height: "100%",
   },
 };
 
