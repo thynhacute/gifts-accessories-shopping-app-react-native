@@ -39,7 +39,8 @@ function RegisterScreen() {
         email: email,
         fullName: name,
         password: password,
-        roleName: "User"
+        roleName: "User",
+        status: 1
       };
 
       await axios.post('https://64b7e2fd21b9aa6eb079381c.mockapi.io/users', newUser);

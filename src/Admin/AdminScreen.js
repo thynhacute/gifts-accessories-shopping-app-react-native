@@ -14,7 +14,7 @@ const AdminScreen = () => {
       drawerContent={(props) => <LogoutButton {...props} />}
     >
       <Drawer.Screen name="Revenue" component={RevenueScreen} />
-      <Drawer.Screen name="UserManagement" component={UserManagementScreen} />
+      <Drawer.Screen name="User Management" component={UserManagementScreen} />
     </Drawer.Navigator>
   );
 };
