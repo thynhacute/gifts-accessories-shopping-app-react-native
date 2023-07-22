@@ -18,7 +18,7 @@ import axios from "axios";
 import AuthContext from "../AuthContext/AuthContext";
 
 function LoginScreen() {
-  const [email, setEmail] = useState("hoangtammht@gmail.com");
+  const [email, setEmail] = useState("vietthinh123@gmail.com");
   const [password, setPassword] = useState("1");
   const navigation = useNavigation();
   // const { fetchAllData } = React.useContext(AuthContext);
