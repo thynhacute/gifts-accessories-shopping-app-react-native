@@ -62,14 +62,8 @@ Employee: Users need to login to the system and can use features such as crud pr
 - View order status.
 - Change order status from "waiting" -> "confirm".
 
-![image](https://github.com/thynhacute/gifts-accessories-shopping-app-react-native/assets/77708167/26075095-c87d-46cb-9c31-8e523ec9caf7)
-![image](https://github.com/thynhacute/gifts-accessories-shopping-app-react-native/assets/77708167/4952d64f-85d0-4573-85c4-c9b817eda67c)
-![image](https://github.com/thynhacute/gifts-accessories-shopping-app-react-native/assets/77708167/b00c8d86-b345-4e56-9486-9facf78f911b)
-![image](https://github.com/thynhacute/gifts-accessories-shopping-app-react-native/assets/77708167/cbfc0e77-71bc-4e61-9ffc-785dfa1a23d0)
-![image](https://github.com/thynhacute/gifts-accessories-shopping-app-react-native/assets/77708167/b0759b02-f192-45c3-b788-af446e5374ec)
-![image](https://github.com/thynhacute/gifts-accessories-shopping-app-react-native/assets/77708167/982d1706-428c-44aa-ba6d-603162e40137)
-![image](https://github.com/thynhacute/gifts-accessories-shopping-app-react-native/assets/77708167/9f75312c-c378-4f28-abac-43b1e0280083)
-![image](https://github.com/thynhacute/gifts-accessories-shopping-app-react-native/assets/77708167/2818d7b4-d8d6-4f91-b5ac-402baff4670b)
+![image](https://github.com/thynhacute/gifts-accessories-shopping-app-react-native/assets/77708167/c320674c-69a5-4178-9545-c2b87d23c0cc)
+
 
 
 
